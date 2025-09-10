@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de registro - Mi web.</title>
+</head>
+<body>
+    <h1>Formulario de registro</h1>
+
+    <form action="" method="get">
+        <label for="Nombre">Nombre: </label>
+        <input type="text" name="nombre" id="nombre" maxlength="50">
+        <br>
+        <br>
+        
+        <label for="apellido">Apellido: </label>
+        <input type="text" name="apellido" id="apellido" maxlength="50">
+        <br>
+        <br>
+
+        <label for="sexo">Sexo: </label>
+        <input type="radio" name="sexo" id="sexo" value="hombre"> Hombre
+        <input type="radio" name="sexo" id="mujer" value="mujer"> Mujer
+        <br>
+        <br>
+
+        <label for="email">Correo electrónico: </label>
+        <input type="email" name="email" id="email">
+        <br>
+        <br>
+
+        <label for="poblacion">Población: </label>
+        <select name="poblacion" id="poblacion">
+            <option value="bsas">Buenos Aires</option>
+            <option value="cba">Córdoba</option>
+            <option value="ros">Rosario</option>
+            <option value="mza">Mendoza</option>
+        </select>
+        <br>
+        <br>
+
+        <label for="descripcion">Descripción: </label>
+        <textarea name="descripcion" id="descripcion"></textarea>
+        <br>
+        <br>
+
+        <input type="checkbox" name="novedades" id="novedades" checked> Deseo recibir información sobre novedades y ofertas
+        <br>
+        <br>
+
+        <input type="checkbox" name="novedades" id="novedades"> Declaro haber leído y aceptar las condiciones generales del programa y la normativa sobre protección de datos
+        <br>
+        <br>
+
+        <input type="submit" value="Enviar">
+
+
+
+    </form>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grilla con horarios de cursos</title>
+    <style>
+        table {
+            border: 3px solid;
+            border-collapse: collapse;
+            border-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        th {
+            font-size: larger;
+            padding: 15px;
+            background-color: rgb(246, 218, 103);
+        }
+
+        td {
+            border: 1px solid;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: rgb(224, 224, 224);
+        }
+
+        .encabezados {
+            background-color: rgb(85, 85, 85);
+            border-color: black;
+            color: white;
+        }
+
+        .celda-seleccionada {
+            background-color: rgb(248, 248, 248);
+            border-color: red;
+            border-width: 3px;;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="5">CURSOS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="encabezados">LUNES</td>
+                <td class="encabezados">MARTES</td>
+                <td class="encabezados">MIÉRCOLES</td>
+                <td class="encabezados">JUEVES</td>
+                <td class="encabezados">VIERNES</td>
+            </tr>
+            <tr>
+                <td>PYTHON</td>
+                <td>REACT</td>
+                <td class="celda-seleccionada">JAVASCRIPT</td>
+                <td rowspan="2">PYTHON</td>
+                <td rowspan="3">REACT</td>
+            </tr>
+            <tr>
+                <td colspan="2">TYPESCRIPT</td>
+                <td>NODE</td>
+            </tr>
+            <tr>
+                <td>PYTHON</td>
+                <td>REACT</td>
+                <td>TYPESCRIPT</td>
+                <td>NEXT.JS</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
