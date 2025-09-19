@@ -1,0 +1,36 @@
+main {
+    background-color: #FF3366;
+    padding: 1em;
+}
+
+section {
+    background-color: black;
+    padding: 1em;
+}
+
+h2 {
+    color: #EB234D;
+}
+
+.caja-fija-superior {
+    background-color: #E2E2E2;
+    height: 30vh;
+    overflow: auto;
+    padding: 1em;
+    box-sizing: border-box;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.caja-fija {
+    background-color: #AEA9A6;
+    border-color: #CECDC9;
+    border-style: solid;
+    border-width: 4px;
+    height: 30vh;
+    overflow: auto;
+    padding: 1em;
+    box-sizing: border-box;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
