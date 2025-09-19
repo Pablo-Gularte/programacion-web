@@ -1,0 +1,18 @@
+nav {
+    padding: 1em;
+}
+
+.btn-nav {
+    background-color: #FF0066;
+    color: black;
+    padding: 1em;
+    margin: 0.5em;
+    border-style: dotted;
+    border-color: black;
+    border-width: 2px;
+    text-decoration: none;
+}
+
+.btn-nav:hover {
+    background-color: #FD6862;
+}
