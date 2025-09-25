@@ -1,232 +1,98 @@
 <!DOCTYPE html>
-<html lang="es-AR">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grilla con horarios de cursos</title>
+    <title>Grilla con horarios de cursos implementada con DIVs</title>
     <style>
-        /* Estilos para aplicar a etiquetas TABLE */
-        table {
-            border: 3px solid;
-            border-collapse: collapse;
-            border-color: black;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        th {
-            font-size: larger;
-            padding: 15px;
-            background-color: rgb(246, 218, 103);
-        }
-
-        td {
-            border: 1px solid;
-            text-align: center;
-            font-weight: bold;
-            padding: 10px;
-            padding-left: 15px;
-            padding-right: 15px;
-            background-color: rgb(224, 224, 224);
-        }
-
-        .encabezados {
-            background-color: rgb(85, 85, 85);
-            border-color: black;
-            color: white;
-        }
-
-        .celda-seleccionada {
-            background-color: rgb(248, 248, 248);
-            border-color: red;
-            border-width: 3px;
-        }
-
-        /* Estilos para aplicar a etiquetas DIV */
-        .contenedor {
-            height: 45vh;
-            width: 40vw;
+        .caja-exterior {
+            display: grid;          /* defino la visualización del elemento con formato grilla */
+            align-items: center;    /* defino centrada la alineación de los elementos */
+            grid-gap: 1px;          /* defino un espacio de 1 pixel entre los elementos de la grilla */
+            width: 45%;
+            border: 3px solid black;
             background-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
         }
 
-        .caja-encabezado {
+        .caja-titular {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: #F6DA67;
-            height: 24%;
+            padding: 10px;
+            font-size: larger;
+        }
+
+        .grilla-horaria {
             display: grid;
-            place-items: center;
+            grid-template-columns: repeat(5, 1fr);  /* defino plantilla de 5 columnas (reparte los elementos internos en 5 columnas y va creando las filas) */
+            grid-gap: 1px;
         }
 
-        .caja-horaria {
-            height: 76%;
+        .celda {
+            background-color: #E0E0E0;
+            display: flex;
+            justify-content: center;    /* para centrar horizontalmente el texto */
+            align-items: center;        /* para centrar verticalmente  el texto*/
+            padding: 10px;
         }
 
-        .subcaja-doble-columna {
-            width: 40%;
-            height: 100%;
-            float: left;
-        }
-        
-        .subcaja-una-columna {
-            width: 20%;
-            height: 100%;
-            float: left;
-        }
-
-        .fila-simple {
-            height: 25%;
-            width: 100%;
-        }
-        
-        .fila-doble {
-            height: 50%;
-            width: 100%;
-        }
-
-        .fila-triple {
-            height: 75%;
-            width: 100%;
-        }
-
-        .celda-simple {
-            width: 100%;
-            height: 100%;
-        }
-
-        .celda-conjunta {
-            width: 50%;
-            height: 100%;
-            float: left;
-        }
-
-        .celda-doble-columna {
-            width: 100%;
-            height: 100%;
-            float: left;
-        }
-
-        .estilo-celda-encabezado {
+        .encabezado {
             background-color: #555555;
             color: white;
-            display: grid;
-            place-items: center;
-        }
-        
-        .estilo-celda {
-            background-color: #E0E0E0;
-            display: grid;
-            place-items: center;
         }
 
-        .estilo-celda-seleccionada {
+        .destacada {
+            border: 3px solid red;
             background-color: #F8F8F8;
-            display: grid;
-            place-items: center;
-            margin: 1px;
+        }
+
+        .dos-columnas {
+            grid-column-start: span 2;  /* para fusionar dos columnas iniciando desde la izquierda */
+        }
+
+        .dos-filas {
+            grid-row-start: span 2;     /* para fusionar dos filas iniciando desde arriba */
+        }
+
+        .tres-filas {
+            grid-row-start: span 3;     /* para fusionar tres filas iniciando desde arriba */
         }
     </style>
 </head>
 
 <body>
-    <!-- Estilos aplicados dobre estructura de tabla -->
-    <h2>Versión Tabla</h2>
-    <p>Grilla horaria utilizando estilos sobre etiquetas de tabla (&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, etc.)</p>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="5">CURSOS</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="encabezados">LUNES</td>
-                <td class="encabezados">MARTES</td>
-                <td class="encabezados">MIÉRCOLES</td>
-                <td class="encabezados">JUEVES</td>
-                <td class="encabezados">VIERNES</td>
-            </tr>
-            <tr>
-                <td>PYTHON</td>
-                <td>REACT</td>
-                <td class="celda-seleccionada">JAVASCRIPT</td>
-                <td rowspan="2">PYTHON</td>
-                <td rowspan="3">REACT</td>
-            </tr>
-            <tr>
-                <td colspan="2">TYPESCRIPT</td>
-                <td>NODE</td>
-            </tr>
-            <tr>
-                <td>PYTHON</td>
-                <td>REACT</td>
-                <td>TYPESCRIPT</td>
-                <td>NEXT.JS</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="caja-exterior">
+        <div class="caja-titular">CURSOS</div>
+        <div class="grilla-horaria">
+            <!-- Fila de encabezados con días de la semana -->
+            <div class="celda encabezado">LUNES</div>
+            <div class="celda encabezado">MARTES</div>
+            <div class="celda encabezado">MIÉRCOLES</div>
+            <div class="celda encabezado">JUEVES</div>
+            <div class="celda encabezado">VIERNES</div>
 
-    <br>
+            <!-- Fila 1 de horarios -->
+            <div class="celda">PYTHON</div>
+            <div class="celda">REACT</div>
+            <div class="celda destacada">JAVASCRIPT</div>
+            <div class="celda dos-filas">PYTHON</div>
+            <div class="celda tres-filas">REACT</div>
 
-    <hr>
+            <!-- Fila 2 de horarios -->
+            <div class="celda dos-columnas">TYPESCRIPT</div>
+            <div class="celda">NODE</div>
 
-    <br>
-
-    <h2>Versión divisiones</h2>
-    <p>Grilla horaria utilizando estilos sobre etiquetas &lt;div&gt;</p>
-    <!-- Contenedor principal para alojar toda la grilla horaria -->
-    <div class="contenedor">
-        <!-- Contenedor para el encabezado del recuadro -->
-        <div class="caja-encabezado">CURSOS</div>
-        <!-- Contenedor para la grilla de días y horarios -->
-        <div class="caja-horaria">
-            <!-- Caja con celda de dos columnas (Lunes y Martes) -->
-            <div class="subcaja-doble-columna">
-                <div class="fila-simple">
-                    <div class="celda-conjunta estilo-celda-encabezado">LUNES</div>
-                    <div class="celda-conjunta estilo-celda-encabezado">MARTES</div>
-                </div>
-                <div class="fila-simple">
-                    <div class="celda-conjunta estilo-celda">PYTHON</div>
-                    <div class="celda-conjunta estilo-celda">REACT</div>
-                </div>
-                <div class="fila-simple">
-                    <div style="width: 100%; height: 100%; background-color: red;">
-                        <div class="celda-doble-columna estilo-celda">TYPESCRIPT</div>
-                    </div>
-                </div>
-                <div class="fila-simple">
-                    <div class="celda-conjunta estilo-celda">PYTHON</div>
-                    <div class="celda-conjunta estilo-celda">REACT</div>
-                </div>
-            </div>
-            <!-- Caja con celdas de una columna (Miércoles) -->
-            <div class="subcaja-una-columna">
-                <div class="fila-simple">
-                    <div class="celda-simple estilo-celda-encabezado">MIÉRCOLES</div>
-                </div>
-                <div class="fila-simple">
-                    <div class="celda-simple estilo-celda-seleccionada">JAVASCRIPT</div>
-                </div>
-                <div class="fila-simple">
-                    <div class="celda-simple estilo-celda">NODE</div>
-                </div>
-                <div class="fila-simple">
-                    <div class="celda-simple estilo-celda">TYPESCRIPT</div>
-                </div>
-            </div>
-            <!-- Caja con celdas de una columna y celda de dos filas (Jueves) -->
-            <div class="subcaja-una-columna">
-                <div class="fila-simple"></div>
-                <div class="fila-doble"></div>
-                <div class="fila-simple"></div>
-            </div>
-            <!-- Caja con celdas de una columna y celda de tres filas (Viernes) -->
-            <div class="subcaja-una-columna">
-                <div class="fila-simple"></div>
-                <div class="fila-triple"></div>
-            </div>
+            <!-- Fila 3 de horarios -->
+            <div class="celda">PYTHON</div>
+            <div class="celda">REACT</div>
+            <div class="celda">TYPESCRIPT</div>
+            <div class="celda">NEXT.JS</div>
         </div>
     </div>
-    <br><br><br><br><br>
 </body>
 
 </html>
