@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estilos con DIV y CSS</title>
+    <style>
+        .contenedor {
+            padding: 3px;
+            width: 50vw;
+            height: 40vh;
+            background-color: black;
+            box-sizing: border-box;
+        }
+
+        .encabezado {
+            height: 24%;
+            display: grid;
+            place-items: center;
+            background-color: rgb(246, 218, 103);
+        }
+
+        .grilla-horaria {
+            display: grid;
+            grid-template-columns: 40% 20% 20% 20%;
+            height: 76%;
+            background-color: black;
+            box-sizing: border-box;
+        }
+
+        .caja1 {
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .caja2 {
+            margin-left: 1px;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .fila-simple {
+            height: 25%;
+            width: 100%;
+            margin-top: 1px;
+            box-sizing: border-box;
+        }
+
+        .fila-doble {
+            height: 50%;
+            width: 100%;
+            margin-top: 1px;
+            box-sizing: border-box;
+        }
+
+        .fila-triple {
+            margin-top: 1px;
+            height: 75%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .subcelda {
+            width: 50%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .celda {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100%;
+            background-color: rgb(224, 224, 224);
+        }
+
+        .encabezado-dia {
+            background-color: rgb(85, 85, 85);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="encabezado">
+            CURSOS
+        </div>
+        <div class="grilla-horaria">
+            <div class="caja1">
+                <div class="fila-simple">
+                    <div class="subcelda">
+                        <div class="celda encabezado-dia">LUNES</div>
+                    </div>
+                    <div class="subcelda"s>
+                        <div class="celda encabezado-dia">MARTES</div>
+                    </div>
+                </div>
+                <div class="fila-simple">
+                    <div class="subcelda">
+                        <div class="celda">Celda1</div>
+                    </div>
+                    <div class="subcelda">
+                        <div class="celda">Celda2</div>
+                    </div>
+                </div>
+                <div class="fila-simple">
+                    <div class="celda">Celda soble columna</div>
+                </div>
+                <div class="fila-simple" style="border-bottom: 3px solid black;">
+                    <div class="subcelda">
+                        <div class="celda">Celda3</div>
+                    </div>
+                    <div class="subcelda">
+                        <div class="celda" style="border-left: 1px solid black;">Celda4</div>
+                    </div>
+                </div>
+            </div>
+            <div class="caja2">
+                <div class="fila-simple">
+                    <div class="celda encabezado-dia">MIÉRCOLES</div>
+                </div>
+                <div class="fila-simple">
+                    <div class="celda">Celda5</div>
+                </div>
+                <div class="fila-simple">
+                    <div class="celda">Celda6</div>
+                </div>
+                <div class="fila-simple" style="border-bottom: 3px solid black;">
+                    <div class="celda">Celda7</div>
+                </div>
+            </div>
+            <div class="caja2">
+                <div class="fila-simple">
+                    <div class="celda encabezado-dia">JUEVES</div>
+                </div>
+                <div class="fila-doble">
+                    <div class="celda">Celda doble</div>
+                </div>
+                <div class="fila-simple" style="border-bottom: 3px solid black;">
+                    <div class="celda">Celda8</div>
+                </div>
+            </div>
+            <div class="caja2">
+                <div class="fila-simple">
+                    <div class="celda encabezado-dia">VIERNES</div>
+                </div>
+                <div class="fila-triple" style="border-bottom: 3px solid black;">
+                    <div class="celda">Celda triple</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

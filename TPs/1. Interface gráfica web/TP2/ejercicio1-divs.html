@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grilla con horarios de cursos</title>
+    <style>
+        table {
+            border: 3px solid;
+            border-collapse: collapse;
+            border-color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        th {
+            font-size: larger;
+            padding: 15px;
+            background-color: rgb(246, 218, 103);
+        }
+
+        td {
+            border: 1px solid;
+            text-align: center;
+            font-weight: bold;
+            padding: 10px;
+            padding-left: 15px;
+            padding-right: 15px;
+            background-color: rgb(224, 224, 224);
+        }
+
+        .encabezados {
+            background-color: rgb(85, 85, 85);
+            border-color: black;
+            color: white;
+        }
+
+        .celda-seleccionada {
+            background-color: rgb(248, 248, 248);
+            border-color: red;
+            border-width: 3px;
+        }
+
+        /* Estilos para aplicar a etiquetas DIV */
+        .contenedor {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            height: 30vh;
+            width: 45%;
+            background-color: black;
+            gap: 1px;
+            border: 2px solid black;
+            box-sizing: border-box;
+        }
+
+        .encabezado {
+            height: 24%;
+            width: 100%;
+            display: grid;
+            place-items: center;
+            background-color: rgb(246, 218, 103);
+        }
+        
+        .grilla-horaria {
+            height: 76%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .subcaja1 {
+            width: 40%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .subcaja1-agrupado1 {
+            width: 50%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .subcaja1-agrupado2 {
+            width: 100%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .subcaja2 {
+            width: 20%;
+            height: 100%;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        .fila {
+            height: 25%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .fila-doble {
+            height: 50%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .fila-triple {
+            height: 75%;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        
+        .columna-subcaja1 {
+            width: 50%;
+            float: left;
+        }
+
+        .columna-doble {
+            width: 100%;
+            float: left;
+        }
+
+        .estilo-celda {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            background-color: rgb(224, 224, 224);
+            /* border: 1px solid black; */
+        }
+
+        .estilo-celda-seleccionada {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            background-color: rgb(248, 248, 248);
+            /* border: 3px solid RED; */
+        }
+
+        .estilo-celda-encabezados {
+            background-color: rgb(85, 85, 85);
+            border: 1px solid black;
+            color: white;
+            display: grid;
+            place-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Estilos aplicados dobre estructura de tabla -->
+    <h2>Versión Tabla</h2>
+    <p>Grilla horaria utilizando estilos sobre etiquetas de tabla (&lt;table&gt;, &lt;tr&gt;, &lt;td&gt;, etc.)</p>
+    <table>
+        <thead>
+            <tr>
+                <th colspan="5">CURSOS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="encabezados">LUNES</td>
+                <td class="encabezados">MARTES</td>
+                <td class="encabezados">MIÉRCOLES</td>
+                <td class="encabezados">JUEVES</td>
+                <td class="encabezados">VIERNES</td>
+            </tr>
+            <tr>
+                <td>PYTHON</td>
+                <td>REACT</td>
+                <td class="celda-seleccionada">JAVASCRIPT</td>
+                <td rowspan="2">PYTHON</td>
+                <td rowspan="3">REACT</td>
+            </tr>
+            <tr>
+                <td colspan="2">TYPESCRIPT</td>
+                <td>NODE</td>
+            </tr>
+            <tr>
+                <td>PYTHON</td>
+                <td>REACT</td>
+                <td>TYPESCRIPT</td>
+                <td>NEXT.JS</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+
+    <hr>
+
+    <br>
+
+    <h2>Versión divisiones</h2>
+    <p>Grilla horaria utilizando estilos sobre etiquetas &lt;div&gt;</p>
+    <!-- Contenedor principal para alojar toda la grilla horaria -->
+    <div class="contenedor">
+        <!-- Contenedor para el encabezado del recuadro -->
+        <div class="encabezado">CURSOS</div>
+        <!-- Contenedor para la grilla de días y horarios -->
+        <div class="grilla-horaria">
+            <div class="subcaja1">
+                <div class="fila">
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda estilo-celda-encabezados">LUNES</div>
+                    </div>
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda estilo-celda-encabezados">MARTES</div>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda">PYTHON</div>
+                    </div>
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda">REACT</div>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="subcaja1-agrupado2">
+                        <div class="estilo-celda">TYPESCRIPT</div>
+                    </div>
+                </div>
+                <div class="fila">
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda">PYTHON</div>
+                    </div>
+                    <div class="subcaja1-agrupado1">
+                        <div class="estilo-celda">REACT</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Contenedor de la tercera columna de la grilla (miércoles) con celdas comunes -->
+            <div class="subcaja2">
+                <div class="fila">
+                    <div class="estilo-celda estilo-celda-encabezados">MIÉRCOLES</div>
+                </div>
+                <div class="fila">
+                    <div class="estilo-celda-seleccionada">JAVASCRIPT</div>
+                </div>
+                <div class="fila">
+                    <div class="estilo-celda">NODE</div>
+                </div>
+                <div class="fila">
+                    <div class="estilo-celda">TYPESCRIPT</div>
+                </div>
+            </div>
+
+            <!-- Contenedor de la cuarta columna de la grilla (jueves) que contiene una celda de dos filas -->
+            <div class="subcaja2">
+                <div class="fila">
+                    <div class="estilo-celda estilo-celda-encabezados">JUEVES</div>
+                </div>
+                <div class="fila-doble">
+                    <div class="estilo-celda">PYTHON</div>
+                </div>
+                <div class="fila">
+                    <div class="estilo-celda">NEXT.JS</div>
+                </div>
+            </div>
+
+            <!-- Contenedor de la cuarta quinta de la grilla (viernes) que contiene una celda de tres filas -->
+            <div class="subcaja2">
+                <div class="fila">
+                    <div class="estilo-celda estilo-celda-encabezados">VIERNES</div>
+                </div>
+                <div class="fila-triple">
+                    <div class="estilo-celda">REACT</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
