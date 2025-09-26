@@ -1,3 +1,23 @@
+-- Curso: Gestión de Base de Datos - Turno noche
+-- Tramo: Especialización Profesional en Programación Web
+-- Sede: SMATA - CFP8 - GCBA
+-- Estudiante: Pablo Gularte
+-- --------------------------
+-- TP2: Trabajo Práctico Integridad Referencial
+-- --------------------------
+-- Ejercicios sobre integridad referencial:
+-- 1. Eliminar una editorial: Si se elimina una editorial de la tabla editoriales, ¿qué sucede con los libros asociados? Escriba una consulta SQL que elimine una editorial y sus libros relacionados.
+-- 2. Actualizar el nombre de una editorial: Si se actualiza el nombre de una editorial en la tabla editoriales, ¿qué sucede con los libros relacionados?
+-- 3. Eliminar un empleado: Si se elimina un empleado de la tabla empleados, ¿qué sucede con los libros relacionados con esa editorial?
+-- 4. Actualizar el nombre de un empleado: Si se actualiza el nombre de un empleado en la tabla empleados, ¿qué sucede con los libros relacionados con esa editorial?
+-- 5. Eliminar un libro: Si se elimina un libro de la tabla libros, ¿qué sucede con la relación con la editorial?
+-- 6. Cambiar la editorial de un libro: Si se cambia la editorial a la que está asociado un libro en la tabla libros, ¿qué sucede con la relación con la editorial anterior?
+-- 7. Eliminar una editorial con empleados: Si se intenta eliminar una editorial que tiene empleados asociados, ¿qué sucede?
+-- 8. Eliminar un empleado con libros: Si se intenta eliminar un empleado que tiene libros asociados, ¿qué sucede?
+-- 9. Eliminar una editorial y sus empleados: ¿Cómo se eliminaría una editorial y todos sus empleados?
+-- 10. Eliminar una editorial y transferir sus empleados a otra editorial: ¿Cómo se eliminaría una editorial y reasignaría a sus empleados a otra editorial?
+
+-- Desarrollo:
 -- Creo y selecciono la base de datos tp2_editoriales
 Create Database tp2_editoriales;
 Use tp2_editoriales;

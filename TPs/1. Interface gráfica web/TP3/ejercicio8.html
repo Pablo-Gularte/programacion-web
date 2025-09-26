@@ -3,25 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ejercicio 8</title>
+    <title>Maquetación - Ejercicio 8</title>
     <style>
-        body {
-            margin: 0px;
-            padding: 0px;
-        }
-
         header {
             height: 20vh;
             background-color: #FF00FE;
         }
 
         nav {
-            height: 10vh;
+            height: 5vh;
             background-color: #FF6501;
         }
 
         main {
-            height: 65vh;
+            height: 60vh;
             background-color: yellow;
             padding: 2.5em;
         }
@@ -44,8 +39,15 @@
             height: 65%;
             width: 45%;
             float: left;
-            padding: 1em;
             margin-left: 2em;
+        }
+
+        figure {
+            margin: 0px;
+        }
+
+        figcaption {
+            color: #C62F07;
         }
 
         aside {
@@ -64,6 +66,15 @@
         img {
             display: block;
         }
+
+        .boton {
+            background-color: black;
+            padding: 12px 20px;
+            margin-right: 5px;
+            color: white;
+            float: left;
+            border-radius: 15px;
+        }
     </style>
   </head>
   <body>
@@ -72,18 +83,22 @@
       <h2>Subtítulo</h2>
     </header>
     <nav>
-      <a href="#">Botón 1</a>
-      <a href="#">Botón 2</a>
-      <a href="#">Botón 3</a>
-      <a href="#">Botón 4</a>
+      <a href="#" class="boton">Botón 1</a>
+      <a href="#" class="boton">Botón 2</a>
+      <a href="#" class="boton">Botón 3</a>
+      <a href="#" class="boton">Botón 4</a>
     </nav>
     <main>
         <section id="seccion-noticia">
             <article>Título noticia</article>
         </section>
         <section id="seccion-imagen">
-            <img src="florero.png" alt="florero">
-            <caption>Lindo florero artesanal hecho en cuerda</caption>
+            <figure>
+                <img src="florero.png" alt="florero">
+                <figcaption>
+                    Lindo florero artesanal hecho en cuerda
+                </figcaption>
+            </figure>
         </section>
         <aside></aside>
     </main>

@@ -1,0 +1,15 @@
+body {
+    background-color: #FE9A00;
+    padding: 1em 2em;
+}
+
+header {
+  background: linear-gradient(to right, white, gray); /* Gradiente horizontal de naranja a amarillo */
+  padding: 20px; /* Añade un poco de espacio interno para que se vea mejor el contenido */
+  color: white; /* Color del texto para que contraste con el fondo */
+}
+
+nav {
+    background-color: #343434;
+    height: 5vh;
+}
