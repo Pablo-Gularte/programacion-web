@@ -48,15 +48,6 @@ a:hover, a:active {
 
 main {
   background-color: #F5F5F5;
-}
-
-footer {
-  background-color: #333333;
-  color: white;
-  padding-top: 1em;
-  padding-bottom: 2em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
   box-sizing: border-box;
 }
 
@@ -75,38 +66,124 @@ h6 {
 
 main img {
   width: 100%;
-  height: 10%;
 }
 
 #presentacion {
-  padding: 1em 2em;
+    height: 70%; 
+    width: 60%; 
+    float: left;
 }
 
-#promocion {
-  padding: 1em 2em;
-  background-color: #E7E7E7;
+h3 {
+    color: orange;
 }
 
-#quienes-somos {
-  width: 60%;
-  float: left;
+#presentacion h3 {
+    margin-left: 3em;
+} 
+
+#presentacion hr {
+    margin: 1em 3em;
 }
 
-#quienes-somos img {
-  width: 40%;
-  float: left;
+#presentacion img {
+    width: 30%;
+    float: left;
+    margin-left: 2em;
+    margin-right: 1em;
 }
 
-#quienes-somos #texto-quienes-somos {
-  width: 60%;
-  float: left;
+#presentacion article {
+    color: gray;
 }
 
 #novedades {
-  width: 40%;
-  float: left;
+    height: 70%; 
+    width: 35%; 
+    padding-bottom: 1em;
+    float: left;
+}
+
+#novedades article {
+    background-color: #E7E7E7;
+    padding: 1em;
+    color: gray;
+}
+
+#novedades h3 {
+    background-color: #CCCCCC;
+    border-radius: 0.5em 0.5em 0em 0em;
+    padding-left: 1em;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 0px;
+}
+
+#novedades p {
+    margin: 0px;
+}
+
+#novedades hr {
+    border: 1px dotted gray;
+    /* margin: 1em; */
+    clear: both;
+}
+
+.mas-info {
+    float: right;
+    color: orange;
+    font-size: small;
+    padding: 0.5em;
 }
 
 #promocion {
-  clear: both;
+    width: 100%;
+    height: 30%;
+    clear: both;
+    display: grid;
+    gap: 1px;
+    grid-template-columns: 50% 50%;
+}
+
+#promocion article {
+    background-color: #949494;
+    float: left;
+    color: white;
+}
+
+.logo-cliente {
+    width: 20%;
+    float: left;
+    margin: 0.5em 1em;
+}
+
+.logo-caso-exito {
+    margin: auto;
+    padding: 1em;
+    width: 25%;
+    display: inline-block;
+}
+
+#promocion article div {
+    width: 70%;
+    float: left;
+    margin-bottom: 1em;
+}
+
+h4 {
+    margin: 0px;
+    padding: 0.5em 2em;
+    background-color: #5A5A5A;
+    color: white;
+}
+
+footer {
+    clear: both;
+    background-color: #333333;
+    color: white;
+    padding-top: 1em;
+    padding-bottom: 2em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    box-sizing: border-box;
 }
