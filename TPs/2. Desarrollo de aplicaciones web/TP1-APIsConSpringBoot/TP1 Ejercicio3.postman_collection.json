@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "4228c110-2f7a-4357-9f2f-970214fa46c5",
+		"name": "TP1 Ejercicio3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "Saludos inicial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle plato1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle plato 2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle plato3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle plato4",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/4",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Detalle plato5",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Plato fuera de rango",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/plato/50",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"plato",
+						"50"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,66 @@
+{
+	"info": {
+		"_postman_id": "ab350263-b540-4cb9-a13b-9c52bcce159d",
+		"name": "TP1 Ejercicio1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "saludo inicial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Galones a litros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/galones/100",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"galones",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Litros a galones",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/litros/57",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"litros",
+						"57"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

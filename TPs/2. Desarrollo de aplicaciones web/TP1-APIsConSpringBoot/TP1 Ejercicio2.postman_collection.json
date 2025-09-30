@@ -1,0 +1,60 @@
+{
+	"info": {
+		"_postman_id": "f08b3566-c621-457c-9b4f-dce12f6d31a3",
+		"name": "TP1 Ejercicio2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "Saludo inicial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "promedio",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/notas?nota1=8&nota2=7&nota3=6",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"notas"
+					],
+					"query": [
+						{
+							"key": "nota1",
+							"value": "8"
+						},
+						{
+							"key": "nota2",
+							"value": "7"
+						},
+						{
+							"key": "nota3",
+							"value": "6"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
