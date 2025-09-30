@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "4f73bfc4-26e4-406d-b866-0486eb0d7803",
+		"name": "TP1 Ejercicio4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "Saludo inicial",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Todos los pacientes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pacientes",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pacientes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Menores de edad",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/pacientes/menores",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pacientes",
+						"menores"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
