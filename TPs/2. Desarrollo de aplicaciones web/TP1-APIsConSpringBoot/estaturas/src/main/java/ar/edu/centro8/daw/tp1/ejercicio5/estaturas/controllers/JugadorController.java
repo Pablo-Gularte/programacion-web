@@ -1,5 +1,6 @@
 package ar.edu.centro8.daw.tp1.ejercicio5.estaturas.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 public class JugadorController {
+    List<Jugador> totalJugadores = new ArrayList<>();
+
     @GetMapping("/")
     public String inicio() {
         String cadena;
@@ -25,15 +28,35 @@ public class JugadorController {
 
     @PostMapping("/jugadores/crear")
     @ResponseBody
-    public List<Jugador> altaJugadores(@RequestBody List<Jugador> jugadores) {
+    public String altaJugadores(@RequestBody List<Jugador> jugadores) {
+        totalJugadores.addAll(jugadores);
+        String cadena = "Se han ingresado " + jugadores.size() + " jugadores en este envío.";
+        cadena += "<br>El total de jugadores ingresados hasta el momento es: " + totalJugadores.size();
         double sumaEstaturas = 0.0;
         int cantidadJugadores = jugadores.size();
+        
         for (Jugador jugador : jugadores) {
             sumaEstaturas += jugador.getEstatura();
         }
         double promedioEstaturas = cantidadJugadores > 0 ? sumaEstaturas / cantidadJugadores : 0.0;
-        System.out.println("Promedio de estaturas: " + promedioEstaturas);
-        return jugadores;
+        cadena += "<br>El promedio de estaturas de los jugadores de este envío es: " + promedioEstaturas;
+        
+        // Calculo de promedio total de estaturas
+        sumaEstaturas = 0.0;
+        for (Jugador jugador : totalJugadores) {
+            sumaEstaturas += jugador.getEstatura();
+        }
+        cantidadJugadores = totalJugadores.size();
+        promedioEstaturas = cantidadJugadores > 0 ? sumaEstaturas / cantidadJugadores : 0.0;
+        cadena += "<br>El promedio total de estaturas de los jugadores es: " + promedioEstaturas;
+        return cadena;
+    }
+
+    @PostMapping("/json/jugadores/crear")
+    @ResponseBody
+    public List<Jugador> altaJugadoresJson(@RequestBody List<Jugador> jugadores) {
+        totalJugadores.addAll(jugadores);
+        return totalJugadores;
     }
     
 }
