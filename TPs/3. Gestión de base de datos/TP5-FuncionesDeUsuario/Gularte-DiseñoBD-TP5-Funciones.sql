@@ -1,0 +1,13 @@
+-- Curso: Gestión de Base de Datos - Turno noche
+-- Tramo: Especialización Profesional en Programación Web
+-- Sede: SMATA - CFP8 - GCBA
+-- Estudiante: Pablo Gularte
+-- --------------------------
+-- TP5: Trabajo Práctico sobre Funciones de Usuario
+-- --------------------------
+
+-- Ejercicio 1: Crear una función para calcular la regalía total de cada autor.
+-- Ejercicio 2: Crear una función para obtener el precio máximo de cada tipo de libro.
+-- Ejercicio 3: Crear una función para calcular el ingreso (cantidad vendida multiplicada por el precio) de cada título.
+-- Ejercicio 4: Crear una función para obtener el nombre completo de un empleado a partir de su código.
+-- Ejercicio 5: Crear una función para calcular el precio promedio de libros publicados de cada editorial.
