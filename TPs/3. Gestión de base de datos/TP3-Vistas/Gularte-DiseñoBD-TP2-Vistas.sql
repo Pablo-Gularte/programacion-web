@@ -1,0 +1,61 @@
+-- Curso: Gestión de Base de Datos - Turno noche
+-- Tramo: Especialización Profesional en Programación Web
+-- Sede: SMATA - CFP8 - GCBA
+-- Estudiante: Pablo Gularte
+-- --------------------------
+-- TP3: Trabajo Práctico Vistas
+-- --------------------------
+-- Ejercicio 1: Crea una vista que muestre el título, el autor y el precio de todos los libros de la tabla titles.
+-- Ejercicio 2: Crea una vista que muestre el título, el autor, el precio y el tipo de todos los libros de la tabla titles.
+-- Ejercicio 3: Crea una vista que muestre el título, el autor, el precio y la fecha de publicación de todos los libros de la tabla titles.
+-- Ejercicio 4: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales.
+-- Ejercicio 5: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda.
+-- Ejercicio 6: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tipo de libro.
+-- Ejercicio 7: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda y tipo de libro.
+-- Ejercicio 8: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda y año de publicación.
+-- Ejercicio 9: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación.
+-- Ejercicio 10: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro, año de publicación y mes de publicación.
+
+-- Vistas que tienen condiciones con la cláusula WHERE:
+-- Ejercicio 11: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación, pero solo para las ventas que 
+-- 				superaron los 10 libros.
+-- Ejercicio 12: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación, pero solo para las ventas que 
+-- 				se realizaron en el año 1990.
+-- Ejercicio 13: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación, pero solo para las ventas que se
+-- 				realizaron entre 1990 y 1994.
+-- Ejercicio 14: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación, pero solo para las ventas que se
+-- 				realizaron en la tienda con el ID 7066.
+-- Ejercicio 15: Crea una vista que muestre el título, el autor, el precio y la cantidad vendida de todos los libros de la tabla sales por cada tienda, tipo de libro y año de publicación, pero solo para las ventas que se 
+-- 				realizaron por el autor con el ID 172.
+
+-- Actualización de datos en tablas mediante la actualización de vistas:
+-- Ejercicio 16: Crea una vista que permita actualizar el precio de un libro en la tabla titles.
+-- Ejercicio 17: Crea una vista que permita actualizar el nombre de un autor en la tabla authors.
+-- Ejercicio 18: Crea una vista que permita actualizar la cantidad vendida de un libro en la tabla sales.
+-- Ejercicio 19: Crea una vista que permita actualizar la fecha de publicación de un libro en la tabla titles.
+-- Ejercicio 20: Crea una vista que permita actualizar el tipo de un libro en la tabla titles.
+
+-- Desarrollo
+use pubs;
+
+-- Ejercicio 1
+-- Ejercicio 2
+-- Ejercicio 3
+-- Ejercicio 4
+-- Ejercicio 5
+-- Ejercicio 6
+-- Ejercicio 7
+-- Ejercicio 8
+-- Ejercicio 9
+-- Ejercicio 10
+-- Ejercicio 11
+-- Ejercicio 12
+-- Ejercicio 13
+-- Ejercicio 14
+-- Ejercicio 15
+-- Ejercicio 16
+-- Ejercicio 17
+-- Ejercicio 18
+-- Ejercicio 19
+-- Ejercicio 20
+

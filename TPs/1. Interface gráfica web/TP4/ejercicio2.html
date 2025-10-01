@@ -87,21 +87,49 @@
                 <section class="col-sm-4" style="background-color: #EFAABC;">
                     <article>
                         <div class="container mt-3">
-                            <div class="card">
+                            <div class="card" style="width: 90%;">
+                                <img class="card-img-top" src="img_avatar7.png" alt="Card image">
                                 <div class="card-body">
                                     <h4 class="card-title">Tarjeta</h4>
                                     <p class="card-text">Ejemplo de tarjeta de Bootstrap</p>
-                                    <a href="#" class="btn btn-primary">Lanzar modal</a>
+                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#myModal">Lanzar modal</a>
                                 </div>
                             </div>
                         </div>
                         <br>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Corporis, et recusandae.
-                            Laboriosam labore ipsam aliquam consectetur, perferendis corporis nisi at eos porro soluta
-                            dolores nemo iure laudantium necessitatibus architecto id!
-                        </p>
+                        Tarjeta bootstrap con imagen y botón
                     </article>
+                    <!-- The Modal -->
+                    <div class="modal fade" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Encabezado de modal</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    <img src="paisaje.jpg" class="rounded w-100" alt="Cinque Terre">
+                                    <h3>Modal de ejemplo</h3>
+                                    <p>Este es un modal de ejemplo con imagen y texto</p>
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam magnam fugit
+                                        quibusdam delectus, debitis iusto repudiandae voluptatum mollitia sequi,
+                                        inventore perferendis eveniet minus voluptatem exercitationem fuga, dicta neque?
+                                        Similique, necessitatibus.</p>
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </section>
                 <section class="col-sm-8">
                     <article>
@@ -144,7 +172,7 @@
                 </section>
             </div>
         </main>
-        <footer>
+        <footer class="px-1">
             Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium neque, quaerat qui minima alias
             debitis optio incidunt vero soluta. Saepe autem expedita maiores veritatis perferendis, hic tempora. Totam,
             vitae dolorum!
