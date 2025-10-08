@@ -1,126 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html lang="es-AR">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
-    </title>
-    <style>
-        /* body {
-            background-color: orange;
-        } */
 
-        td {
-            padding: 1em;
-            cursor: pointer;
+    <title>Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+
+<body>
+    <h1 class="w3-panel w3-blue-grey w3-padding-16 w3-center">Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+    <div class="w3-content" style="max-width:1200px;">
+        <h2>Ejercicios de manejos de eventos</h2>
+
+        <iframe src="ejercicio1.html" class="mySlides" style="height: 600px; width:100%"></iframe>
+        <iframe src="ejercicio2.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+        <iframe src="ejercicio3.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+        <iframe src="ejercicio4.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+        <iframe src="ejercicio5.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+        <iframe src="ejercicio6.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+        <iframe src="ejercicio7.html" class="mySlides" style="height: 600px; width:100%;display:none"></iframe>
+
+        <div class="w3-row">
+            <div class="w3-col" style="width: 10%;">
+                <button class="w3-button" onclick="plusDivs(-1)">&#10094; Anterior</button>
+            </div>
+            <div class="w3-col" style="width: 80%;">&nbsp;</div>
+            <div class="w3-col" style="width: 10%;">
+                <button class="w3-button" onclick="plusDivs(1)">Siguiente &#10095;</button>
+            </div>
+        </div>
+        <h3>Click sobre la imagen para activar el ejercicio seleccionado</h3>
+        <div class="w3-grid-padding" style="grid-template-columns:auto auto auto auto">
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio1.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(1)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio2.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(2)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio3.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(3)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio4.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(4)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio5.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(5)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio6.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(6)">
+            </div>
+            <div class="w3-col">
+                <img class="demo w3-opacity w3-hover-opacity-off" src="img/ejercicio7.png"
+                    style="width:100%;cursor:pointer" onclick="currentDiv(7)">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
         }
-    </style>
-  </head>
-  <body>
-        <main>
-            <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
 
-            <!-- Ejercicio 1 -->
-            <div>
-                <h3>Ejercicio 1</h3>
-                <div id="ejercicio1">
-                    <p>
-                        crear una tabla de dos filas. Agregar el codigo necesario para que al pasar el cursor por encima de alguna fila, esta se ilumine de color azul. Cuando se deje de pasar el cursor, debe volver al estado original.
-                    </p>
-                    <div id="respuesta1">
-                        <table border="1">
-                            <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                            </tr>
-                            <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                                <td>Texto</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- EJercicio 2 -->
-            <div>
-                <h3>Ejercicio 2</h3>
-                <div id="ejercicio2">
-                    <table border="1">
-                        <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                        </tr>
-                        <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                            <td onclick="cambiarColorCelda(this)">Texto</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+        function currentDiv(n) {
+            showDivs(slideIndex = n);
+        }
 
-            <!-- EJercicio 3 -->
-            <div>
-                <h3>Ejercicio 3</h3>
-                <div id="ejercicio3"></div>
-            </div>
-
-            <!-- Ejercicio 4 -->
-            <div>
-                <h3>Ejercicio 4</h3>
-                <div id="ejercicio4"></div>
-            </div>
-
-            <!-- Ejercicio 5 -->
-            <div>
-                <h3>Ejercicio 5</h3>
-                <div id="ejercicio5"></div>
-            </div>
-
-            <!-- Ejercicio 6 -->
-            <div>
-                <h3>Ejercicio 6</h3>
-                <div id="ejercicio6"></div>
-            </div>
-
-            <!-- Ejercicio 7 -->
-            <div>
-                <h3>Ejercicio 7</h3>
-                <div id="ejercicio7"></div>
-            </div>
-        </main>
-
-        <script>
-            // Funciones de ejercicio 1
-            function iluminarFila(fila) {
-                fila.style.backgroundColor= "blue";
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            var dots = document.getElementsByClassName("demo");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
             }
-            
-            function apagarFila(fila) {
-                fila.style.backgroundColor= "";
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" w3-opacity-off", "");
             }
+            x[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " w3-opacity-off";
+        }
+    </script>
 
-            // Funciones de ejercicio 2
-            function cambiarColorCelda(celda) {
-                if(celda.style.backgroundColor == "red") {
-                    celda.style.backgroundColor = "";
-                } else {
-                    celda.style.backgroundColor = "red";
-                }
-            }
-        </script>
-  </body>
+</body>
+
 </html>

@@ -23,6 +23,15 @@ h1 {
     background-color: silver;
 }
 
+h3 {
+    color: black;
+    padding: 0.5em 1em;
+    margin: 0px;
+    background-color: rgb(219, 243, 184);
+    border-radius: 0.5em;
+    border: 2px solid green;
+}
+
 code {
     font-family: 'Courier New', Courier, monospace;
     color: gray;
