@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
+    </title>
+    <link rel="stylesheet" href="estilos.css">
+  </head>
+  <body>
+    <main>
+      <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+      <div>
+        <h3>Ejercicio 4</h3>
+        <div>
+          <p>
+            Desarrollar una aplicación que al pasar el cursor por encima de un determinado enlace, aparezca en un div un determinado texto pero que si el cursor no pasa por ningún texto que muestre la leyenda “otro texto”.
+          </p>
+          <div>
+            <a href="#" onmouseover="cambiarTexto(1)" onmouseout="restaurarTexto()">Info</a><br>
+            <a href="#" onmouseover="cambiarTexto(2)" onmouseout="restaurarTexto()">Más Info</a><br>
+            <a href="#" onmouseover="cambiarTexto(3)" onmouseout="restaurarTexto()">Mucha más info</a><br>
+            <div id="contenedor-texto">
+                Otro texto!
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+        function cambiarTexto(nro) {
+            let texto = "de ayuda";
+            switch (nro) {
+                case 1:
+                    texto = "Información " + texto; 
+                    break;
+                case 2:
+                    texto = "Más información " + texto; 
+                    break;
+                case 3:
+                    texto = "Mucha más información " + texto; 
+                    break;
+            }
+            document.getElementById("contenedor-texto").innerText = texto;
+        }
+        
+        function restaurarTexto() {
+            document.getElementById("contenedor-texto").innerText = "Otro texto!";
+        }
+    </script>
+  </body>
+</html>

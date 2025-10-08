@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
+    </title>
+    <link rel="stylesheet" href="estilos.css">
+  </head>
+  <body>
+    <main>
+      <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+      <div>
+        <h3>Ejercicio 5</h3>
+        <div>
+          <p>
+            Desarrollar una aplicación que al hacer clic sobre la expresión “Mostrar Div”, aparezca un texto. Luego, al hacer clic sobre sobre la expresión “Ocultar Div”, oculte el texto previamente visualizado.
+          </p>
+          <div>
+            <a href="#" onclick="ocultarTexto()">Ocultar Div</a><br>
+            <a href="#" onclick="mostrarTexto()">Mostrar Div</a><br>
+            <div id="texto"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+        function ocultarTexto() {
+            document.getElementById("texto").innerText = "";
+        }
+        
+        function mostrarTexto() {
+            document.getElementById("texto").innerText = "Texto Fantasma!!  ";
+            document.getElementById("texto").style.backgroundColor = "yellow";
+            document.getElementById("texto").style.display = "inline";
+        }
+    </script>
+  </body>
+</html>

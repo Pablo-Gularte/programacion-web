@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
+    </title>
+    <link rel="stylesheet" href="estilos.css">
+  </head>
+  <body>
+    <main>
+      <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+      <div>
+        <h3>Ejercicio 6</h3>
+        <div>
+          <p>
+            Tomando como base el ejercicio anterior, realizar los cambios que permitan que al pasar el cursor por encima de la expresión “Mostrar Div”, no solo aparezca un texto sino tambien que cambie la expresión original a “Ocultar Div”. Luego volver al estado inicial pasando nuevamente el cursor por encima de la última expresión de “Ocultar Div”.
+          </p>
+          <div>
+            <a href="#" onmouseover="modificarEnlace(this)">Mostrar Div</a>
+          </div>
+          <div id="texto"></div>
+        </div>
+      </div>
+    </main>
+    <script>
+        function modificarEnlace(enlace) {
+            if(enlace.innerText === "Mostrar Div") {
+                enlace.innerText = "Ocultar Div";
+                document.getElementById("texto").innerText = "Texto Fantasma!!  ";
+                document.getElementById("texto").style.backgroundColor = "yellow";
+                document.getElementById("texto").style.display = "inline";
+            } else {
+                enlace.innerText = "Mostrar Div";
+                document.getElementById("texto").innerText = "";
+            }
+        }
+    </script>
+  </body>
+</html>
