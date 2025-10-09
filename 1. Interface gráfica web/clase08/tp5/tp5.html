@@ -21,11 +21,21 @@
 
         <div class="w3-row">
             <div class="w3-col" style="width: 10%;">
-                <button class="w3-button" onclick="plusDivs(-1)">&#10094; Anterior</button>
+                <button class="w3-button w3-khaki" onclick="plusDivs(-1)">&#10094; Anterior</button>
             </div>
-            <div class="w3-col" style="width: 80%;">&nbsp;</div>
+            <div class="w3-col w3-center" style="width: 80%;">
+                <a 
+                    id="enlace-a-tp" 
+                    href="ejercicio1.html" 
+                    target="_blank" 
+                    title="Click para abrir el ejercicio en una nueva pestaña"
+                    class="w3-button w3-teal w3-round-xlarge"
+                >
+                    Abrir trabajo práctico en nueva pestaña
+                </a>
+            </div>
             <div class="w3-col" style="width: 10%;">
-                <button class="w3-button" onclick="plusDivs(1)">Siguiente &#10095;</button>
+                <button class="w3-button w3-khaki" onclick="plusDivs(1)">Siguiente &#10095;</button>
             </div>
         </div>
         <h3>Click sobre la imagen para activar el ejercicio seleccionado</h3>
@@ -87,6 +97,7 @@
             }
             x[slideIndex - 1].style.display = "block";
             dots[slideIndex - 1].className += " w3-opacity-off";
+            document.getElementById("enlace-a-tp").href = x[slideIndex - 1].src;
         }
     </script>
 
