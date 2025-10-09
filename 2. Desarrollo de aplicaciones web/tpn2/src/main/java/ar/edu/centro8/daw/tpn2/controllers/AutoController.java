@@ -48,10 +48,6 @@ public class AutoController {
     
     @PutMapping("/autos/editar/{id}")
     public Auto editarAuto(@PathVariable Long id, @RequestBody Auto auto) {
-        System.out.println("--> METODO editarAuto del Servicio");
-        System.out.println( "VALOR DEL OBJETO autoEditado");
-        auto.setId(id);
-        System.out.println(auto);
         autoSvc.editAuto(id, auto.getMarca(), auto.getPrecio());
         return auto;
     }
