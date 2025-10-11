@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
+    </title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        td {
+            padding: 1em;
+            cursor: pointer;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+      <div>
+        <h3>Ejercicio 1</h3>
+        <div>
+          <p>
+            Crear una tabla de dos filas. Agregar el codigo necesario para que
+            al pasar el cursor por encima de alguna fila, esta se ilumine de
+            color azul. Cuando se deje de pasar el cursor, debe volver al estado
+            original.
+          </p>
+          <div>
+            <table border="1">
+              <tr
+                onmousemove="iluminarFila(this)"
+                onmouseout="apagarFila(this)"
+              >
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+              </tr>
+              <tr
+                onmousemove="iluminarFila(this)"
+                onmouseout="apagarFila(this)"
+              >
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      function iluminarFila(fila) {
+        fila.style.backgroundColor = "blue";
+      }
+
+      function apagarFila(fila) {
+        fila.style.backgroundColor = "";
+      }
+    </script>
+  </body>
+</html>

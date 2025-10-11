@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        /* Estilos básicos para que el reloj se vea bien */
+        #reloj {
+            display: inline-block;
+            font-size: 4em;
+            font-weight: bold;
+            color: #333;
+            background-color: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #ccc;
+        }
+    </style>
+</head>
+
+<body onload="mostrarHora()">
+    <main>
+        <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+        <div>
+            <h3>Ejercicio 7</h3>
+            <div>
+                <p>
+                    construir una aplicación que muestre la hora, minutos y segundos en pantalla. Utilizar el evento
+                    onload. Se puede instanciar la hora de la computadora <em>Mediante la expresión:</em>
+                </p>
+                <code>
+                    <strong>
+                        reloj = new Date();
+                    </strong>
+                </code>
+                <p>Luego separar en horas, minutos y segundos y mostrar el resultado en un div.
+                    Para refrescar cada segundo la visualización de la hora (se asume que la función que muestra la hora
+                    en la página web se llama mostrarHora() ), utilizar:
+                </p>
+                <code>
+                    <strong>
+                        window.setInterval('mostrarHora()',1000);
+                    </strong>
+                </code>
+                <hr>
+                <div id="reloj">Cargando...</div>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        /**
+         * Función principal que obtiene la hora actual, la formatea y la muestra.
+         */
+        function mostrarHora() {
+            // Instanciar la hora actual de la computadora
+            let reloj = new Date();
+
+            // Separar la hora, minutos y segundos.
+            // Se usa el método padStart para asegurar que siempre tengan 2 dígitos (ej: 09 en lugar de 9)
+            let horas = reloj.toLocaleString('es-AR', { hour: '2-digit', hour12: false });
+            let minutos = String(reloj.getMinutes()).padStart(2, '0');
+            let segundos = String(reloj.getSeconds()).padStart(2, '0');
+
+            // Formatear la hora
+            let horaActual = `${horas}:${minutos}:${segundos}`;
+
+            // Mostrar el resultado en el div con id 'reloj'
+            document.getElementById('reloj').innerHTML = horaActual;
+        }
+
+        // 2. Refrescar la función 'mostrarHora' cada 1000 milisegundos (1 segundo)
+        // La ejecución real de este setInterval ocurre *después* de la primera ejecución que dispara el onload.
+        window.setInterval('mostrarHora()', 1000);
+    </script>
+
+</body>
+
+</html>

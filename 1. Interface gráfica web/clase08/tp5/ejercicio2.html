@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Interface gráfica web - Trabajo práctico Nro 5 - Manejo de Eventos
+    </title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+      td {
+        padding: 1em;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Trabajo práctico Nro 5 - Manejo de Eventos</h1>
+
+      <div>
+        <h3>Ejercicio 2</h3>
+        <div>
+          <p>
+            Tomar como base el ejercicio de iluminar tabla y agregar la lógica necesaria para que al hacer clic sobre una celda cualquiera de la primera fila, se pinte de un color diferente al color que aparece/desaparece al pasar el puntero del cursor por encima de una determinada fila.
+          </p>
+          <div>
+            <table border="1">
+              <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+              </tr>
+              <tr onmousemove="iluminarFila(this)" onmouseout="apagarFila(this)">
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+                <td>Texto</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script>
+      // Agrego dinámicamente el escuchador de evento "onClick" a todas las celdas de la tabla
+      const celdasTabla = document.getElementsByTagName("td");  // Guardo una lista de todas las etiquetas HTML de celdas de la tabla
+      for(const celda of celdasTabla) 
+        celda.onclick = function() {cambiarColorCelda(this)};   // Recorro la lista de etiquetas HTML para agregarles el evento "onClick" que invoque la función "cambiarColorCelda"
+
+      // Función que cambia el color de la fila recibida por parámetro
+      function iluminarFila(fila) {
+        fila.style.backgroundColor = "blue";
+      }
+
+      // Función que quita el color de fondo de la fila recibida por parámetro
+      function apagarFila(fila) {
+        fila.style.backgroundColor = "";
+      }
+
+      // Función que cambia a color rojo el fondo de la celda pasada por parámetro si no tiene color o quita el color si ya lo tiene
+      function cambiarColorCelda(celda) {
+        celda.style.backgroundColor === "red" ? celda.style.backgroundColor = "" : celda.style.backgroundColor = "red";
+      }
+    </script>
+  </body>
+</html>
