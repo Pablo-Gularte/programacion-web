@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estructura del Proyecto Spring Boot con DTOs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .content {
+            padding: 2rem;
+        }
+        
+        .architecture-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .layer {
+            display: flex;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+        
+        .layer:hover {
+            transform: translateY(-5px);
+        }
+        
+        .layer-title {
+            min-width: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-right: 2rem;
+        }
+        
+        .layer-content {
+            flex: 1;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .component {
+            background: white;
+            border: 2px solid;
+            border-radius: 10px;
+            padding: 1rem;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .component:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .controller { border-color: #e53e3e; }
+        .dto { border-color: #38a169; }
+        .service { border-color: #3182ce; }
+        .repository { border-color: #d69e2e; }
+        .model { border-color: #805ad5; }
+        
+        .component-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .component-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .arrow {
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #667eea;
+        }
+        
+        .flow-arrow {
+            text-align: center;
+            font-size: 2rem;
+            color: #667eea;
+            margin: 1rem 0;
+        }
+        
+        .file-structure {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        
+        .folder {
+            color: #fbb6ce;
+            font-weight: bold;
+        }
+        
+        .file {
+            color: #90cdf4;
+        }
+        
+        .new-file {
+            color: #68d391;
+            font-weight: bold;
+        }
+        
+        .data-flow {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .flow-step {
+            display: flex;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .layer {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .layer-title {
+                margin-right: 0;
+                margin-bottom: 1rem;
+                min-width: auto;
+            }
+            
+            .layer-content {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏗️ Arquitectura del Proyecto Spring Boot</h1>
+            <p>Estructura completa con DTOs, Validaciones y Reglas de Negocio</p>
+        </div>
+        
+        <div class="content">
+            <h2 style="text-align: center; color: #2d3748; margin-bottom: 2rem;">📊 Diagrama de Capas y Componentes</h2>
+            
+            <div class="architecture-diagram">
+                <!-- Capa de Presentación -->
+                <div class="layer">
+                    <div class="layer-title">🌐 PRESENTACIÓN</div>
+                    <div class="layer-content">
+                        <div class="component controller">
+                            <div class="component-title">PersonaController</div>
+                            <div class="component-desc">
+                                • Endpoints REST<br>
+                                • Manejo de HTTP<br>
+                                • Validación de entrada<br>
+                                • Respuestas JSON
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">⬇️</div>
+                </div>
+
+                <!-- Capa de DTOs -->
+                <div class="layer">
+                    <div class="layer-title">📦 DTOs</div>
+                    <div class="layer-content">
+                        <div class="component dto">
+                            <div class="component-title">PersonaRequestDTO</div>
+                            <div class="component-desc">
+                                • Datos de entrada<br>
+                                • Validaciones de formato<br>
+                                • Limpieza de datos<br>
+                                • Reglas de estructura
+                            </div>
+                        </div>
+                        <div class="component dto">
+                            <div class="component-title">PersonaResponseDTO</div>
+                            <div class="component-desc">
+                                • Datos de salida<br>
+                                • Control de exposición<br>
+                                • Formato de respuesta<br>
+                                • Serialización JSON
+                            </div>
+                        </div>
+                        <div class="component dto">
+                            <div class="component-title">PersonaMapper</div>
+                            <div class="component-desc">
+                                • Conversión DTO ↔ Entidad<br>
+                                • Mapeo de campos<br>
+                                • Transformaciones<br>
+                                • Lógica de conversión
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">⬇️</div>
+                </div>
+
+                <!-- Capa de Servicio -->
+                <div class="layer">
+                    <div class="layer-title">⚙️ SERVICIO</div>
+                    <div class="layer-content">
+                        <div class="component service">
+                            <div class="component-title">IPersonaService</div>
+                            <div class="component-desc">
+                                • Interfaz del servicio<br>
+                                • Contratos de métodos<br>
+                                • Definición de API<br>
+                                • Abstracción
+                            </div>
+                        </div>
+                        <div class="component service">
+                            <div class="component-title">PersonaService</div>
+                            <div class="component-desc">
+                                • Lógica de negocio<br>
+                                • Validación de duplicados<br>
+                                • Coordinación de operaciones<br>
+                                • Transacciones
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">⬇️</div>
+                </div>
+
+                <!-- Capa de Repositorio -->
+                <div class="layer">
+                    <div class="layer-title">🗄️ REPOSITORIO</div>
+                    <div class="layer-content">
+                        <div class="component repository">
+                            <div class="component-title">IPersonaRepository</div>
+                            <div class="component-desc">
+                                • Query Methods<br>
+                                • Acceso a datos<br>
+                                • Consultas automáticas<br>
+                                • Spring Data JPA
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">⬇️</div>
+                </div>
+
+                <!-- Capa de Modelo -->
+                <div class="layer">
+                    <div class="layer-title">🏛️ MODELO</div>
+                    <div class="layer-content">
+                        <div class="component model">
+                            <div class="component-title">Persona</div>
+                            <div class="component-desc">
+                                • Entidad JPA<br>
+                                • Validaciones de dominio<br>
+                                • Reglas intrínsecas<br>
+                                • Mapeo a BD
+                            </div>
+                        </div>
+                    </div>
+                    <div class="arrow">⬇️</div>
+                </div>
+
+                <!-- Base de Datos -->
+                <div class="layer">
+                    <div class="layer-title">💾 BASE DE DATOS</div>
+                    <div class="layer-content">
+                        <div class="component model">
+                            <div class="component-title">MySQL</div>
+                            <div class="component-desc">
+                                • Tabla persona<br>
+                                • Persistencia de datos<br>
+                                • Transacciones ACID<br>
+                                • Consultas SQL
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="text-align: center; color: #2d3748; margin: 3rem 0 2rem 0;">📁 Estructura de Archivos</h2>
+            
+            <div class="file-structure">
+<pre>
+<span class="folder">proyectojpa/</span>
+├── <span class="folder">src/</span>
+│   ├── <span class="folder">main/</span>
+│   │   ├── <span class="folder">java/</span>
+│   │   │   └── <span class="folder">ar/edu/centro8/desarrollo/proyectojpa/</span>
+│   │   │       ├── <span class="file">ProyectojpaApplication.java</span>
+│   │   │       ├── <span class="folder">controller/</span>
+│   │   │       │   └── <span class="file">PersonaController.java</span> <span style="color: #fbb6ce;">← Actualizado con DTOs</span>
+│   │   │       ├── <span class="folder">dto/</span> <span style="color: #68d391;">← ¡NUEVA CAPA!</span>
+│   │   │       │   ├── <span class="new-file">PersonaRequestDTO.java</span> <span style="color: #68d391;">← Nuevo</span>
+│   │   │       │   ├── <span class="new-file">PersonaResponseDTO.java</span> <span style="color: #68d391;">← Nuevo</span>
+│   │   │       │   └── <span class="new-file">PersonaMapper.java</span> <span style="color: #68d391;">← Nuevo</span>
+│   │   │       ├── <span class="folder">model/</span>
+│   │   │       │   └── <span class="file">Persona.java</span> <span style="color: #fbb6ce;">← Con validaciones en setter</span>
+│   │   │       ├── <span class="folder">repository/</span>
+│   │   │       │   └── <span class="file">IPersonaRepository.java</span> <span style="color: #fbb6ce;">← Con Query Methods</span>
+│   │   │       └── <span class="folder">service/</span>
+│   │   │           ├── <span class="file">IPersonaService.java</span> <span style="color: #fbb6ce;">← Actualizada con DTOs</span>
+│   │   │           └── <span class="file">PersonaService.java</span> <span style="color: #fbb6ce;">← Con reglas de negocio</span>
+│   │   └── <span class="folder">resources/</span>
+│   │       └── <span class="file">application.properties</span>
+│   └── <span class="folder">test/</span>
+├── <span class="file">pom.xml</span> <span style="color: #fbb6ce;">← Spring Boot 3.5.0</span>
+├── <span class="new-file">DTO_Guia_Completa.html</span> <span style="color: #68d391;">← Documentación DTOs</span>
+├── <span class="new-file">Query_Methods_Guia_Completa.html</span> <span style="color: #68d391;">← Documentación Query Methods</span>
+└── <span class="new-file">TypeSafety_Ejemplo.java</span> <span style="color: #68d391;">← Ejemplo Type Safety</span>
+</pre>
+            </div>
+
+            <h2 style="text-align: center; color: #2d3748; margin: 3rem 0 2rem 0;">🔄 Flujo de Datos con DTOs</h2>
+            
+            <div class="data-flow">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div>
+                        <strong>Cliente envía JSON</strong><br>
+                        <code>POST /personas/crear {"nombre": "Juan", "edad": 25}</code>
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div>
+                        <strong>Controller recibe PersonaRequestDTO</strong><br>
+                        Spring convierte automáticamente JSON → PersonaRequestDTO
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div>
+                        <strong>DTO valida formato</strong><br>
+                        personaDTO.validar() - verifica que nombre tenga ≥ 2 caracteres
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div>
+                        <strong>Service valida lógica de negocio</strong><br>
+                        validarNombreUnico() - verifica que no exista otra persona con mismo nombre
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div>
+                        <strong>Mapper convierte DTO → Entidad</strong><br>
+                        PersonaMapper.toEntity(personaDTO) → Persona
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div>
+                        <strong>Entidad valida dominio</strong><br>
+                        persona.setEdad(25) - verifica que edad esté entre 0 y 120
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">7</div>
+                    <div>
+                        <strong>Repository guarda en BD</strong><br>
+                        persoRepo.save(persona) - usa Query Methods de Spring Data JPA
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">8</div>
+                    <div>
+                        <strong>Mapper convierte Entidad → DTO</strong><br>
+                        PersonaMapper.toResponseDTO(persona) → PersonaResponseDTO
+                    </div>
+                </div>
+
+                <div class="flow-step">
+                    <div class="step-number">9</div>
+                    <div>
+                        <strong>Controller devuelve JSON</strong><br>
+                        Spring convierte PersonaResponseDTO → JSON automáticamente
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="text-align: center; color: #2d3748; margin: 3rem 0 2rem 0;">✨ Beneficios de esta Arquitectura</h2>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">🛡️</div>
+                    <h4>Validaciones en Capas</h4>
+                    <p>DTO: formato, Modelo: dominio, Servicio: lógica de negocio</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🔧</div>
+                    <h4>Separación de Responsabilidades</h4>
+                    <p>Cada capa tiene una función específica y bien definida</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">📦</div>
+                    <h4>Desacoplamiento</h4>
+                    <p>DTOs separan la API de la estructura interna de datos</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🔄</div>
+                    <h4>Facilidad de Mantenimiento</h4>
+                    <p>Cambios en una capa no afectan las demás</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🧪</div>
+                    <h4>Testeable</h4>
+                    <p>Cada componente se puede probar de forma independiente</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">⚡</div>
+                    <h4>Type Safety</h4>
+                    <p>Query Methods y DTOs garantizan verificación de tipos</p>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 15px; text-align: center; margin: 3rem 0;">
+                <h3>🎓 Arquitectura Completa Spring Boot</h3>
+                <p>Proyecto con DTOs, Query Methods, Validaciones Multi-capa y Type Safety</p>
+                <p><em>Spring Boot 3.5.0 + Java 21 + Spring Data JPA + MySQL</em></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

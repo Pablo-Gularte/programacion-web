@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones vs Procedimientos Almacenados en MySQL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.3rem;
+            font-weight: 300;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .function-section {
+            border-left: 5px solid #e74c3c;
+        }
+
+        .procedure-section {
+            border-left: 5px solid #3498db;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .function-section h2 {
+            color: #e74c3c;
+        }
+
+        .procedure-section h2 {
+            color: #3498db;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .feature-list li {
+            background: rgba(0,0,0,0.05);
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 3px solid;
+            transition: all 0.3s ease;
+        }
+
+        .function-section .feature-list li {
+            border-left-color: #e74c3c;
+        }
+
+        .procedure-section .feature-list li {
+            border-left-color: #3498db;
+        }
+
+        .feature-list li:hover {
+            background: rgba(0,0,0,0.1);
+            transform: translateX(5px);
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            border: 1px solid #34495e;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: "SQL";
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .procedure-section .code-block::before {
+            background: #3498db;
+        }
+
+        .comparison-table {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            grid-column: 1 / -1;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        tr:nth-child(even) {
+            background: rgba(0,0,0,0.02);
+        }
+
+        tr:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        .examples-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #f39c12 0%, #f1c40f 100%);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .pros, .cons {
+            padding: 1rem;
+            border-radius: 10px;
+        }
+
+        .pros {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+        }
+
+        .cons {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .pros-cons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+        }
+
+        /* Syntax highlighting simulation */
+        .keyword { color: #e74c3c; font-weight: bold; }
+        .string { color: #2ecc71; }
+        .comment { color: #95a5a6; font-style: italic; }
+        .number { color: #f39c12; }
+        .type { color: #3498db; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🗃️ Funciones vs Procedimientos Almacenados</h1>
+            <p class="subtitle">Guía completa de diferencias en MySQL</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Sección de Funciones -->
+            <div class="section function-section">
+                <h2><span class="icon">⚡</span>Funciones (Functions)</h2>
+                
+                <ul class="feature-list">
+                    <li><strong>Retorno obligatorio:</strong> Siempre devuelven un valor único</li>
+                    <li><strong>Uso en expresiones:</strong> Se pueden usar en SELECT, WHERE, etc.</li>
+                    <li><strong>Solo lectura:</strong> No pueden modificar datos (DML)</li>
+                    <li><strong>Parámetros IN:</strong> Solo aceptan parámetros de entrada</li>
+                    <li><strong>Determinísticas:</strong> Mismo input → mismo output</li>
+                </ul>
+
+                <h3>Sintaxis Básica:</h3>
+                <div class="code-block">
+<pre><code><span class="keyword">DELIMITER</span> //
+<span class="keyword">CREATE FUNCTION</span> <span class="string">calcular_edad</span>(fecha_nacimiento <span class="type">DATE</span>)
+<span class="keyword">RETURNS</span> <span class="type">INT</span>
+<span class="keyword">READS SQL DATA</span>
+<span class="keyword">BEGIN</span>
+    <span class="keyword">RETURN</span> <span class="keyword">YEAR</span>(<span class="keyword">CURDATE</span>()) - <span class="keyword">YEAR</span>(fecha_nacimiento);
+<span class="keyword">END</span> //
+<span class="keyword">DELIMITER</span> ;</code></pre>
+                </div>
+
+                <h3>Ejemplo de Uso:</h3>
+                <div class="code-block">
+<pre><code><span class="comment">-- Llamada en consulta</span>
+<span class="keyword">SELECT</span> nombre, <span class="string">calcular_edad</span>(fecha_nacimiento) <span class="keyword">AS</span> edad 
+<span class="keyword">FROM</span> usuarios 
+<span class="keyword">WHERE</span> <span class="string">calcular_edad</span>(fecha_nacimiento) >= <span class="number">18</span>;</code></pre>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Reutilizable en consultas</li>
+                            <li>Fácil de usar</li>
+                            <li>Rendimiento optimizado</li>
+                            <li>Código más limpio</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Limitaciones</h4>
+                        <ul>
+                            <li>Solo un valor de retorno</li>
+                            <li>No puede modificar datos</li>
+                            <li>Limitada flexibilidad</li>
+                            <li>Sin control de transacciones</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Procedimientos -->
+            <div class="section procedure-section">
+                <h2><span class="icon">🔧</span>Procedimientos (Procedures)</h2>
+                
+                <ul class="feature-list">
+                    <li><strong>Retorno opcional:</strong> Pueden o no devolver valores</li>
+                    <li><strong>Ejecución independiente:</strong> Se llaman con CALL</li>
+                    <li><strong>Modificación de datos:</strong> Permiten DML completo</li>
+                    <li><strong>Múltiples parámetros:</strong> IN, OUT, INOUT</li>
+                    <li><strong>Control de transacciones:</strong> COMMIT, ROLLBACK</li>
+                </ul>
+
+                <h3>Sintaxis Básica:</h3>
+                <div class="code-block">
+<pre><code><span class="keyword">DELIMITER</span> //
+<span class="keyword">CREATE PROCEDURE</span> <span class="string">actualizar_salario</span>(
+    <span class="keyword">IN</span> empleado_id <span class="type">INT</span>,
+    <span class="keyword">IN</span> porcentaje <span class="type">DECIMAL</span>(<span class="number">5,2</span>),
+    <span class="keyword">OUT</span> nuevo_salario <span class="type">DECIMAL</span>(<span class="number">10,2</span>)
+)
+<span class="keyword">BEGIN</span>
+    <span class="keyword">UPDATE</span> empleados 
+    <span class="keyword">SET</span> salario = salario * (<span class="number">1</span> + porcentaje/<span class="number">100</span>)
+    <span class="keyword">WHERE</span> id = empleado_id;
+    
+    <span class="keyword">SELECT</span> salario <span class="keyword">INTO</span> nuevo_salario 
+    <span class="keyword">FROM</span> empleados 
+    <span class="keyword">WHERE</span> id = empleado_id;
+<span class="keyword">END</span> //
+<span class="keyword">DELIMITER</span> ;</code></pre>
+                </div>
+
+                <h3>Ejemplo de Uso:</h3>
+                <div class="code-block">
+<pre><code><span class="comment">-- Llamada del procedimiento</span>
+<span class="keyword">CALL</span> <span class="string">actualizar_salario</span>(<span class="number">123</span>, <span class="number">10.5</span>, @nuevo_sal);
+<span class="keyword">SELECT</span> @nuevo_sal <span class="keyword">AS</span> <span class="string">'Nuevo Salario'</span>;</code></pre>
+                </div>
+
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ Ventajas</h4>
+                        <ul>
+                            <li>Lógica compleja</li>
+                            <li>Múltiples operaciones</li>
+                            <li>Control de transacciones</li>
+                            <li>Parámetros flexibles</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ Limitaciones</h4>
+                        <ul>
+                            <li>No usar en SELECT directo</li>
+                            <li>Más complejo de debuggear</li>
+                            <li>Mayor consumo recursos</li>
+                            <li>Menos portabilidad</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla Comparativa -->
+        <div class="comparison-table">
+            <h2>📊 Tabla Comparativa Detallada</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>Funciones</th>
+                        <th>Procedimientos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Valor de Retorno</strong></td>
+                        <td>Obligatorio (un solo valor)</td>
+                        <td>Opcional (múltiples via OUT/INOUT)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Forma de Uso</strong></td>
+                        <td>En expresiones SQL (SELECT, WHERE)</td>
+                        <td>Ejecución independiente con CALL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Modificación de Datos</strong></td>
+                        <td><span class="highlight">❌ No permitida</span></td>
+                        <td><span class="highlight">✅ Permitida</span> (INSERT, UPDATE, DELETE)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tipos de Parámetros</strong></td>
+                        <td>Solo IN</td>
+                        <td>IN, OUT, INOUT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Control de Transacciones</strong></td>
+                        <td>No disponible</td>
+                        <td>COMMIT, ROLLBACK, SAVEPOINT</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Complejidad</strong></td>
+                        <td>Operaciones simples</td>
+                        <td>Lógica compleja y múltiples operaciones</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td>Optimizada para cálculos</td>
+                        <td>Mejor para operaciones batch</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Recursividad</strong></td>
+                        <td>Soportada</td>
+                        <td>No soportada</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sección de Ejemplos Prácticos -->
+        <div class="examples-section">
+            <h2>💡 Ejemplos Prácticos Avanzados</h2>
+            
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('functions-examples')">Funciones Avanzadas</button>
+                <button class="tab" onclick="showTab('procedures-examples')">Procedimientos Avanzados</button>
+                <button class="tab" onclick="showTab('when-to-use')">¿Cuándo Usar Cada Uno?</button>
+            </div>
+
+            <div id="functions-examples" class="tab-content active">
+                <h3>🔢 Función para Calcular Descuentos</h3>
+                <div class="code-block">
+<pre><code><span class="keyword">DELIMITER</span> //
+<span class="keyword">CREATE FUNCTION</span> <span class="string">calcular_descuento</span>(
+    precio <span class="type">DECIMAL</span>(<span class="number">10,2</span>), 
+    categoria <span class="type">VARCHAR</span>(<span class="number">20</span>)
+)
+<span class="keyword">RETURNS</span> <span class="type">DECIMAL</span>(<span class="number">10,2</span>)
+<span class="keyword">READS SQL DATA</span>
+<span class="keyword">BEGIN</span>
+    <span class="keyword">DECLARE</span> descuento <span class="type">DECIMAL</span>(<span class="number">5,2</span>) <span class="keyword">DEFAULT</span> <span class="number">0</span>;
+    
+    <span class="keyword">CASE</span> categoria
+        <span class="keyword">WHEN</span> <span class="string">'VIP'</span> <span class="keyword">THEN</span> <span class="keyword">SET</span> descuento = <span class="number">25.00</span>;
+        <span class="keyword">WHEN</span> <span class="string">'Premium'</span> <span class="keyword">THEN</span> <span class="keyword">SET</span> descuento = <span class="number">15.00</span>;
+        <span class="keyword">WHEN</span> <span class="string">'Regular'</span> <span class="keyword">THEN</span> <span class="keyword">SET</span> descuento = <span class="number">5.00</span>;
+        <span class="keyword">ELSE</span> <span class="keyword">SET</span> descuento = <span class="number">0</span>;
+    <span class="keyword">END CASE</span>;
+    
+    <span class="keyword">RETURN</span> precio * (<span class="number">1</span> - descuento/<span class="number">100</span>);
+<span class="keyword">END</span> //
+<span class="keyword">DELIMITER</span> ;
+
+<span class="comment">-- Uso en consultas</span>
+<span class="keyword">SELECT</span> 
+    producto,
+    precio_original,
+    <span class="string">calcular_descuento</span>(precio_original, categoria_cliente) <span class="keyword">AS</span> precio_final
+<span class="keyword">FROM</span> ventas v
+<span class="keyword">JOIN</span> clientes c <span class="keyword">ON</span> v.cliente_id = c.id;</code></pre>
+                </div>
+            </div>
+
+            <div id="procedures-examples" class="tab-content">
+                <h3>🛒 Procedimiento para Procesar Orden</h3>
+                <div class="code-block">
+<pre><code><span class="keyword">DELIMITER</span> //
+<span class="keyword">CREATE PROCEDURE</span> <span class="string">procesar_orden</span>(
+    <span class="keyword">IN</span> p_cliente_id <span class="type">INT</span>,
+    <span class="keyword">IN</span> p_productos <span class="type">JSON</span>,
+    <span class="keyword">OUT</span> p_orden_id <span class="type">INT</span>,
+    <span class="keyword">OUT</span> p_total <span class="type">DECIMAL</span>(<span class="number">10,2</span>),
+    <span class="keyword">OUT</span> p_resultado <span class="type">VARCHAR</span>(<span class="number">100</span>)
+)
+<span class="keyword">BEGIN</span>
+    <span class="keyword">DECLARE</span> v_error <span class="type">INT</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>;
+    <span class="keyword">DECLARE</span> <span class="keyword">EXIT HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">SQLEXCEPTION</span>
+    <span class="keyword">BEGIN</span>
+        <span class="keyword">ROLLBACK</span>;
+        <span class="keyword">SET</span> p_resultado = <span class="string">'Error: No se pudo procesar la orden'</span>;
+    <span class="keyword">END</span>;
+    
+    <span class="keyword">START TRANSACTION</span>;
+    
+    <span class="comment">-- Crear nueva orden</span>
+    <span class="keyword">INSERT INTO</span> ordenes (cliente_id, fecha, estado) 
+    <span class="keyword">VALUES</span> (p_cliente_id, <span class="keyword">NOW</span>(), <span class="string">'procesando'</span>);
+    
+    <span class="keyword">SET</span> p_orden_id = <span class="keyword">LAST_INSERT_ID</span>();
+    
+    <span class="comment">-- Procesar cada producto</span>
+    <span class="keyword">INSERT INTO</span> orden_items (orden_id, producto_id, cantidad, precio)
+    <span class="keyword">SELECT</span> 
+        p_orden_id,
+        <span class="keyword">JSON_EXTRACT</span>(p_productos, <span class="string">'$[*].producto_id'</span>),
+        <span class="keyword">JSON_EXTRACT</span>(p_productos, <span class="string">'$[*].cantidad'</span>),
+        p.precio
+    <span class="keyword">FROM</span> productos p
+    <span class="keyword">WHERE</span> p.id <span class="keyword">IN</span> (<span class="keyword">JSON_EXTRACT</span>(p_productos, <span class="string">'$[*].producto_id'</span>));
+    
+    <span class="comment">-- Calcular total</span>
+    <span class="keyword">SELECT</span> <span class="keyword">SUM</span>(cantidad * precio) <span class="keyword">INTO</span> p_total
+    <span class="keyword">FROM</span> orden_items 
+    <span class="keyword">WHERE</span> orden_id = p_orden_id;
+    
+    <span class="comment">-- Actualizar stock</span>
+    <span class="keyword">UPDATE</span> productos p
+    <span class="keyword">JOIN</span> orden_items oi <span class="keyword">ON</span> p.id = oi.producto_id
+    <span class="keyword">SET</span> p.stock = p.stock - oi.cantidad
+    <span class="keyword">WHERE</span> oi.orden_id = p_orden_id;
+    
+    <span class="keyword">COMMIT</span>;
+    <span class="keyword">SET</span> p_resultado = <span class="string">'Orden procesada exitosamente'</span>;
+<span class="keyword">END</span> //
+<span class="keyword">DELIMITER</span> ;</code></pre>
+                </div>
+            </div>
+
+            <div id="when-to-use" class="tab-content">
+                <h3>🤔 Guía de Decisión: ¿Cuándo Usar Cada Uno?</h3>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+                    <div style="background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 1.5rem; border-radius: 15px;">
+                        <h4>🔧 Usa FUNCIONES cuando:</h4>
+                        <ul style="margin-top: 1rem;">
+                            <li>✅ Necesites calcular un valor específico</li>
+                            <li>✅ Quieras reutilizar lógica en SELECT</li>
+                            <li>✅ La operación sea de solo lectura</li>
+                            <li>✅ Necesites algo como funciones matemáticas</li>
+                            <li>✅ Requieras validación de datos</li>
+                            <li>✅ Formateo de información</li>
+                        </ul>
+                        
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong>Ejemplos típicos:</strong><br>
+                            • Calcular edad, distancias<br>
+                            • Formatear números, fechas<br>
+                            • Validar emails, teléfonos<br>
+                            • Calcular impuestos, descuentos
+                        </div>
+                    </div>
+                    
+                    <div style="background: linear-gradient(135deg, #3498db, #2980b9); color: white; padding: 1.5rem; border-radius: 15px;">
+                        <h4>⚡ Usa PROCEDIMIENTOS cuando:</h4>
+                        <ul style="margin-top: 1rem;">
+                            <li>✅ Necesites ejecutar lógica compleja</li>
+                            <li>✅ Requieras modificar datos (DML)</li>
+                            <li>✅ Manejes múltiples operaciones</li>
+                            <li>✅ Necesites control de transacciones</li>
+                            <li>✅ Requieras parámetros de salida</li>
+                            <li>✅ Proceses operaciones batch</li>
+                        </ul>
+                        
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <strong>Ejemplos típicos:</strong><br>
+                            • Procesar órdenes de compra<br>
+                            • Migración de datos<br>
+                            • Reportes complejos<br>
+                            • Operaciones de backup/restore
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #f39c12, #e67e22); color: white; padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+                    <h4>💡 Consejos de Mejores Prácticas:</h4>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem;">
+                        <div>
+                            <strong>Para Funciones:</strong>
+                            <ul>
+                                <li>Manténlas simples y enfocadas</li>
+                                <li>Usa DETERMINISTIC cuando sea posible</li>
+                                <li>Evita operaciones costosas</li>
+                                <li>Documenta el propósito claramente</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <strong>Para Procedimientos:</strong>
+                            <ul>
+                                <li>Maneja errores apropiadamente</li>
+                                <li>Usa transacciones cuando sea necesario</li>
+                                <li>Incluye logging para debugging</li>
+                                <li>Valida parámetros de entrada</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+    </div>
+
+    <script>
+        // Mostrar fecha actual
+        document.getElementById('fecha').textContent = new Date().toLocaleDateString('es-ES');
+
+        // Función para cambiar pestañas
+        function showTab(tabId) {
+            // Ocultar todas las pestañas
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(button => button.classList.remove('active'));
+            
+            // Mostrar pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Animación de aparición al scroll
+        function animateOnScroll() {
+            const sections = document.querySelectorAll('.section, .comparison-table, .examples-section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (sectionTop < windowHeight - 100) {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }
+            });
+        }
+
+        // Inicializar animaciones
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', () => {
+            animateOnScroll();
+            
+            // Efecto de escritura en el título
+            const titulo = document.querySelector('h1');
+            const textoOriginal = titulo.innerHTML;
+            titulo.innerHTML = '';
+            
+            let i = 0;
+            const escribir = setInterval(() => {
+                titulo.innerHTML = textoOriginal.substring(0, i + 1);
+                i++;
+                if (i >= textoOriginal.length) {
+                    clearInterval(escribir);
+                }
+            }, 50);
+        });
+
+        // Smooth scroll para navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Efecto hover en las filas de la tabla
+        const tableRows = document.querySelectorAll('tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.02)';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query Methods en Spring Data JPA - Guía Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .card {
+            background: white;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2.2rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.6rem;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 0.8rem 0;
+        }
+        
+        .emoji {
+            font-size: 1.8rem;
+            margin-right: 0.8rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            border-left: 5px solid #28a745;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .code-header {
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            margin: -2rem -2rem 1.5rem -2rem;
+            border-radius: 10px 10px 0 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .code-header::before {
+            content: "⚡";
+            margin-right: 0.5rem;
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .method-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .method-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .method-title {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .sql-equivalent {
+            background: #f7fafc;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border-left: 4px solid #38b2ac;
+        }
+        
+        .sql-equivalent strong {
+            color: #38b2ac;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .comparison-table td {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .keyword-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .keyword-tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            transition: transform 0.2s ease;
+        }
+        
+        .keyword-tag:hover {
+            transform: scale(1.05);
+        }
+        
+        .advantages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .advantage {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .naming-convention {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #b6d4db;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        ul, ol {
+            padding-left: 2rem;
+            margin: 1rem 0;
+        }
+        
+        li {
+            margin: 0.8rem 0;
+            line-height: 1.8;
+        }
+        
+        code {
+            background: #f1f3f4;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            color: #d63384;
+            font-size: 0.9rem;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-radius: 15px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚡ Query Methods</h1>
+            <p class="subtitle">Métodos de Consulta Derivados en Spring Data JPA</p>
+        </header>
+
+        <div class="card">
+            <h2><span class="emoji">📚</span>¿Qué son los Query Methods?</h2>
+            
+            <div class="highlight-box">
+                <p><strong>Query Methods</strong> (Métodos de Consulta Derivados) son métodos que Spring Data JPA analiza automáticamente para generar consultas SQL basándose únicamente en el nombre del método.</p>
+            </div>
+
+            <h3>🔍 Características Principales:</h3>
+            <ul>
+                <li><strong>Automáticos:</strong> No necesitas escribir SQL o JPQL</li>
+                <li><strong>Convencionales:</strong> Siguen reglas de nomenclatura específicas</li>
+                <li><strong>Type-safe:</strong> Verificación en tiempo de compilación</li>
+                <li><strong>Legibles:</strong> El nombre del método describe lo que hace</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🏗️</span>Estructura de un Query Method</h2>
+            
+            <div class="naming-convention">
+                <h4>📝 Convención de Nomenclatura:</h4>
+                <div class="code-block">
+                    <div class="code-header">Estructura del Nombre</div>
+                    <pre><strong>Prefijo</strong> + <strong>By</strong> + <strong>Propiedad</strong> + <strong>Operador</strong> + <strong>Valor</strong>
+
+Ejemplo: findByNombreContaining(String nombre)
+         ↑    ↑  ↑       ↑          ↑
+      Prefijo By Prop   Operador  Parámetro</pre>
+                </div>
+            </div>
+
+            <h3>🔑 Prefijos Disponibles:</h3>
+            <div class="keyword-grid">
+                <div class="keyword-tag">find...By</div>
+                <div class="keyword-tag">get...By</div>
+                <div class="keyword-tag">query...By</div>
+                <div class="keyword-tag">count...By</div>
+                <div class="keyword-tag">exists...By</div>
+                <div class="keyword-tag">delete...By</div>
+                <div class="keyword-tag">remove...By</div>
+                <div class="keyword-tag">read...By</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">💻</span>Ejemplos Prácticos del Proyecto</h2>
+            
+            <div class="code-block">
+                <div class="code-header">IPersonaRepository.java - Query Methods Implementados</div>
+                <pre>@Repository
+public interface IPersonaRepository extends JpaRepository&lt;Persona,Long&gt;{
+    
+    /**
+     * QUERY METHODS (Métodos de Consulta Derivados)
+     * Spring Data JPA genera automáticamente las consultas SQL
+     * basándose en el nombre del método
+     */
+    
+    // Buscar persona por nombre (para validar duplicados)
+    Optional&lt;Persona&gt; findByNombre(String nombre);
+    
+    // Buscar por edad
+    List&lt;Persona&gt; findByEdad(int edad);
+    
+    // Buscar por edad mayor que
+    List&lt;Persona&gt; findByEdadGreaterThan(int edad);
+    
+    // Buscar por nombre que contenga una cadena (LIKE)
+    List&lt;Persona&gt; findByNombreContaining(String nombre);
+    
+    // Buscar por nombre ignorando mayúsculas/minúsculas
+    Optional&lt;Persona&gt; findByNombreIgnoreCase(String nombre);
+    
+    // Buscar por edad entre dos valores
+    List&lt;Persona&gt; findByEdadBetween(int edadMin, int edadMax);
+    
+    // Verificar si existe por nombre
+    boolean existsByNombre(String nombre);
+    
+    // Contar personas por edad
+    long countByEdad(int edad);
+    
+    // Eliminar por nombre
+    void deleteByNombre(String nombre);
+}</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🔍</span>Análisis Detallado de Cada Método</h2>
+            
+            <div class="method-grid">
+                <div class="method-card">
+                    <div class="method-title">🔎 findByNombre</div>
+                    <div class="code-block">
+                        <pre>Optional&lt;Persona&gt; findByNombre(String nombre)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE nombre = ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">🎂 findByEdad</div>
+                    <div class="code-block">
+                        <pre>List&lt;Persona&gt; findByEdad(int edad)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE edad = ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">📈 findByEdadGreaterThan</div>
+                    <div class="code-block">
+                        <pre>List&lt;Persona&gt; findByEdadGreaterThan(int edad)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE edad > ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">🔤 findByNombreContaining</div>
+                    <div class="code-block">
+                        <pre>List&lt;Persona&gt; findByNombreContaining(String nombre)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE nombre LIKE '%?%'</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">🔄 findByNombreIgnoreCase</div>
+                    <div class="code-block">
+                        <pre>Optional&lt;Persona&gt; findByNombreIgnoreCase(String nombre)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE UPPER(nombre) = UPPER(?)</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">📊 findByEdadBetween</div>
+                    <div class="code-block">
+                        <pre>List&lt;Persona&gt; findByEdadBetween(int min, int max)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT * FROM persona WHERE edad BETWEEN ? AND ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">✅ existsByNombre</div>
+                    <div class="code-block">
+                        <pre>boolean existsByNombre(String nombre)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT COUNT(*) > 0 FROM persona WHERE nombre = ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">🔢 countByEdad</div>
+                    <div class="code-block">
+                        <pre>long countByEdad(int edad)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>SELECT COUNT(*) FROM persona WHERE edad = ?</code>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-title">🗑️ deleteByNombre</div>
+                    <div class="code-block">
+                        <pre>void deleteByNombre(String nombre)</pre>
+                    </div>
+                    <div class="sql-equivalent">
+                        <strong>SQL Generado:</strong><br>
+                        <code>DELETE FROM persona WHERE nombre = ?</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">⚖️</span>Comparación: Query Methods vs Otros Enfoques</h2>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Ejemplo</th>
+                        <th>Características</th>
+                        <th>Cuándo Usar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Query Methods</strong></td>
+                        <td><code>findByNombre(String nombre)</code></td>
+                        <td>
+                            ✅ Automáticos<br>
+                            ✅ Type-safe<br>
+                            ✅ Legibles<br>
+                            ❌ Limitados a consultas simples
+                        </td>
+                        <td>Consultas básicas y CRUD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@Query (JPQL)</strong></td>
+                        <td><code>@Query("SELECT p FROM Persona p WHERE p.nombre = ?1")</code></td>
+                        <td>
+                            ✅ Flexibles<br>
+                            ✅ Consultas complejas<br>
+                            ❌ Más código<br>
+                            ❌ Propenso a errores
+                        </td>
+                        <td>Consultas complejas con JPQL</td>
+                    </tr>
+                    <tr>
+                        <td><strong>@Query (SQL Nativo)</strong></td>
+                        <td><code>@Query(value = "SELECT * FROM persona WHERE nombre = ?1", nativeQuery = true)</code></td>
+                        <td>
+                            ✅ SQL puro<br>
+                            ✅ Máximo rendimiento<br>
+                            ❌ Dependiente de BD<br>
+                            ❌ Menos portable
+                        </td>
+                        <td>Optimizaciones específicas de BD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Named Queries</strong></td>
+                        <td><code>@NamedQuery(name = "Persona.findByNombre", query = "...")</code></td>
+                        <td>
+                            ✅ Reutilizables<br>
+                            ✅ Centralizadas<br>
+                            ❌ Definición separada<br>
+                            ❌ Menos común
+                        </td>
+                        <td>Consultas reutilizables entre repositorios</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🎯</span>Operadores y Palabras Clave Avanzadas</h2>
+            
+            <h3>🔍 Operadores de Comparación:</h3>
+            <div class="code-block">
+                <div class="code-header">Ejemplos de Operadores</div>
+                <pre>// Igualdad
+findByNombre(String nombre)                    // WHERE nombre = ?
+
+// Comparaciones numéricas
+findByEdadGreaterThan(int edad)               // WHERE edad > ?
+findByEdadGreaterThanEqual(int edad)          // WHERE edad >= ?
+findByEdadLessThan(int edad)                  // WHERE edad < ?
+findByEdadLessThanEqual(int edad)             // WHERE edad <= ?
+
+// Rangos
+findByEdadBetween(int min, int max)           // WHERE edad BETWEEN ? AND ?
+
+// Texto
+findByNombreContaining(String texto)          // WHERE nombre LIKE '%?%'
+findByNombreStartingWith(String prefijo)      // WHERE nombre LIKE '?%'
+findByNombreEndingWith(String sufijo)         // WHERE nombre LIKE '%?'
+findByNombreIgnoreCase(String nombre)         // WHERE UPPER(nombre) = UPPER(?)
+
+// Nulos
+findByNombreIsNull()                          // WHERE nombre IS NULL
+findByNombreIsNotNull()                       // WHERE nombre IS NOT NULL
+
+// Colecciones
+findByEdadIn(Collection&lt;Integer&gt; edades)      // WHERE edad IN (?)
+findByEdadNotIn(Collection&lt;Integer&gt; edades)   // WHERE edad NOT IN (?)</pre>
+            </div>
+
+            <h3>🔗 Operadores Lógicos:</h3>
+            <div class="code-block">
+                <div class="code-header">Combinando Condiciones</div>
+                <pre>// AND
+findByNombreAndEdad(String nombre, int edad)  // WHERE nombre = ? AND edad = ?
+
+// OR  
+findByNombreOrEdad(String nombre, int edad)   // WHERE nombre = ? OR edad = ?
+
+// Combinaciones complejas
+findByNombreContainingAndEdadGreaterThan(String nombre, int edad)
+// WHERE nombre LIKE '%?%' AND edad > ?</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">💡</span>Mejores Prácticas y Consejos</h2>
+            
+            <div class="info">
+                <h4>✅ Buenas Prácticas:</h4>
+                <ul>
+                    <li>Usa <strong>Query Methods</strong> para consultas simples y comunes</li>
+                    <li>Prefiere <code>Optional&lt;T&gt;</code> para resultados únicos que pueden no existir</li>
+                    <li>Usa <code>List&lt;T&gt;</code> para múltiples resultados</li>
+                    <li>Nombres descriptivos que reflejen la lógica de negocio</li>
+                    <li>Combina con <code>@Transactional</code> para operaciones de eliminación</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <h4>⚠️ Limitaciones:</h4>
+                <ul>
+                    <li>Solo para consultas <strong>relativamente simples</strong></li>
+                    <li>Los nombres pueden volverse <strong>muy largos</strong> con múltiples condiciones</li>
+                    <li>No soportan <strong>subconsultas complejas</strong></li>
+                    <li>Limitados a las propiedades de la entidad</li>
+                </ul>
+            </div>
+
+            <div class="naming-convention">
+                <h4>📏 Ejemplo de Nombre Muy Largo:</h4>
+                <div class="code-block">
+                    <pre>// ❌ Muy largo y difícil de leer
+findByNombreContainingIgnoreCaseAndEdadBetweenAndActivoTrueOrderByNombreAsc(
+    String nombre, int edadMin, int edadMax);
+
+// ✅ Mejor usar @Query para casos complejos
+@Query("SELECT p FROM Persona p WHERE UPPER(p.nombre) LIKE UPPER(?1) 
+       AND p.edad BETWEEN ?2 AND ?3 AND p.activo = true ORDER BY p.nombre")
+List&lt;Persona&gt; buscarPersonasActivasPorNombreYRangoEdad(String nombre, int min, int max);</pre>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🚀</span>Ventajas de los Query Methods</h2>
+            
+            <div class="advantages">
+                <div class="advantage">
+                    <span class="advantage-icon">⚡</span>
+                    <h4>Desarrollo Rápido</h4>
+                    <p>No escribes SQL, solo defines el método</p>
+                </div>
+                
+                <div class="advantage">
+                    <span class="advantage-icon">🛡️</span>
+                    <h4>Type Safety</h4>
+                    <p>Errores detectados en tiempo de compilación</p>
+                </div>
+                
+                <div class="advantage">
+                    <span class="advantage-icon">📖</span>
+                    <h4>Legibilidad</h4>
+                    <p>El nombre del método describe exactamente qué hace</p>
+                </div>
+                
+                <div class="advantage">
+                    <span class="advantage-icon">🔧</span>
+                    <h4>Mantenimiento</h4>
+                    <p>Fácil de modificar y refactorizar</p>
+                </div>
+                
+                <div class="advantage">
+                    <span class="advantage-icon">🎯</span>
+                    <h4>Convención</h4>
+                    <p>Estándar en el ecosistema Spring</p>
+                </div>
+                
+                <div class="advantage">
+                    <span class="advantage-icon">🧪</span>
+                    <h4>Testing</h4>
+                    <p>Fácil de probar y validar</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">📈</span>Ejemplo de Uso en el Servicio</h2>
+            
+            <div class="code-block">
+                <div class="code-header">PersonaService.java - Usando Query Methods</div>
+                <pre>@Service
+public class PersonaService implements IPersonaService {
+
+    @Autowired
+    private IPersonaRepository persoRepo;
+    
+    /**
+     * Buscar personas por edad usando Query Method
+     */
+    public List&lt;PersonaResponseDTO&gt; buscarPersonasPorEdad(int edad) {
+        List&lt;Persona&gt; personas = persoRepo.findByEdad(edad);
+        return personas.stream()
+                .map(PersonaMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Buscar personas mayores de cierta edad
+     */
+    public List&lt;PersonaResponseDTO&gt; buscarPersonasMayoresDe(int edad) {
+        List&lt;Persona&gt; personas = persoRepo.findByEdadGreaterThan(edad);
+        return personas.stream()
+                .map(PersonaMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Verificar si existe persona con nombre específico
+     */
+    public boolean existePersonaConNombre(String nombre) {
+        return persoRepo.existsByNombre(nombre);
+    }
+    
+    /**
+     * Buscar personas por nombre parcial
+     */
+    public List&lt;PersonaResponseDTO&gt; buscarPersonasPorNombreParcial(String nombreParcial) {
+        List&lt;Persona&gt; personas = persoRepo.findByNombreContaining(nombreParcial);
+        return personas.stream()
+                .map(PersonaMapper::toResponseDTO)
+                .collect(Collectors.toList());
+    }
+}</pre>
+            </div>
+        </div>
+
+        <footer>
+            <h3>🎓 <strong>Query Methods en Spring Data JPA</strong></h3>
+            <p>Una forma elegante y eficiente de crear consultas automáticas</p>
+            <p><em>Spring Boot 3.5.0 + Java 21 + Spring Data JPA</em></p>
+        </footer>
+    </div>
+</body>
+</html>
