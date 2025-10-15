@@ -3,7 +3,7 @@
 -- Sede: SMATA - CFP8 - GCBA
 -- Estudiante: Pablo Gularte
 -- --------------------------
--- TP5: Trabajo Práctico sobre Procedimientos Almacenados
+-- TP6: Trabajo Práctico sobre Procedimientos Almacenados
 -- --------------------------
 
 create database tp_procedimientos;
