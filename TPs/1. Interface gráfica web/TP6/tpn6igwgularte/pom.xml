@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ar.edu.centro8.daw</groupId>
-	<artifactId>tp6igwgularte</artifactId>
+	<artifactId>tpn2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tp6igwgularte</name>
-	<description>Demo project for Spring Boot</description>
+	<name>tpn2</name>
+	<description>Trabajo Practico Nro. 6 Gestión de Apis mediante Javascript</description>
 	<url/>
 	<licenses>
 		<license/>

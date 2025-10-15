@@ -1,10 +1,10 @@
-package ar.edu.centro8.daw.tp6igwgularte;
+package ar.edu.centro8.daw.tpn2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Tp6igwgularteApplicationTests {
+class Tpn2ApplicationTests {
 
 	@Test
 	void contextLoads() {
