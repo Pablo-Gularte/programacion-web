@@ -3,6 +3,8 @@ package ar.edu.centro8.daw.tpn2.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,8 +50,11 @@ public class AutoController {
     }
 
     @DeleteMapping("/auto/{id}")
-    public String borrarAuto(@PathVariable Long id) {
+    public ResponseEntity<Void> borrarAuto(@PathVariable Long id) {
+        System.out.println("*************************************");
+        System.out.println("Invoco método borrarAuto para id: " + id);
+        System.out.println("*************************************");
         autoSvc.deleteAuto(id);
-        return "Se eliminó correctamente el auto de id " + id;
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
