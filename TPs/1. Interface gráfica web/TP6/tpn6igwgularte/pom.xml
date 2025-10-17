@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ar.edu.centro8.daw</groupId>
-	<artifactId>tpn2</artifactId>
+	<artifactId>tpn6igw</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>tpn2</name>
+	<name>tpn6igw</name>
 	<description>Trabajo Practico Nro. 6 Gestión de Apis mediante Javascript</description>
 	<url/>
 	<licenses>

@@ -45,16 +45,16 @@
             <!-- Tabla de datos cargados -->
             <section id="tabla-datos" class="col-9 p-3">
                 <h3>Listado completo de datos guardados</h3>
-                <table id="tabla-autos" class="table table-bordered table-hover">
-                    <thead class="table-primary">
+                <table id="tabla-autos" class="table table-bordered table-hover table-dark">
+                    <thead>
                         <tr class="text-center">
                             <th>ID</th>
-                            <th>marca</th>
+                            <th>Marca</th>
                             <th>Precio</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody class="table-success"></tbody>
+                    <tbody class="table-secondary"></tbody>
                     <tfoot></tfoot>
                 </table>
             </section>
@@ -80,16 +80,19 @@
     <!-- Scripts personalizados -->
     <script>
         // rutas de endpoints
-        const epGuardarAutos = "http://localhost:9090/autos";
-        const epListarAutos = "http://localhost:9090/autos";
+        const epGuardarAutos = "http://localhost:8080/autos";
+        const epListarAutos = "http://localhost:8080/autos";
+        const epModificarAuto = "http://localhost:8080/auto/{id}";
+        const epBorrarAuto = "http://localhost:8080/auto/{id}";
 
         const formulario = document.getElementById("form-auto");
         const resultadoFormulario = document.getElementById("resultado-form");
 
         // Agrego evento "submit" al formulario para enviar los valores del formulario
         formulario.addEventListener("submit", async evento => {
+            evento.preventDefault();
             const marca = document.getElementById("marca").value;
-            const precio = document.getElementById("precio").value;
+            const precio = parseFloat(document.getElementById("precio").value);
 
             // Envío los datos de formulario a endPoint POST
             const respuesta = await fetch(epGuardarAutos, {
@@ -98,31 +101,63 @@
                 body: JSON.stringify({ marca, precio })
             });
 
+            // muestro en pantalla el mensaje de retorno del servidor
+            // Si no hubo errores, el mensaje desaparece a los 5 segundos
+            // Si hubo errores, el mensaje desaparece luego de un minuto
+            const tiempoMensajeOk = 5 * 1000;
+            const tiempoMensajeErr = 60 * 1000;
+            resultadoFormulario.textContent = await respuesta.text();
+            setTimeout(() => {
+                document.getElementById("resultado-form").textContent = "";
+                document.getElementById("marca").value = "";
+                document.getElementById("precio").value = "";
+            }, respuesta.ok ? tiempoMensajeOk : tiempoMensajeErr);
+
+            mostrarDatosTabla();
         });
 
+        mostrarDatosTabla();
+
         // Recupero listado completo de datos vía GET
-        fetch(epListarAutos)
-            .then(response => response.json())
-            .then(datos => {
-                let filasTablaHtml = "";
-                for (let d of datos) {
-                    // Defino botones de acciones
-                    const botonEditar = `<a class="btn btn-success" title="Click para editar este registro"><i class="bi bi-pencil-square"></i></i></a>`;
-                    const botonBorrar = `<a class="btn btn-danger" title="Click para borrar este registro"><i class="bi bi-trash3-fill"></i></a>`;
+        function mostrarDatosTabla() {
+            fetch(epListarAutos)
+                .then(response => response.json())
+                .then(datos => {
+                    let filasTablaHtml = "";
+                    for (let d of datos) {
+                        const precioFormateado = d.precio.toLocaleString("es-AR", { currency: "ARS", style: "currency" });
 
-                    // Valores para las celdas de la tabla
-                    const celdaId = `<td class="text-center">${d.id}</td>`;
-                    const celdaMarca = `<td>${d.marca}</td>`;
-                    const celdaPrecio = `<td class="text-end">${d.precio.toLocaleString("es-AR", { currency: "ARS", style: "currency" })}</td>`;
-                    const celdaAcciones = `<td class="text-center">${botonEditar}&nbsp;${botonBorrar}</td>`;
+                        // Defino botones de acciones
+                        const iconoBtnEditar = `<i class="bi bi-pencil-square"></i>`;
+                        const iconoBtnBorrar = `<i class="bi bi-trash3-fill"></i>`;
+                        const btnEditar = `<a class="btn btn-success" title="Click para editar este registro" onclick="modificarRegistro(${d.id})">${iconoBtnEditar}</a>`;
+                        const btnBorrar = `<a class="btn btn-danger" title="Click para borrar este registro" onclick="borrarRegistro(${d.id})">${iconoBtnBorrar}</a>`;
+    
+                        // Valores para las celdas de la tabla
+                        const celdaId = `<td class="text-center">${d.id}</td>`;
+                        const celdaMarca = `<td>${d.marca}</td>`;
+                        const celdaPrecio = `<td class="text-end">${precioFormateado}</td>`;
+                        const celdaAcciones = `<td class="text-center">${btnEditar}&nbsp;${btnBorrar}</td>`;
+    
+                        // Genero la fila de la tabla con las celdas definidas
+                        filasTablaHtml += `<tr>${celdaId}${celdaMarca}${celdaPrecio}${celdaAcciones}</tr>`;
+                    }
+                    // Inserto las filas recuperadas en el cuerpo de la tabla
+                    document.getElementsByTagName("tbody")[0].innerHTML = filasTablaHtml;
+                    document.getElementsByTagName("tfoot")[0].innerHTML = `<tr class="text-end"><td colspan="4">Se recuperaron <strong>${datos.length}</strong> registros</td></tr>`;
+                });
+        }
 
-                    // Genero la fila de la tabla con las celdas definidas
-                    filasTablaHtml += `<tr>${celdaId}${celdaMarca}${celdaPrecio}${celdaAcciones}</tr>`;
-                }
-                // Inserto las filas recuperadas en el cuerpo de la tabla
-                document.getElementsByTagName("tbody")[0].innerHTML = filasTablaHtml;
-                document.getElementsByTagName("tfoot")[0].innerHTML = `<tr class="text-end"><td colspan="4">Se recuperaron <strong>${datos.length}</strong> registros</td></tr>`;
-            });
+        function modificarRegistro(id) {
+            let auto;
+            fetch(epModificarAuto)
+                .then(response => response.json())
+                .then(registro => console.log(registro));
+        }
+
+        function borrarRegistro(id) {
+            confirm('¿Desea eliminar el registro actual?');
+        }
     </script>
 </body>
 
