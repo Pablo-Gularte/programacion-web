@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Qué es un DTO y para qué sirve? - Guía Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+        
+        .emoji {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+        
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        li {
+            margin: 0.5rem 0;
+            padding: 0.5rem 0 0.5rem 2rem;
+            position: relative;
+        }
+        
+        li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            position: relative;
+        }
+        
+        .code-header {
+            background: #4a5568;
+            color: white;
+            padding: 0.5rem 1rem;
+            margin: -1.5rem -1.5rem 1rem -1.5rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #28a745;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .grid-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-top: 3px solid #667eea;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        th {
+            background: #667eea;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+        }
+        
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .endpoint-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-right: 1rem;
+        }
+        
+        .post { background: #28a745; color: white; }
+        .put { background: #ffc107; color: #212529; }
+        .get { background: #007bff; color: white; }
+        .delete { background: #dc3545; color: white; }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .card {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 DTO: Data Transfer Object</h1>
+            <p class="subtitle">Guía completa sobre qué es un DTO y para qué sirve en Spring Boot</p>
+        </header>
+
+        <div class="card">
+            <h2><span class="emoji">📚</span>¿Qué es un DTO y para qué sirve?</h2>
+            
+            <div class="highlight">
+                <p><strong>DTO (Data Transfer Object)</strong> es un patrón de diseño que define objetos cuyo único propósito es transportar datos entre diferentes capas de una aplicación o entre diferentes sistemas.</p>
+            </div>
+
+            <h3><span class="emoji">🔸</span>Propósitos principales:</h3>
+            <ul>
+                <li><strong>Desacoplamiento:</strong> Separa la estructura interna (entidades) de la API externa</li>
+                <li><strong>Validación:</strong> Valida datos de entrada antes de procesarlos</li>
+                <li><strong>Control de exposición:</strong> Decide qué información mostrar al cliente</li>
+                <li><strong>Transformación:</strong> Convierte datos entre diferentes formatos</li>
+                <li><strong>Versionado:</strong> Permite cambios en la API sin afectar la base de datos</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🏗️</span>Reglas de Negocio por Capa</h2>
+            
+            <div class="grid">
+                <div class="grid-item">
+                    <h3>1. 📝 DTO - Validaciones de Formato</h3>
+                    <div class="code-block">
+                        <div class="code-header">PersonaRequestDTO.java</div>
+                        <pre>public void validarNombre() {
+    if (nombre == null || nombre.trim().isEmpty()) {
+        throw new IllegalArgumentException(
+            "El nombre no puede estar vacío");
+    }
+    if (nombre.trim().length() < 2) {
+        throw new IllegalArgumentException(
+            "El nombre debe tener al menos 2 caracteres");
+    }
+}</pre>
+                    </div>
+                    <p><strong>¿Cuándo usar?</strong></p>
+                    <ul>
+                        <li>Validar formato de email, teléfono</li>
+                        <li>Verificar longitud de campos</li>
+                        <li>Limpiar datos de entrada (trim, etc.)</li>
+                    </ul>
+                </div>
+
+                <div class="grid-item">
+                    <h3>2. 🏛️ Modelo/Entidad - Validaciones de Dominio</h3>
+                    <div class="code-block">
+                        <div class="code-header">Persona.java (setter)</div>
+                        <pre>public void setEdad(int edad) {
+    if (edad < 0) {
+        throw new IllegalArgumentException(
+            "La edad no puede ser negativa");
+    }
+    if (edad > 120) {
+        throw new IllegalArgumentException(
+            "La edad no puede ser mayor a 120 años");
+    }
+    this.edad = edad;
+}</pre>
+                    </div>
+                    <p><strong>¿Cuándo usar?</strong></p>
+                    <ul>
+                        <li>Reglas intrínsecas del objeto</li>
+                        <li>Invariantes del dominio</li>
+                        <li>Validaciones que siempre deben cumplirse</li>
+                    </ul>
+                </div>
+
+                <div class="grid-item">
+                    <h3>3. ⚙️ Servicio - Lógica de Negocio Compleja</h3>
+                    <div class="code-block">
+                        <div class="code-header">PersonaService.java</div>
+                        <pre>private void validarNombreUnico(String nombre) {
+    Optional&lt;Persona&gt; personaExistente = 
+        persoRepo.findByNombre(nombre);
+    if (personaExistente.isPresent()) {
+        throw new IllegalArgumentException(
+            "Ya existe una persona con el nombre: " + nombre);
+    }
+}</pre>
+                    </div>
+                    <p><strong>¿Cuándo usar?</strong></p>
+                    <ul>
+                        <li>Validaciones que requieren consultar la BD</li>
+                        <li>Coordinación entre múltiples entidades</li>
+                        <li>Lógica de negocio con cálculos complejos</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">📊</span>Nuevos Endpoints - Ejemplos de Uso</h2>
+            
+            <div class="endpoint-box">
+                <h3>Crear Persona</h3>
+                <span class="method post">POST</span><code>/personas/crear</code>
+                <div class="code-block">
+                    <div class="code-header">Request Body</div>
+                    <pre>{
+    "nombre": "Juan Pérez",
+    "edad": 25
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint-box">
+                <h3>Editar Persona</h3>
+                <span class="method put">PUT</span><code>/personas/editar/1</code>
+                <div class="code-block">
+                    <div class="code-header">Request Body</div>
+                    <pre>{
+    "nombre": "Juan Carlos Pérez",
+    "edad": 26
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint-box">
+                <h3>Obtener Persona</h3>
+                <span class="method get">GET</span><code>/personas/1</code>
+            </div>
+
+            <div class="endpoint-box">
+                <h3>Listar Personas</h3>
+                <span class="method get">GET</span><code>/personas/traer</code>
+            </div>
+
+            <div class="endpoint-box">
+                <h3>Eliminar Persona</h3>
+                <span class="method delete">DELETE</span><code>/personas/borrar/1</code>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🔍</span>Validaciones Implementadas</h2>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Capa</th>
+                            <th>Regla</th>
+                            <th>Ejemplo de Error</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>DTO</strong></td>
+                            <td>Nombre mínimo 2 caracteres</td>
+                            <td><code>"El nombre debe tener al menos 2 caracteres"</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Modelo</strong></td>
+                            <td>Edad entre 0 y 120</td>
+                            <td><code>"La edad no puede ser mayor a 120 años"</code></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Servicio</strong></td>
+                            <td>Nombres únicos</td>
+                            <td><code>"Ya existe una persona con el nombre: Juan"</code></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">🚀</span>Beneficios de esta Implementación</h2>
+            
+            <div class="benefits">
+                <div class="benefit">
+                    <div class="benefit-icon">📦</div>
+                    <h4>Separación Clara</h4>
+                    <p>Entre capas de la aplicación</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🛡️</div>
+                    <h4>Validaciones Robustas</h4>
+                    <p>En múltiples niveles</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🔄</div>
+                    <h4>Reutilización</h4>
+                    <p>Del código de validación</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🎯</div>
+                    <h4>Mensajes Claros</h4>
+                    <p>Errores específicos y útiles</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">📱</div>
+                    <h4>API Limpia</h4>
+                    <p>No expone detalles internos</p>
+                </div>
+                
+                <div class="benefit">
+                    <div class="benefit-icon">🧪</div>
+                    <h4>Facilita Testing</h4>
+                    <p>Responsabilidades separadas</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="emoji">💡</span>Estructura del Proyecto</h2>
+            
+            <div class="code-block">
+                <div class="code-header">Estructura de Archivos</div>
+                <pre>src/main/java/ar/edu/centro8/desarrollo/proyectojpa/
+├── dto/
+│   ├── PersonaRequestDTO.java       // DTO para entrada
+│   ├── PersonaResponseDTO.java      // DTO para salida
+│   └── PersonaMapper.java           // Conversiones DTO ↔ Entidad
+├── model/
+│   └── Persona.java                 // Entidad con validaciones de dominio
+├── repository/
+│   └── IPersonaRepository.java      // Acceso a datos
+├── service/
+│   ├── IPersonaService.java         // Interfaz del servicio
+│   └── PersonaService.java          // Lógica de negocio
+└── controller/
+    └── PersonaController.java       // API REST</pre>
+            </div>
+        </div>
+
+        <footer>
+            <p>🎓 <strong>Proyecto Spring Boot con DTOs y Reglas de Negocio</strong></p>
+            <p>Implementación completa usando Spring Boot 3.5.0 + Java 21</p>
+        </footer>
+    </div>
+</body>
+</html>
