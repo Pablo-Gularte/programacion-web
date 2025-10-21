@@ -13,14 +13,19 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter @Setter @ToString
+@Setter @Getter @ToString
 
 @Entity
-@Table(name="personas")
-public class Persona {
+@Table(name="autos")
+public class Auto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private int edad;
+    private String marca;
+    private String modelo;
+    private double precio;
+    private String color;
+    private String patente;
+    private String nroChasis;
+    private String nroMotor;
 }
