@@ -38,12 +38,12 @@
                         <div class="mb-3">
                             <label for="marca" class="form-label">Marca: </label>
                             <input type="text" class="form-control" id="marca" name="marca"
-                                placeholder="Ingrese la marca del auto...">
+                                placeholder="Ingrese la marcaModifica del auto...">
                         </div>
                         <div class="mb-3">
                             <label for="modelo" class="form-label">Modelo: </label>
                             <input type="text" class="form-control" id="modelo" name="modelo"
-                                placeholder="Ingrese el modelo del auto...">
+                                placeholder="Ingrese el modeloModifica del auto...">
                         </div>
                         <div class="mb-3">
                             <label for="color" class="form-label">Color: </label>
@@ -112,39 +112,90 @@
                         </tr>
                     </thead>
                     <tbody class="table-success"></tbody>
-                    <tfoot class="table-success"></tfoot>
+                    <tfoot class="table-secondary"></tfoot>
                 </table>
             </div>
         </section>
 
         <!-- Modal de edición de datos -->
-        <div class="modal fade" id="modal-formulario-edicion" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar datos</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <div class="mb-3">
-                               <label for="marcaModifica" class="form-label">Marca: </label>
-                               <input type="text" class="form-control" id="marcaModifica" name="marcaModifica">
-                            </div>
-                            <div class="mb-3">
-                               <label for="modeloModifica" class="form-label">Modelo: </label>
-                               <input type="text" class="form-control" id="modeloModifica" name="modeloModifica">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">Guardar cambios</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <section id="sec-modificar-datos">
+            <div class="modal fade" id="modal-formulario-edicion" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar datos</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body bg-warning-subtle">
+                            <!-- Formulario de modificación de datos -->
+                            <form id="form-modifica-datos" >
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="marcaModifica" class="form-label">Marca: </label>
+                                            <input type="text" class="form-control" id="marcaModifica"
+                                                name="marcaModifica" placeholder="Ingrese la marca del auto...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="modeloModifica" class="form-label">Modelo: </label>
+                                            <input type="text" class="form-control" id="modeloModifica" name="modeloModifica" placeholder="Ingrese el modelo del auto...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="colorModifica" class="form-label">Color: </label>
+                                            <select name="colorModifica" id="colorModifica" class="form-select">
+                                                <option value="" selected hidden disabled>-- Seleccione un color --</option>
+                                                <option value="blanco">Blanco</option>
+                                                <option value="negro">Negro</option>
+                                                <option value="gris">Gris</option>
+                                                <option value="marrón">Marrón</option>
+                                                <option value="azul">Azul</option>
+                                                <option value="naranja">Naranja</option>
+                                                <option value="rojo">Rojo</option>
+                                                <option value="amarillo">Amarillo</option>
+                                                <option value="cian">Cian</option>
+                                                <option value="celeste">Celeste</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="precioModifica" class="form-label">Precio: </label>
+                                            <input type="number" class="form-control" id="precioModifica"
+                                                name="precioModifica" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="patenteModifica" class="form-label">Patente: </label>
+                                            <input type="text" class="form-control" id="patenteModifica"
+                                                name="patenteModifica" placeholder="AA123BCD...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="chasisModifica" class="form-label">Número de chasis: </label>
+                                            <input type="text" class="form-control" id="chasisModifica"
+                                                name="chasisModifica"
+                                                placeholder="El nro de chasis consta de 17 caracteres">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="motorModifica" class="form-label">Número de motor: </label>
+                                            <input type="text" class="form-control" id="motorModifica"
+                                                name="motorModifica"
+                                                placeholder="El nro. de motor consta de 17 caracteres">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary w-25 mx-auto">Guardar cambios</button>
+                                </div>
+                            </form>
+                            <div id="resultado-form-modifica" class="alert alert-info" style="display: none;"></div>
+                        </div>
+                        <div class="modal-footer bg-secondary-subtle">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </main>
 
     <!-- Pié de página -->

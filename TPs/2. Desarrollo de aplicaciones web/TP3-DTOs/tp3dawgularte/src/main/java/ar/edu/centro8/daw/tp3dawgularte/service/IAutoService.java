@@ -15,7 +15,7 @@ public interface IAutoService {
     public void saveAuto(Auto autoNuevo);
 
     // Modificar un auto vía ID
-    public void editAuto(Long id, String nuevaMArca, double nuevoPrecio);
+    public void editAuto(Long id, Auto autoModificado);
 
     // Eliminar un auto vía ID
     public void deleteAuto(Long id);

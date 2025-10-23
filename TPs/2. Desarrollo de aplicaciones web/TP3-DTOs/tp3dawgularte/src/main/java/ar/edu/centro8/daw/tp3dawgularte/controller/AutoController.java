@@ -40,9 +40,6 @@ public class AutoController {
     // Creo el auto recibodo por parámetro
     @PostMapping("/auto/crear/")
     public String crearAuto(@RequestBody Auto autoNuevo) {
-        System.out.println("*****************");
-        System.out.println(autoNuevo);
-        System.out.println("*****************");
         autoSvc.saveAuto(autoNuevo);
         return "Se creó el auto " + autoNuevo;
     }
@@ -50,7 +47,7 @@ public class AutoController {
     // Modifico los datos del auto de ID recibidopor parámetro
     @PutMapping("/auto/editar/{id}")
     public String editarAutoPorId(@PathVariable Long id, @RequestBody Auto autoModificado) {
-        autoSvc.editAuto(id, autoModificado.getMarca(), autoModificado.getPrecio());
+        autoSvc.editAuto(id, autoModificado);
         return "Se modificó el auto " + autoModificado;
     }
 

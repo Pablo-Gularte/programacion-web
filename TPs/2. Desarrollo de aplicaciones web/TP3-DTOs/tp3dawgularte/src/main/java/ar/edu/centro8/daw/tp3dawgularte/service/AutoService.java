@@ -30,11 +30,16 @@ public class AutoService implements IAutoService {
     }
 
     @Override
-    public void editAuto(Long id, String nuevaMarca, double nuevoPrecio) {
-        Auto autoModificado = getAutoById(id);
-        autoModificado.setMarca(nuevaMarca);
-        autoModificado.setPrecio(nuevoPrecio);
-        saveAuto(autoModificado);
+    public void editAuto(Long id, Auto autoModificado) {
+        Auto auto = getAutoById(id);
+        auto.setMarca(autoModificado.getMarca());
+        auto.setModelo(autoModificado.getModelo());
+        auto.setColor(autoModificado.getColor());
+        auto.setPrecio(autoModificado.getPrecio());
+        auto.setPatente(autoModificado.getPatente());
+        auto.setNroChasis(autoModificado.getNroChasis());
+        auto.setNroMotor(autoModificado.getNroMotor());
+        saveAuto(auto);
     }
 
     @Override

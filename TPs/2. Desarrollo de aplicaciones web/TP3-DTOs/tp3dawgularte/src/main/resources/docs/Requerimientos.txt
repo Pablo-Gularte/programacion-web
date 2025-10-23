@@ -1,0 +1,119 @@
+## --------------------------------------------
+## TP3: DTO – Reglas de Negocio – Method Query
+## --------------------------------------------
+## Estudiante: Pablo Gularte
+## Curso: Gestión de Base de Datos - Turno noche
+## Tramo: Especialización Profesional en Programación Web
+## Sede: SMATA - CFP8 - GCBA
+## --------------------------------------------
+## Se utiliza el siguiente archivo como simulador de requerimiento del usuario.
+## Se interpretan las consignas del TP como solicitudes de modificación
+## de un proyecto ya construído y funcionano al que es necesario aplicarle
+## modificaciones a partir de las necesidades del usuario.
+## A la vez, el documento funciona como documentación y seguimiento de los
+## pedidos de modificación solicitados.
+
+===========
+## Req. #1: 
+-----------
+- (1) Desarrollar una aplicación web completa usando Spring Boot (capas modelo, controller, dto, service y repository).
+- [ Detalle ]
+- Estructura del proyecto
+- ==> controller\AutoController.java
+- ==> dto\AutoMapper.java
+- ==> dto\AutoRequestDTO.java
+- ==> dto\AutoResponsetDTO.java
+- ==> model\Auto.java
+- ==> repository\IAutoRepository.java
+- ==> service\AutoService.java
+- ==> service\IAutoService.java
+- ---------------
+- << Realizado >>
+===========
+
+===========
+## Req. #2: 
+-----------
+- (1) Implementar operaciones CRUD de lectura (GET) y escritura (POST) con JPA/Hibernate.
+- (2) En la capa de repositorio agregar al menos dos method queries.
+- [ Detalle ]
+- (1) Operacones CRUD
+-       GET:    List<Auto> listarTodosLosAutos()
+                Auto mostrarAutoPorId(@PathVariable Long id)
+        POST:   String crearAuto(@RequestBody Auto autoNuevo)
+        PUT:    String editarAutoPorId(@PathVariable Long id, @RequestBody Auto autoModificado)
+        DELETE: String borrarAutoPorId(@PathVariable Long id)
+- (2) Query Methods: se agregan 7
+        findByMarca
+        findByModelo
+        findByColor
+        findByPatente
+        countByMarca
+        findByPrecioBetween
+        existsByPatente
+- ---------------
+- << Realizado >>
+===========
+
+===========
+## Req. #3: 
+-----------
+- (1) Implementar una regla de negocio en la entidad Auto.
+- [ Detalle ]
+- Se implementan tres reglas de negocio:
+    Validar longitud de  "nroChasis" (17 caracteres)
+    Validar longitud de "nroMotor" (17 caracteres)
+    Validar longitud y forma de "patente" (8 caracteres de la forma "XXNNNXXX" donde X=letra y N=número)
+- ---------------
+- << Realizado >>
+===========
+
+===========
+## Req. #4: 
+-----------
+- (1) Agregar la clase RequestAutoDTO que permita validar que el campo marca no esté vacio.
+- [ Detalle ]
+- 
+- ---------------
+- << Pendiente >>
+===========
+
+===========
+## Req. #5: 
+-----------
+- (1) En la capa de servicio agregar una regla de negocio que permita manejar uno de los method query implementados en la capa de repositorio.
+- [ Detalle ]
+- 
+- ---------------
+- << Pendiente >>
+===========
+
+===========
+## Req. #6: 
+-----------
+- (1) Crear APIs REST y consumirlas desde Postman (simula el frontend)
+- [ Detalle ]
+- 
+- ---------------
+- << Pendiente >>
+===========
+
+===========
+## Req. #7: 
+-----------
+- (1) Integrar una base de datos MySQL con Spring Boot (base proyecto_auto).
+- [ Detalle ]
+- Base creada y se adjuntan consultas para insertar 16 registros en archivo "src\main\resources\docs\DML.sql"
+- ---------------
+- << Realizado >>
+===========
+
+===========
+## Req. #8: 
+-----------
+- (1) Exportar colección .json desde la versión online de Postman.
+- [ Detalle ]
+- 
+- ---------------
+- << Pendiente >>
+===========

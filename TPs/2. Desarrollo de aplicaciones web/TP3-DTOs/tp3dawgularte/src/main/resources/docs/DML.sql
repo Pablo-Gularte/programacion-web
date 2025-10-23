@@ -1,16 +1,18 @@
-use bd_ptn3_daw;
-INSERT INTO autos (marca, precio) VALUES ('Toyota', 28500.00);
-INSERT INTO autos (marca, precio) VALUES ('Ford', 35000.50);
-INSERT INTO autos (marca, precio) VALUES ('Chevrolet', 22990.00);
-INSERT INTO autos (marca, precio) VALUES ('Volkswagen', 19500.00);
-INSERT INTO autos (marca, precio) VALUES ('Renault', 15800.00);
-INSERT INTO autos (marca, precio) VALUES ('Honda', 31200.00);
-INSERT INTO autos (marca, precio) VALUES ('Nissan', 26750.00);
-INSERT INTO autos (marca, precio) VALUES ('BMW', 58900.00);
-INSERT INTO autos (marca, precio) VALUES ('Mercedes-Benz', 65000.00);
-INSERT INTO autos (marca, precio) VALUES ('Audi', 49950.00);
-INSERT INTO autos (marca, precio) VALUES ('Toyota', 32100.00);
-INSERT INTO autos (marca, precio) VALUES ('Ford', 18500.00);
-INSERT INTO autos (marca, precio) VALUES ('Chevrolet', 41500.00);
-INSERT INTO autos (marca, precio) VALUES ('Volkswagen', 23700.00);
-INSERT INTO autos (marca, precio) VALUES ('Fiat', 14999.99);
+use proyecto_auto;
+INSERT INTO autos (id, marca, precio, modelo, color, patente, nro_chasis, nro_motor) VALUES 
+(1, 'Toyota', 32500, 'Corolla', 'Gris', 'AB452CDE', '3JBKLM1V5F7GH4X90', '3JBKLM1V5F7GH4X91'),
+(2, 'Ford', 45800.5, 'Ranger', 'Azul', 'CC105FGH', '1FABP22H0J8Y4Z678', '1FABP22H0J8Y4Z679'),
+(3, 'Chevrolet', 25990, 'Cruze', 'Rojo', 'DA881JKL', '3GCF75T47D5B9R2S3', '3GCF75T47D5B9R2S4'),
+(4, 'Volkswagen', 19500, 'Polo', 'Blanco', 'EH320MNO', 'WVWZZZ3CZK1A4B6C8', 'WVWZZZ3CZK1A4B6C9'),
+(5, 'Renault', 14800, 'Kwid', 'Negro', 'FG607PQR', 'VF1RJA0007L9T5U3V', 'VF1RJA0007L9T5U3W'),
+(6, 'Honda', 35200, 'Civic', 'Plateado', 'HI993STU', 'JHMFC5F1XH6A7B8C9', 'JHMFC5F1XH6A7B8D0'),
+(7, 'Nissan', 38750, 'Frontier', 'Marrón', 'IJ112VWX', '5N1AL1N39MC8D2E4F', '5N1AL1N39MC8D2E4G'),
+(8, 'BMW', 68900, 'X3', 'Negro', 'KL548YZA', 'WBAXH9108K0L1M2N3', 'WBAXH9108K0L1M2N4'),
+(9, 'Mercedes-Benz', 75000, 'Clase C', 'Gris', 'MN004BCD', 'WDDHF5GB1P0Q7R8S9', 'WDDHF5GB1P0Q7R8S0'),
+(10, 'Audi', 55950, 'A4', 'Azul', 'OP237EFG', 'WAUZZZ8W7NA9B1C3D', 'WAUZZZ8W7NA9B1C3E'),
+(11, 'Toyota', 24100, 'Yaris', 'Blanco', 'QR770HIJ', '3JBKLM1V5G7GH4X92', '3JBKLM1V5G7GH4X93'),
+(12, 'Ford', 21500, 'Focus', 'Rojo', 'ST416KLM', '1FABP22H0K8Y4Z678', '1FABP22H0K8Y4Z679'),
+(13, 'Chevrolet', 39500, 'Tracker', 'Verde', 'UV902NOP', '3GCF75T47E5B9R2S3', '3GCF75T47E5B9R2S4'),
+(14, 'Volkswagen', 28700, 'T-Cross', 'Gris', 'WX135PQR', 'WVWZZZ3CZL1A4B6C8', 'WVWZZZ3CZL1A4B6C9'),
+(15, 'Fiat', 18999.99, 'Cronos', 'Plata', 'YZ654STU', 'ZFA3680000W4X5Y6Z', 'ZFA3680000W4X5Y6A'),
+(16, 'Volkswagen', 2000, 'Amarok', 'gris', 'BB123BBC', '1234567890asdfghj', 'qwertyuiop1234567');

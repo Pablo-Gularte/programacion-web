@@ -1,13 +1,14 @@
 // rutas de endpoints
 const url = "http://localhost";
-const puerto = "8080";
+const puerto = "9090";
 const baseUrl = `${url}:${puerto}`;
 const epGuardarAutos = `${baseUrl}/auto/crear`;
 const epListarAutos = `${baseUrl}/autos/listar`;
 const epListarAutoId = `${baseUrl}/auto/listar/`;
-const epModificarAuto = `${baseUrl}/auto/modificar/`;
+const epModificarAuto = `${baseUrl}/auto/editar/`;
 const epBorrarAuto = `${baseUrl}/auto/borrar/`;
 
+// Obtengo los elementos DOM de formulario de alta y bloque de resultados
 const formulario = document.getElementById("form-alta-datos");
 const resultadoFormulario = document.getElementById("resultado-formulario");
 
@@ -72,6 +73,72 @@ function modificarRegistro(id) {
             // Cargo los valores de la entidad recuperada del servidor en los campos de formularo para editar
             document.getElementById("marcaModifica").value = datos.marca;
             document.getElementById("modeloModifica").value = datos.modelo;
+            document.getElementById("precioModifica").value = datos.precio;
+            document.getElementById("patenteModifica").value = datos.patente;
+            document.getElementById("chasisModifica").value = datos.nroChasis;
+            document.getElementById("motorModifica").value = datos.nroMotor;
+            // Selecciono el color en el combo de opciones
+            Array.from(document.getElementById("colorModifica").children).forEach(op => {
+                if(op.value === datos.color.toLowerCase()) {
+                    op.setAttribute("selected", true);
+                }
+            });
+
+            // Agrego evento de submit a botón de formulario de modificación de datos
+            const formModificacion = document.getElementById("form-modifica-datos");
+            const resultadoformModificacion = document.getElementById("resultado-form-modifica");
+            formModificacion.addEventListener("submit", async evento => {
+                evento.preventDefault();
+                // Valores de campos de formulario a variables para crear atributos de entidad
+                const marca = document.getElementById("marcaModifica").value;
+                const modelo = document.getElementById("modeloModifica").value;
+                const color = document.getElementById("colorModifica").value;
+                const precio = parseFloat(document.getElementById("precioModifica").value);
+                const patente = document.getElementById("patenteModifica").value;
+                const nroChasis = document.getElementById("chasisModifica").value;
+                const nroMotor = document.getElementById("motorModifica").value;
+
+                // Genero el objeto entidad con los datos de los campor del formulario
+                const entidad = {
+                    marca,
+                    modelo,
+                    color,
+                    precio,
+                    patente,
+                    nroChasis,
+                    nroMotor
+                };
+
+                console.log(entidad);
+                console.log(JSON.stringify(entidad));
+
+                // Envío los datos de formulario a endPoint POST
+                const respuesta = await fetch(epModificarAuto + id, {
+                    method: "PUT",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(entidad)
+                });
+
+                // Mensaje de retorno del servidor
+                // Si no hubo errores, el mensaje desaparece a los 5 segundos
+                // Si hubo errores, el mensaje desaparece luego de un minuto
+                const tiempoMensajeOk = 5 * 1000;
+                const tiempoMensajeErr = 60 * 1000;
+                resultadoformModificacion.innerHTML += "<strong>Atención</strong> " + await respuesta.text();
+                resultadoformModificacion.style.display = "block";
+                // Limpio los campos del formulario
+                formModificacion.reset();
+                document.getElementById("colorModifica").children[0].selected = true;
+                // Espero el intervalo definido según éxito o error y oculto en mensaje
+                setTimeout(() => {
+                    document.getElementById("resultado-form-modifica").textContent = "";
+                    document.getElementById("resultado-form-modifica").style.display = "none";
+                    document.querySelector("#modal-formulario-edicion > div > div > div.modal-footer.bg-secondary-subtle > button").click();
+                }, respuesta.ok ? tiempoMensajeOk : tiempoMensajeErr);
+
+                // Cierro el Modal desencadenando el evento de cierre del botón
+                mostrarTabla();
+            });
         });
 }
 
