@@ -31,6 +31,6 @@ public interface IAutoRepository extends JpaRepository<Auto, Long> {
     // Buscar autos por precio entre dos valores
     List<Auto> findByPrecioBetween(double precioMinimo, double precioMaximo);
 
-    // Verificar si existe unapatente dada
+    // Verificar si existe una patente dada
     boolean existsByPatente(String patente);
 }

@@ -60,8 +60,11 @@ public class Auto {
     }
 
     /**
+     * REGLA DE NOGOCIO: La patente debe contener exactamente 8 caracteres y debe respetar
+     * el formato "XXNNNXXX" donde "X" se corresponde con una letra mayúscula entre A y Z y "N"
+     * se corresponde con un número entre 0 y 9
      * 
-     * @param patente
+     * @param patente el el valor de patente ingresado que será validado
      */
     public void setPatente(String patente) {
         // Se aplica patrón de la expresión regular para validar formato
