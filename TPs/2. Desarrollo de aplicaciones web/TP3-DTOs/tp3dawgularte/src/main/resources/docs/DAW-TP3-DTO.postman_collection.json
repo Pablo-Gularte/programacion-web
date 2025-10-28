@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "01e629d9-2f87-4574-90da-c775ababf5bf",
+		"name": "DAW-TP3-DTO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "Listar todos los autos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/autos/listar",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"autos",
+						"listar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar auto por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/auto/listar/16",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auto",
+						"listar",
+						"16"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear auto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\": \"Volkswagen\",\r\n    \"modelo\": \"Amarok\",\r\n    \"color\": \"gris\",\r\n    \"precio\": 2000,\r\n    \"patente\": \"BB123BBC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auto/crear/",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auto",
+						"crear",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Editar auto por ID",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\": \"Volkswagen\",\r\n    \"modelo\": \"Suran\",\r\n    \"precio\": 12000.0,\r\n    \"color\": \"gris\",\r\n    \"patente\": \"WX135PQR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auto/editar/15",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auto",
+						"editar",
+						"15"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Borrar auto por ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"marca\": \"Siam\",\r\n    \"precio\": 72300.00\r\n}"
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auto/borrar/170",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auto",
+						"borrar",
+						"170"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

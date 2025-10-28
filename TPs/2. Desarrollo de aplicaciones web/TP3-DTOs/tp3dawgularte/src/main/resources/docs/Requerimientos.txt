@@ -73,9 +73,11 @@
 -----------
 - (1) Agregar la clase RequestAutoDTO que permita validar que el campo marca no esté vacio.
 - [ Detalle ]
-- 
+- Se implementan los métodos
+        validarMarca(): para corroborar que la marca no esté vacía
+        validar(): para agrupar validaciones
 - ---------------
-- << Pendiente >>
+- << Realizado >>
 ===========
 
 ===========
@@ -83,19 +85,18 @@
 -----------
 - (1) En la capa de servicio agregar una regla de negocio que permita manejar uno de los method query implementados en la capa de repositorio.
 - [ Detalle ]
-- 
+- Se agrega método validarPatenteUnica()
+        Utiliza QUery Method findByPatente()
 - ---------------
-- << Pendiente >>
+- << Realizado >>
 ===========
 
 ===========
 ## Req. #6: 
 -----------
 - (1) Crear APIs REST y consumirlas desde Postman (simula el frontend)
-- [ Detalle ]
-- 
 - ---------------
-- << Pendiente >>
+- << Realizado >>
 ===========
 
 ===========
@@ -113,7 +114,7 @@
 -----------
 - (1) Exportar colección .json desde la versión online de Postman.
 - [ Detalle ]
-- 
+- Colección exportada en ruta "src\main\resources\docs\DAW-TP3-DTO.postman_collection.json"
 - ---------------
-- << Pendiente >>
+- << Realizado >>
 ===========

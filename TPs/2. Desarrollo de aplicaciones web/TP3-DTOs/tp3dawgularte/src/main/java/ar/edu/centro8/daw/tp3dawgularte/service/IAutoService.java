@@ -2,20 +2,21 @@ package ar.edu.centro8.daw.tp3dawgularte.service;
 
 import java.util.List;
 
-import ar.edu.centro8.daw.tp3dawgularte.model.Auto;
+import ar.edu.centro8.daw.tp3dawgularte.dto.AutoRequestDTO;
+import ar.edu.centro8.daw.tp3dawgularte.dto.AutoResponsetDTO;
 
 public interface IAutoService {
     // Listar todos los autos
-    public List<Auto> getAllAutos();
+    public List<AutoResponsetDTO> getAllAutos();
 
     // Listar un auto por ID
-    public Auto getAutoById(Long id);
+    public AutoResponsetDTO getAutoById(Long id);
 
     // Guardar un auto
-    public void saveAuto(Auto autoNuevo);
+    public AutoResponsetDTO saveAuto(AutoRequestDTO autoNuevo);
 
     // Modificar un auto vía ID
-    public void editAuto(Long id, Auto autoModificado);
+    public AutoResponsetDTO editAuto(Long id, AutoRequestDTO autoModificado);
 
     // Eliminar un auto vía ID
     public void deleteAuto(Long id);
