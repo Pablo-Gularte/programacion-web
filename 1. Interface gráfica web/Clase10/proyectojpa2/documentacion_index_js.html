@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - index.js</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 30px;
+        }
+        
+        h3 {
+            color: #2980b9;
+            margin-top: 25px;
+        }
+        
+        .descripcion-general {
+            background-color: #e8f4fd;
+            padding: 20px;
+            border-left: 5px solid #3498db;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        code {
+            background-color: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #d63384;
+        }
+        
+        pre {
+            background-color: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .funcion-box {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .parametros {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .caracteristicas {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .destacado {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #155724;
+        }
+        
+        .alerta {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #721c24;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .api-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .api-box {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .toc h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 5px;
+        }
+        
+        .toc a {
+            color: #3498db;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        
+        .toc a:hover {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .api-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            body {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Documentación Detallada del archivo index.js</h1>
+        
+        <div class="descripcion-general">
+            <h3>🔍 Descripción General</h3>
+            <p>Este archivo JavaScript implementa la lógica del frontend para una aplicación web de gestión de productos. Utiliza tanto <strong>Fetch API</strong> como <strong>Axios</strong> para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) contra una API REST de Spring Boot que se ejecuta en <code>http://localhost:8080</code>.</p>
+        </div>
+
+        <div class="toc">
+            <h3>📋 Índice de Contenidos</h3>
+            <ul>
+                <li><a href="#variables-globales">1. Variables Globales</a></li>
+                <li><a href="#event-listener">2. Event Listener del Botón Guardar</a></li>
+                <li><a href="#eliminar-producto">3. Función Eliminar Producto</a></li>
+                <li><a href="#modificar-producto">4. Función Modificar Producto</a></li>
+                <li><a href="#crear-producto">5. Función Crear Producto</a></li>
+                <li><a href="#obtener-productos">6. Función Obtener Productos</a></li>
+                <li><a href="#reset-modal">7. Función Reset Modal</a></li>
+                <li><a href="#gestion-modal">8. Gestión del Modal</a></li>
+                <li><a href="#inicializacion">9. Inicialización</a></li>
+                <li><a href="#caracteristicas">10. Características Técnicas</a></li>
+            </ul>
+        </div>
+
+        <section id="variables-globales">
+            <h2>1. Variables Globales (Líneas 1-8)</h2>
+            <div class="funcion-box">
+                <pre><code>const tablaProductosHTML = document.getElementById('tablaProductos')
+const nombre =  document.getElementById('nombre')
+const precio =  document.getElementById('precio')
+const cantidad =  document.getElementById('cantidad')
+const btnGuardar =  document.getElementById('btnGuardar')
+let tituloModal = document.getElementById('tituloModal')
+let idProductoModificar = 0</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Obtienen referencias a elementos HTML del DOM para poder manipularlos:</p>
+                    <ul>
+                        <li><code>tablaProductosHTML</code>: Elemento donde se renderiza la tabla de productos</li>
+                        <li><code>nombre, precio, cantidad</code>: Campos del formulario de producto</li>
+                        <li><code>btnGuardar</code>: Botón para guardar (crear/modificar) productos</li>
+                        <li><code>tituloModal</code>: Elemento que cambia entre "Crear Producto" y "Modificar Producto"</li>
+                        <li><code>idProductoModificar</code>: Variable que almacena el ID del producto cuando se está modificando</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="event-listener">
+            <h2>2. Event Listener del Botón Guardar (Líneas 10-18)</h2>
+            <div class="funcion-box">
+                <pre><code>btnGuardar.addEventListener('click',()=>{
+    if(tituloModal.innerText === "Modificar Producto"){
+        crearProducto(idProductoModificar)
+    }
+    else if(tituloModal.innerText === "Crear Producto"){
+        crearProducto(0)
+    }
+})</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Determina si se está creando un nuevo producto o modificando uno existente:</p>
+                    <ul>
+                        <li>Si el título es "Modificar Producto": llama a <code>crearProducto()</code> con el ID del producto a modificar</li>
+                        <li>Si el título es "Crear Producto": llama a <code>crearProducto()</code> con ID = 0 (nuevo producto)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="eliminar-producto">
+            <h2>3. Función Eliminar Producto (Líneas 20-42)</h2>
+            <div class="funcion-box">
+                <pre><code>async function eliminarProducto(id){
+    await axios.delete('http://localhost:8080/api/producto/delete/' + id, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+      .then((res)=>{
+        console.log(res);
+        alert("Producto eliminado")
+        obtenerProductos()
+      })
+      .catch((err)=>{
+        console.log(err);
+        alert("Error en la eliminacion del producto")
+      })
+}</code></pre>
+                
+                <div class="parametros">
+                    <h4>📥 Parámetros:</h4>
+                    <ul>
+                        <li><code>id</code>: ID del producto a eliminar</li>
+                    </ul>
+                </div>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <ul>
+                        <li><strong>Método HTTP:</strong> DELETE usando Axios</li>
+                        <li><strong>URL:</strong> <code>http://localhost:8080/api/producto/delete/{id}</code></li>
+                        <li><strong>Éxito:</strong> Muestra alerta de confirmación y recarga la lista de productos</li>
+                        <li><strong>Error:</strong> Muestra alerta de error</li>
+                    </ul>
+                </div>
+                
+                <div class="alerta">
+                    <strong>📝 Nota:</strong> Incluye código comentado que usa Fetch API como alternativa.
+                </div>
+            </div>
+        </section>
+
+        <section id="modificar-producto">
+            <h2>4. Función Modificar Producto (Líneas 45-63)</h2>
+            <div class="funcion-box">
+                <pre><code>function modificarProducto(id){
+    tituloModal.innerText = "Modificar Producto"
+    modal.style.display = "block";
+    
+    idProductoModificar = id
+    
+    resetModal()
+
+    let producto = listaProductos.filter(producto => producto.idproducto === id)
+    
+    console.log(producto[0]);
+    
+    nombre.value = producto[0].nombreproducto
+    precio.value = producto[0].precioproducto
+    cantidad.value = producto[0].cantidadproducto
+}</code></pre>
+                
+                <div class="parametros">
+                    <h4>📥 Parámetros:</h4>
+                    <ul>
+                        <li><code>id</code>: ID del producto a modificar</li>
+                    </ul>
+                </div>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Prepara el modal para modificar un producto existente:</p>
+                    <ol>
+                        <li>Cambia el título del modal a "Modificar Producto"</li>
+                        <li>Muestra el modal</li>
+                        <li>Guarda el ID del producto en <code>idProductoModificar</code></li>
+                        <li>Limpia los campos del formulario</li>
+                        <li>Busca el producto en <code>listaProductos</code> usando <code>filter()</code></li>
+                        <li>Rellena los campos del formulario con los datos del producto encontrado</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="crear-producto">
+            <h2>5. Función Crear Producto (Líneas 66-101)</h2>
+            <div class="funcion-box">
+                <pre><code>async function crearProducto(id){
+    let productoGuardar = {
+        idproducto:id,
+        nombreproducto:nombre.value,
+        precioproducto:parseInt(precio.value),
+        cantidadproducto:parseInt(cantidad.value),
+    }
+    
+    await fetch('http://localhost:8080/api/producto/new',{
+        method: 'POST',
+        mode: 'cors', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(productoGuardar) 
+      })
+      .then((producto)=>{
+        console.log(producto);
+        alert("Producto guardado")
+        modal.style.display = "none";
+        obtenerProductos()
+        resetModal()
+      })
+      .catch((err)=>{
+        console.log(err);
+        alert("Error en el alta del producto")
+      })
+}</code></pre>
+                
+                <div class="parametros">
+                    <h4>📥 Parámetros:</h4>
+                    <ul>
+                        <li><code>id</code>: ID del producto (0 para nuevo, >0 para modificar)</li>
+                    </ul>
+                </div>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Crea o actualiza un producto en el servidor:</p>
+                    <ol>
+                        <li><strong>Construcción del objeto:</strong> Crea un objeto con los datos del formulario</li>
+                        <li><strong>Conversión de tipos:</strong> Usa <code>parseInt()</code> para precio y cantidad</li>
+                        <li><strong>Petición HTTP:</strong> POST usando Fetch API a <code>/api/producto/new</code></li>
+                        <li><strong>Headers:</strong> Especifica <code>Content-Type: application/json</code></li>
+                        <li><strong>Body:</strong> Convierte el objeto a JSON con <code>JSON.stringify()</code></li>
+                        <li><strong>Éxito:</strong> Cierra modal, recarga productos, resetea formulario</li>
+                        <li><strong>Error:</strong> Muestra alerta de error</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="obtener-productos">
+            <h2>6. Función Obtener Productos (Líneas 109-136)</h2>
+            <div class="funcion-box">
+                <pre><code>let listaProductos = []
+async function obtenerProductos(){
+    tablaProductosHTML.innerHTML = ''
+    await fetch('http://localhost:8080/api/producto')
+        .then(response =>  response.json())
+        .then(productos => {
+            console.log(productos)
+            listaProductos = productos
+            for(let producto of productos){
+                tablaProductosHTML.innerHTML +=
+                '<tr>'+
+                '    <th scope="row">'+producto.idproducto+'</th>'+
+                '    <td>'+producto.nombreproducto+'</td>'+
+                '    <td>'+producto.precioproducto+'</td>'+
+                '    <td>'+producto.cantidadproducto+'</td>'+
+                '    <td>'+
+                '        <input type="button" class="btn btn-outline-danger" value="Eliminar" onclick=eliminarProducto('+producto.idproducto+')>'+
+                '        <input type="button" class="btn btn-outline-success" value="Modificar" onclick=modificarProducto('+producto.idproducto+')>'+
+                '    </td>'+
+                '</tr>'
+            }
+        })
+}</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Obtiene y renderiza la lista de productos:</p>
+                    <ol>
+                        <li><strong>Limpia la tabla:</strong> <code>innerHTML = ''</code></li>
+                        <li><strong>Petición GET:</strong> Fetch a <code>/api/producto</code></li>
+                        <li><strong>Procesa respuesta:</strong> Convierte a JSON</li>
+                        <li><strong>Almacena datos:</strong> Guarda en <code>listaProductos</code></li>
+                        <li><strong>Renderiza tabla:</strong> Construye HTML dinámicamente con:
+                            <ul>
+                                <li>Datos del producto en cada fila</li>
+                                <li>Botones de "Eliminar" y "Modificar" con eventos onclick</li>
+                                <li>Clases de Bootstrap para estilos</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section id="reset-modal">
+            <h2>7. Función Reset Modal (Líneas 142-146)</h2>
+            <div class="funcion-box">
+                <pre><code>function resetModal(){
+    nombre.value = ""
+    cantidad.value = ""
+    precio.value = ""
+}</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Limpia todos los campos del formulario del modal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="gestion-modal">
+            <h2>8. Gestión del Modal (Líneas 149-178)</h2>
+            <div class="funcion-box">
+                <pre><code>var modal = document.getElementById("myModal");
+var btn = document.getElementById("myBtn");
+var span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function() {
+    tituloModal.innerText = "Crear Producto"
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+  modal.style.display = "none";
+  resetModal()
+}
+
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+    resetModal()
+  }
+}</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Controla la apertura y cierre del modal:</p>
+                    <ul>
+                        <li><strong>Abrir modal:</strong> Botón "myBtn" abre modal para crear producto</li>
+                        <li><strong>Cerrar modal:</strong> Icono de cierre o click fuera del modal lo cierra</li>
+                        <li><strong>Limpieza:</strong> Siempre resetea el formulario al cerrar</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="inicializacion">
+            <h2>9. Inicialización</h2>
+            <div class="funcion-box">
+                <pre><code>obtenerProductos() // Línea 137</code></pre>
+                
+                <div class="destacado">
+                    <h4>🎯 Función:</h4>
+                    <p>Carga automáticamente la lista de productos al cargar la página.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="caracteristicas">
+            <h2>10. Características Técnicas</h2>
+            
+            <div class="api-info">
+                <div class="api-box">
+                    <h3>🌐 APIs Utilizadas</h3>
+                    <ul>
+                        <li><strong>Fetch API:</strong> Para crear productos y obtener la lista</li>
+                        <li><strong>Axios:</strong> Para eliminar productos</li>
+                    </ul>
+                </div>
+                
+                <div class="api-box">
+                    <h3>🏗️ Patrones de Diseño</h3>
+                    <ul>
+                        <li><strong>Event-driven:</strong> Usa event listeners y handlers</li>
+                        <li><strong>Async/Await:</strong> Para operaciones asíncronas</li>
+                        <li><strong>DOM Manipulation:</strong> Manipulación directa del HTML</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="caracteristicas">
+                <h3>⚡ Manejo de Errores</h3>
+                <ul>
+                    <li>Try-catch con <code>.catch()</code> para todas las peticiones HTTP</li>
+                    <li>Alertas informativas para el usuario</li>
+                </ul>
+            </div>
+            
+            <div class="caracteristicas">
+                <h3>🔄 Funcionalidades CRUD</h3>
+                <ul>
+                    <li><strong>Create:</strong> <code>crearProducto()</code> con POST</li>
+                    <li><strong>Read:</strong> <code>obtenerProductos()</code> con GET</li>
+                    <li><strong>Update:</strong> Reutiliza <code>crearProducto()</code> con ID existente</li>
+                    <li><strong>Delete:</strong> <code>eliminarProducto()</code> con DELETE</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="destacado" style="margin-top: 30px;">
+            <h3>🎯 Resumen Final</h3>
+            <p>Este archivo implementa una interfaz completa de gestión de productos con operaciones CRUD, utilizando tanto Fetch como Axios para demostrar diferentes enfoques de consumo de APIs REST. La aplicación proporciona una experiencia de usuario fluida con modales dinámicos, validación de errores y actualización automática de la interfaz.</p>
+        </div>
+    </div>
+</body>
+</html>

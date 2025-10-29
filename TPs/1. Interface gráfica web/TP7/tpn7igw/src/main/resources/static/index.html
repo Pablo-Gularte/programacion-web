@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Práctico Nro. 7 Gestión de Apis mediante Axios</title>
+
+    <!-- Estilos Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Íconos Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/mis-estilos.css">
+</head>
+
+<body class="fondo-cambiante">
+    <header class="border-bottom border-5 border-danger rounded-bottom p-3 mx-1"
+        style="background-color: rgb(182, 176, 176);">
+        <!-- Encabezado principal -->
+        <h1 class="text-center">Trabajo Práctico Nro. 7 Gestión de Apis mediante Axios</h1>
+    </header>
+    <main class="container">
+        <!-- Caja de secciones de formulario y de tabla de datos -->
+        <div class="row">
+            <!-- Formulario de alta de datos -->
+            <section class="col-3 align-self-start">
+                <h2 class="text-center p-3">Crear nuevo auto</h2>
+                <div id="form-alta" class="bg-warning p-3 rounded-5 border border-2 border-secondary shadow-lg">
+                    <form id="form-auto">
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca del auto</label>
+                            <input type="text" class="form-control" id="marca" name="marca"
+                                placeholder="Ingrese una marca..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio: </label>
+                            <input type="number" class="form-control" id="precio" name="precio" min="0" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark"
+                            title="Click para guardar los datos cargados">Guardar auto</button>
+                    </form>
+                </div>
+                <div>
+                    <div id="resultado-form" class="alert alert-info alert-dismissible fade show mt-3 p-2"
+                        style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- Tabla de datos cargados -->
+            <section id="tabla-datos" class="col-9 p-3">
+                <h3 class="text-center">Listado completo de datos guardados</h3>
+                <table id="tabla-autos" class="table table-bordered table-hover table-dark">
+                    <thead>
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Marca</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-secondary"></tbody>
+                    <tfoot></tfoot>
+                </table>
+            </section>
+
+            <!-- Modal de modificación de datos -->
+            <div class="modal" id="modal-modif-datos">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">Modificar datos</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <form id="form-modif-datos">
+                                <div class="mb-3 mt-3">
+                                    <label for="marca-modif" class="form-label">Marca:</label>
+                                    <input type="marca-modif" class="form-control" id="marca-modif" name="marca-modif" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="precio-modif" class="form-label">Precio:</label>
+                                    <input type="number" class="form-control" id="precio-modif" min="0" name="precio-modif" required>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div id="resultado-form-modif" class="alert alert-success" style="display: none;">
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pié de página -->
+    <footer class="container border border-1 border-dark rounded-5 p-3 my-3 bg-light shadow-lg">
+        <h6>
+            Este es el trabajo práctico N° 6 del curso <strong>Interface Gráfica Web</strong>
+            que forma parte del
+            <strong>Trayecto "Especialización Profesional en Programación Web"</strong>
+            del Centro de Formación Profesional N°8: SMATA (<a href="https://centro8smata.org.ar/" target="_blank"
+                title="Click para abrir la página en una nueva pestaña">CFP8</a>)
+        </h6>
+    </footer>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <!-- Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- Scripts personalizados -->
+    <script src="js/rutinas.js">
+    </script>
+</body>
+
+</html>
