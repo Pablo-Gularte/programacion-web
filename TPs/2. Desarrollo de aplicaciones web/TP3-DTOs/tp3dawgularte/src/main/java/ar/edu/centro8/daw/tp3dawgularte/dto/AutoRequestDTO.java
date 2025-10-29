@@ -18,6 +18,10 @@ public class AutoRequestDTO {
     private String color;
     private String patente;
 
+    /**
+     * REGLA DE NEGOCIO EN DTO:
+     * Validar que la marca no esté vacía
+     */
     public void validarMarca() {
         if (marca == null || marca.trim().isEmpty()) {
             throw new IllegalArgumentException("La marca no puede estar vacía");
@@ -25,6 +29,9 @@ public class AutoRequestDTO {
         this.marca = marca.trim();
     }
 
+    /**
+     * Validación completa de DTO
+     */
     public void validar() {
         validarMarca();
     }
