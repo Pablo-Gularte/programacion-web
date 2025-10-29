@@ -17,4 +17,6 @@ public class AutoResponsetDTO {
     private double precio;
     private String color;
     private String patente;
+    private String nroChasis;
+    private String nroMotor;
 }

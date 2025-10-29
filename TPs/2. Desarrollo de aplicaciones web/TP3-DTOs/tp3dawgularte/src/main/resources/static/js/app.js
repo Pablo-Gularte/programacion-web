@@ -2,8 +2,8 @@
 const url = "http://localhost";
 const puerto = "9090";
 const baseUrl = `${url}:${puerto}`;
-const epGuardarAutos = `${baseUrl}/auto/crear`;
-const epListarAutos = `${baseUrl}/autos/listar`;
+const epGuardarAutos = `${baseUrl}/auto/crear/`;
+const epListarAutos = `${baseUrl}/autos/listar/`;
 const epListarAutoId = `${baseUrl}/auto/listar/`;
 const epModificarAuto = `${baseUrl}/auto/editar/`;
 const epBorrarAuto = `${baseUrl}/auto/borrar/`;
@@ -76,7 +76,10 @@ function modificarRegistro(id) {
             document.getElementById("precioModifica").value = datos.precio;
             document.getElementById("patenteModifica").value = datos.patente;
             document.getElementById("chasisModifica").value = datos.nroChasis;
+            document.getElementById("chasisModifica").setAttribute("disabled", true);
             document.getElementById("motorModifica").value = datos.nroMotor;
+            document.getElementById("motorModifica").setAttribute("disabled", true);
+            
             // Selecciono el color en el combo de opciones
             Array.from(document.getElementById("colorModifica").children).forEach(op => {
                 if(op.value === datos.color.toLowerCase()) {

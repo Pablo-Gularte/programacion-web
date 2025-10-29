@@ -78,6 +78,10 @@ public class AutoService implements IAutoService {
 
     @Override
     public void deleteAuto(Long id) {
+        Optional<Auto> autoExistente = autoRepo.findById(id);
+        if(!autoExistente.isPresent()) {
+            throw new IllegalArgumentException("No se encontró ningún auto con id = " + id);
+        }
         autoRepo.deleteById(id);
     }
 

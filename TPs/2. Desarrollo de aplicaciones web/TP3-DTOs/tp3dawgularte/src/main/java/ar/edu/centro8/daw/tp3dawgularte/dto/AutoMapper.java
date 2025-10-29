@@ -21,7 +21,9 @@ public class AutoMapper {
             auto.getModelo(),
             auto.getPrecio(),
             auto.getColor(),
-            auto.getPatente()
+            auto.getPatente(),
+            auto.getNroChasis(),
+            auto.getNroMotor()
             );
     }
 
