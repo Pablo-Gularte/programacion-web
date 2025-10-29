@@ -1,8 +1,8 @@
-package ar.edu.centro8.daw.tpn2.services;
+package ar.edu.centro8.daw.tpn7igw.services;
 
 import java.util.List;
 
-import ar.edu.centro8.daw.tpn2.models.Auto;
+import ar.edu.centro8.daw.tpn7igw.models.Auto;
 
 public interface IAutoService {
     public List<Auto> getAutos();

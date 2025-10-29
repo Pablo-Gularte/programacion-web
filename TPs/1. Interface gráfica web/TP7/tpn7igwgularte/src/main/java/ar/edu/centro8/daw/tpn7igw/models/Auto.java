@@ -1,4 +1,4 @@
-package ar.edu.centro8.daw.tpn2.models;
+package ar.edu.centro8.daw.tpn7igw.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

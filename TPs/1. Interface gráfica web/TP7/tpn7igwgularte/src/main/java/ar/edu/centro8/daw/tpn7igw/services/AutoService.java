@@ -1,12 +1,12 @@
-package ar.edu.centro8.daw.tpn2.services;
+package ar.edu.centro8.daw.tpn7igw.services;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.edu.centro8.daw.tpn2.models.Auto;
-import ar.edu.centro8.daw.tpn2.repository.IAutoRepository;
+import ar.edu.centro8.daw.tpn7igw.models.Auto;
+import ar.edu.centro8.daw.tpn7igw.repository.IAutoRepository;
 
 @Service
 public class AutoService implements IAutoService {

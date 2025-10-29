@@ -1,4 +1,4 @@
-package ar.edu.centro8.daw.tpn2.controllers;
+package ar.edu.centro8.daw.tpn7igw.controllers;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.centro8.daw.tpn2.models.Auto;
-import ar.edu.centro8.daw.tpn2.services.IAutoService;
+import ar.edu.centro8.daw.tpn7igw.models.Auto;
+import ar.edu.centro8.daw.tpn7igw.services.IAutoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

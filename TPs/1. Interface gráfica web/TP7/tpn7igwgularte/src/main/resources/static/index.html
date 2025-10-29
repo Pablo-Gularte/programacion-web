@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Practico Nro. 6 Gestión de Apis mediante Javascript</title>
+
+    <!-- Estilos Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Íconos Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="mis-estilos.css">
+</head>
+
+<body class="fondo-cambiante">
+    <header class="border-bottom border-5 border-danger rounded-bottom p-3 mx-1" style="background-color: rgb(182, 176, 176);">
+        <!-- Encabezado principal -->
+        <h1 class="text-center">Trabajo Practico Nro. 6 Gestión de Apis mediante Javascript</h1>
+    </header>
+    <main class="container">
+        <!-- Caja de secciones de formulario y de tabla de datos -->
+        <div class="row">
+            <!-- Formulario de alta de datos -->
+            <section class="col-3 align-self-start">
+                <h2 class="text-center p-3">Crear nuevo auto</h2>
+                <div id="form-alta" class="bg-warning p-3 rounded-5 border border-2 border-secondary shadow-lg">
+                    <form id="form-auto">
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca del auto</label>
+                            <input type="text" class="form-control" id="marca" name="marca"
+                                placeholder="Ingrese una marca..." required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio: </label>
+                            <input type="number" class="form-control" id="precio" name="precio" min="0" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-dark" title="Click para guardar los datos cargados">Guardar auto</button>
+                    </form>
+                </div>
+                <div>
+                    <div id="resultado-form" class="alert alert-info alert-dismissible fade show mt-3 p-2" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- Tabla de datos cargados -->
+            <section id="tabla-datos" class="col-9 p-3">
+                <h3 class="text-center">Listado completo de datos guardados</h3>
+                <table id="tabla-autos" class="table table-bordered table-hover table-dark">
+                    <thead>
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Marca</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-secondary"></tbody>
+                    <tfoot></tfoot>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <!-- Pié de página -->
+    <footer class="container border border-1 border-dark rounded-5 p-3 my-3 bg-light shadow-lg">
+        <h6>
+            Este es el trabajo práctico N° 6 del curso <strong>Interface Gráfica Web</strong>
+            que forma parte del
+            <strong>Trayecto "Especialización Profesional en Programación Web"</strong>
+            del Centro de Formación Profesional N°8: SMATA (<a href="https://centro8smata.org.ar/" target="_blank"
+                title="Click para abrir la página en una nueva pestaña">CFP8</a>)
+        </h6>
+    </footer>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+
+    <!-- Scripts personalizados -->
+    <script>
+        // rutas de endpoints
+        const url = "http://localhost";
+        const puerto = "8080";
+        const baseUrl = `${url}:${puerto}`;
+        const epGuardarAutos = `${baseUrl}/autos`;
+        const epListarAutos = `${baseUrl}/autos`;
+        const epModificarAuto = `${baseUrl}/auto/`;
+        const epBorrarAuto = `${baseUrl}/auto/`;
+
+        const formulario = document.getElementById("form-auto");
+        const resultadoFormulario = document.getElementById("resultado-form");
+
+        // Agrego evento "submit" al formulario para enviar los valores del formulario
+        formulario.addEventListener("submit", async evento => {
+            evento.preventDefault();
+            const marca = document.getElementById("marca").value;
+            const precio = parseFloat(document.getElementById("precio").value);
+
+            // Envío los datos de formulario a endPoint POST
+            const respuesta = await fetch(epGuardarAutos, {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ marca, precio })
+            });
+
+            // muestro en pantalla el mensaje de retorno del servidor
+            // Si no hubo errores, el mensaje desaparece a los 5 segundos
+            // Si hubo errores, el mensaje desaparece luego de un minuto
+            const tiempoMensajeOk = 5 * 1000;
+            const tiempoMensajeErr = 60 * 1000;
+            resultadoFormulario.innerHTML = `<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            resultadoFormulario.innerHTML += "<strong>Atención</strong> " + await respuesta.text();
+            resultadoFormulario.style.display = "block";
+            document.getElementById("marca").value = "";
+            document.getElementById("precio").value = "";
+            setTimeout(() => {
+                document.getElementById("resultado-form").textContent = "";
+                document.getElementById("resultado-form").style.display = "none";
+            }, respuesta.ok ? tiempoMensajeOk : tiempoMensajeErr);
+
+            mostrarDatosTabla();
+        });
+
+        mostrarDatosTabla();
+
+        function modificarRegistro(id) {
+            alert("Agregar lógica para mostrar un modal con formulario de modificación de datos");
+        }
+
+        function borrarRegistro(id) {
+            const confirmaBorrar = confirm(`¿Desea eliminar el registro actual (id: ${id})?`);
+            if (confirmaBorrar) {
+                fetch(epBorrarAuto + id, {
+                    method: "DELETE",
+                })
+                .then(response => {
+                    console.log(response)
+                    document.getElementsByTagName("tbody")[0].innerHTML = "";
+                    console.log("borro el HTML interior de TBODY (id: " + id + ")");
+                    mostrarDatosTabla();
+                    console.log("muestro datos tabla")
+                })
+            }
+        }
+
+        // Recupero listado completo de datos vía GET
+        function mostrarDatosTabla() {
+            fetch(epListarAutos)
+                .then(response => response.json())
+                .then(datos => {
+                    let filasTablaHtml = "";
+                    for (let d of datos) {
+                        const precioFormateado = d.precio.toLocaleString("es-AR", { currency: "ARS", style: "currency" });
+
+                        // Defino botones de acciones
+                        const iconoBtnEditar = `<i class="bi bi-pencil-square"></i>`;
+                        const iconoBtnBorrar = `<i class="bi bi-trash3-fill"></i>`;
+                        const btnEditar = `<a class="btn btn-success" title="Click para editar este registro" onclick="modificarRegistro(${d.id})">${iconoBtnEditar}</a>`;
+                        const btnBorrar = `<a class="btn btn-danger" title="Click para borrar este registro" onclick="borrarRegistro(${d.id})">${iconoBtnBorrar}</a>`;
+
+                        // Valores para las celdas de la tabla
+                        const celdaId = `<td class="text-center">${d.id}</td>`;
+                        const celdaMarca = `<td>${d.marca}</td>`;
+                        const celdaPrecio = `<td class="text-end">${precioFormateado}</td>`;
+                        const celdaAcciones = `<td class="text-center">${btnEditar}&nbsp;${btnBorrar}</td>`;
+
+                        // Genero la fila de la tabla con las celdas definidas
+                        filasTablaHtml += `<tr>${celdaId}${celdaMarca}${celdaPrecio}${celdaAcciones}</tr>`;
+                    }
+                    // Inserto las filas recuperadas en el cuerpo de la tabla
+                    document.getElementsByTagName("tbody")[0].innerHTML = filasTablaHtml;
+                    document.getElementsByTagName("tfoot")[0].innerHTML = `<tr class="text-end"><td colspan="4">Se recuperaron <strong>${datos.length}</strong> registros</td></tr>`;
+                });
+        }
+    </script>
+</body>
+
+</html>
