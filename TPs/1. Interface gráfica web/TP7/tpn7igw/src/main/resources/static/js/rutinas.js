@@ -1,6 +1,6 @@
 // rutas de endpoints
 const url = "http://localhost";
-const puerto = "9090";
+const puerto = "8080";
 const baseUrl = `${url}:${puerto}`;
 const epGuardarAutos = `${baseUrl}/autos`;
 const epListarAutos = `${baseUrl}/autos`;
@@ -44,18 +44,17 @@ formulario.addEventListener("submit", async evento => {
 
 mostrarDatosTabla();
 
-function modificarRegistro(id) {
+async function modificarRegistro(id) {
     const formModif = document.getElementById("form-modif-datos");
     const resulFormModif = document.getElementById("resultado-form-modif");
-    let datosAModificar;
-    axios.get(epListarUnAuto + id).then(response => response.data);
+    const datosAModificar = await obtenerDatos(id);
     console.log(epListarUnAuto + id);
     console.log(datosAModificar);
 
     document.getElementById("marca-modif").value = datosAModificar.marca;
     document.getElementById("precio-modif").value = datosAModificar.precio;
 
-    formModif.addEventListener("submit", async evento => {
+    document.getElementById("btn-submit-modif").addEventListener("click", async evento => {
         evento.preventDefault();
         const marca = document.getElementById("marca-modif").value;
         const precio = parseFloat(document.getElementById("precio-modif").value);
@@ -69,14 +68,16 @@ function modificarRegistro(id) {
                 const tiempoMensajeOk = 5 * 1000;
                 const tiempoMensajeErr = 60 * 1000;
 
-                resulFormModif.textContent = respuesta;
-                respuesta.style.display = "block";
+                resulFormModif.textContent = JSON.stringify(respuesta);
+                resulFormModif.style.display = "block";
                 formModif.reset();
+                console.log(respuesta);
                 setTimeout(() => {
                     resulFormModif.textContent = "";
                     resulFormModif.style.display = "none";
                     document.querySelector("button.btn.btn-danger").click();
-                }, respuesta.toLowerCase().includes("error") ? tiempoMensajeErr : tiempoMensajeOk);
+                    mostrarDatosTabla();
+                },  typeof respuesta === "object" ? tiempoMensajeOk : tiempoMensajeErr);
             }
         );
     });
@@ -100,31 +101,36 @@ function borrarRegistro(id) {
 }
 
 // Recupero listado completo de datos vía GET
-function mostrarDatosTabla() {
-    axios.get(epListarAutos)
-        .then(response => {
-            const datos = response.data;
-            let filasTablaHtml = "";
-            for (let d of datos) {
-                const precioFormateado = d.precio.toLocaleString("es-AR", { currency: "ARS", style: "currency" });
+async function mostrarDatosTabla() {
+    const datos = await obtenerDatos();
+    console.log(datos);
+    let filasTablaHtml = "";
+    for (let d of datos) {
+        const precioFormateado = d.precio.toLocaleString("es-AR", { currency: "ARS", style: "currency" });
 
-                // Defino botones de acciones
-                const iconoBtnEditar = `<i class="bi bi-pencil-square"></i>`;
-                const iconoBtnBorrar = `<i class="bi bi-trash3-fill"></i>`;
-                const btnEditar = `<a class="btn btn-success" title="Click para editar este registro" onclick="modificarRegistro(${d.id})" data-bs-toggle="modal" data-bs-target="#modal-modif-datos">${iconoBtnEditar}</a>`;
-                const btnBorrar = `<a class="btn btn-danger" title="Click para borrar este registro" onclick="borrarRegistro(${d.id})">${iconoBtnBorrar}</a>`;
+        // Defino botones de acciones
+        const iconoBtnEditar = `<i class="bi bi-pencil-square"></i>`;
+        const iconoBtnBorrar = `<i class="bi bi-trash3-fill"></i>`;
+        const btnEditar = `<a class="btn btn-success" title="Click para editar este registro" onclick="modificarRegistro(${d.id})" data-bs-toggle="modal" data-bs-target="#modal-modif-datos">${iconoBtnEditar}</a>`;
+        const btnBorrar = `<a class="btn btn-danger" title="Click para borrar este registro" onclick="borrarRegistro(${d.id})">${iconoBtnBorrar}</a>`;
 
-                // Valores para las celdas de la tabla
-                const celdaId = `<td class="text-center">${d.id}</td>`;
-                const celdaMarca = `<td>${d.marca}</td>`;
-                const celdaPrecio = `<td class="text-end">${precioFormateado}</td>`;
-                const celdaAcciones = `<td class="text-center">${btnEditar}&nbsp;${btnBorrar}</td>`;
+        // Valores para las celdas de la tabla
+        const celdaId = `<td class="text-center">${d.id}</td>`;
+        const celdaMarca = `<td>${d.marca}</td>`;
+        const celdaPrecio = `<td class="text-end">${precioFormateado}</td>`;
+        const celdaAcciones = `<td class="text-center">${btnEditar}&nbsp;${btnBorrar}</td>`;
 
-                // Genero la fila de la tabla con las celdas definidas
-                filasTablaHtml += `<tr>${celdaId}${celdaMarca}${celdaPrecio}${celdaAcciones}</tr>`;
-            }
-            // Inserto las filas recuperadas en el cuerpo de la tabla
-            document.getElementsByTagName("tbody")[0].innerHTML = filasTablaHtml;
-            document.getElementsByTagName("tfoot")[0].innerHTML = `<tr class="text-end"><td colspan="4">Se recuperaron <strong>${datos.length}</strong> registros</td></tr>`;
-        });
+        // Genero la fila de la tabla con las celdas definidas
+        filasTablaHtml += `<tr>${celdaId}${celdaMarca}${celdaPrecio}${celdaAcciones}</tr>`;
+    }
+    // Inserto las filas recuperadas en el cuerpo de la tabla
+    document.getElementsByTagName("tbody")[0].innerHTML = filasTablaHtml;
+    document.getElementsByTagName("tfoot")[0].innerHTML = `<tr class="text-end"><td colspan="4">Se recuperaron <strong>${datos.length}</strong> registros</td></tr>`;
+}
+
+async function obtenerDatos(id) {
+    const url = id === undefined ? epListarAutos : epListarUnAuto + id;
+    return await axios.get(url)
+        .then(response => response.data)
+        .catch(error => error);
 }
