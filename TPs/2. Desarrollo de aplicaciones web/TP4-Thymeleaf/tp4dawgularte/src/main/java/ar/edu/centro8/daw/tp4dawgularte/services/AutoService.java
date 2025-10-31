@@ -55,6 +55,8 @@ public class AutoService implements IAutoService {
     @Override
     public AutoResponseDTO editAuto(Long id, AutoRequestDTO autoDto) {
         autoDto.validarDTO();
+        System.out.println("=== [ autoDto ] ===");
+        System.out.println(autoDto);
 
         Optional<Auto> autoExistente = autoRepo.findById(id);
         if (!autoExistente.isPresent()) {
@@ -67,8 +69,11 @@ public class AutoService implements IAutoService {
         }
 
         AutoMapper.updateEntity(auto, autoDto);
+        Auto autoEditado = autoRepo.save(auto); 
 
-        return AutoMapper.toResponseDTO(autoRepo.save(auto));
+        System.out.println("=== [ autoEditado ] ===");
+        System.out.println(autoEditado);
+        return AutoMapper.toResponseDTO(autoEditado);
     }
 
     private void validarMarcaUnica(String marca) {

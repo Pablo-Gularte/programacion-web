@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.edu.centro8.daw.tp4dawgularte.dto.AutoRequestDTO;
 import ar.edu.centro8.daw.tp4dawgularte.dto.AutoResponseDTO;
-import ar.edu.centro8.daw.tp4dawgularte.models.Auto;
 import ar.edu.centro8.daw.tp4dawgularte.services.IAutoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,20 +51,36 @@ public class AutoController {
     }
     
     @PostMapping("/autos")
-    public String crearAuto(@RequestBody Auto nuevoAuto) {
-        autoSvc.saveAuto(nuevoAuto);
-        return "Se creo el nuevo auto " + nuevoAuto;
+    public ResponseEntity<?> crearAuto(@RequestBody AutoRequestDTO autoDTO) {
+        try {
+            AutoResponseDTO autoCreado = autoSvc.saveAuto(autoDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(autoCreado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado: " + e.getMessage());
+        }
     }
     
     @PutMapping("/autos/{id}")
-    public Auto editarAuto(@PathVariable Long id, @RequestBody Auto auto) {
-        autoSvc.editAuto(id, auto.getMarca(), auto.getPrecio());
-        return auto;
+    public ResponseEntity<?> editarAuto(@PathVariable Long id, @RequestBody AutoRequestDTO autoDTO) {
+        try {
+            AutoResponseDTO autoEditado = autoSvc.editAuto(id, autoDTO);
+            return ResponseEntity.ok().body(autoEditado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/autos/{id}")
-    public String borrarAuto(@PathVariable Long id) {
-        autoSvc.deleteAuto(id);
-        return "Se eliminó correctamente el auto de id " + id;
+    public ResponseEntity<String> borrarAuto(@PathVariable Long id) {
+        try {
+            autoSvc.deleteAuto(id);
+            return ResponseEntity.ok().body("Se eliminó correctamente el auto de ID = " + id);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error inesperado: " + e.getMessage());
+        }
     }
 }

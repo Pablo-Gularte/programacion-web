@@ -9,6 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter @ToString
 public class AutoResponseDTO {
+    private long id;
     private String marca;
     private double precio;
 }

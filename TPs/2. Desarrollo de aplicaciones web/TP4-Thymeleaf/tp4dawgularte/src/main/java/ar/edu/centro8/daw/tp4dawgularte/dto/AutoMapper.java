@@ -11,7 +11,7 @@ public class AutoMapper {
     }
 
     public static AutoResponseDTO toResponseDTO(Auto auto) {
-        return new AutoResponseDTO(auto.getMarca(), auto.getPrecio());
+        return new AutoResponseDTO(auto.getId(), auto.getMarca(), auto.getPrecio());
     }
 
     public static void updateEntity(Auto auto, AutoRequestDTO dto) {
