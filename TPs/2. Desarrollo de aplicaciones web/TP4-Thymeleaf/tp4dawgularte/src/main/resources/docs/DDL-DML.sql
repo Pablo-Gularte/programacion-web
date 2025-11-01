@@ -1,6 +1,6 @@
 -- Creo la base de datos y la selecciono
-create database bd_ptn4_daw;
-use bd_ptn4_daw;
+create database bd_tpn4_daw;
+use bd_tpn4_daw;
 
 -- Inserto 10 registros en la tabla luego de haber iniciado el proyecto
 Insert into autos values (null, "Chevrolet", 3500000);

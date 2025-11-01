@@ -1,0 +1,38 @@
+/* Modal (background) */
+.modal {
+    display: none; /* oculto por defecto */
+    position: fixed; /* permanece en su sitio */
+    z-index: 1; /* la caja aparece por encima del resto  */
+    left: 0;
+    top: 0;
+    width: 100%; /* ancho completo */
+    height: 100%; /* alto completo */
+    overflow: auto; /* Habilita el scroll si es necesario */
+    background-color: rgb(0,0,0); /* color de reserva */
+    background-color: rgba(0,0,0,0.4); /* el ultimo parametro es la opacidad */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% desde el top y centrado */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+  }
+  
+  /* boton de cierre */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  

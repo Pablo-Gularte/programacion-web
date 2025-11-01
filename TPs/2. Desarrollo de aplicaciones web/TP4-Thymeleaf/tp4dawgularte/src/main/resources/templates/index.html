@@ -1,16 +1,206 @@
 <!DOCTYPE html>
 <html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trabajo Práctico Nro. 4 Thymeleaf</title>
+    <!-- Estilos Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Íconos Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
+
+<body class="bg-warning-subtle">
     <header>
-        <h1>Trabajo Práctico Nro. 4 Thymeleaf</h1>
+        <h1 class="text-center p-5 text-bg-secondary mb-3">Trabajo Práctico Nro. 4 Thymeleaf</h1>
     </header>
     <nav></nav>
-    <main></main>
-    <footer></footer>
+    <main class="container">
+        <!-- Formulario de alta de datos -->
+        <section id="sec-crear-datos" class="container">
+            <!-- Botón para desplegar el formulario de creación de autos -->
+            <a id="btn-crear-auto" 
+                href="#form-alta-datos" 
+                data-bs-toggle="collapse" 
+                class="btn btn-success"
+                onclick="expandirPanel()">
+                <h3><i class="bi bi-plus-circle"></i> Crear auto</h3>
+            </a>
+            <!-- Formulario de creación de autos -->
+            <form id="form-alta-datos" class="p-3 bg-info-subtle collapse shadow-lg">
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca: </label>
+                            <input type="text" class="form-control" id="marca" name="marca"
+                                placeholder="Ingrese la marca del auto..." required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio: </label>
+                            <input type="number" class="form-control" id="precio" name="precio" min="0" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="btn btn-success col-3 mx-auto shadow">Guardar datos</button>
+                </div>
+                <div id="resultado-formulario"></div>
+            </form>
+        </section>
+        <hr>
+
+        <!-- Tabla de muestreo de datos -->
+        <section id="sec-mostrar-datos">
+            <h2>Listado de autos</h2>
+            <div class="table-responsive">
+                <table id="tabla-autos" class="table table-bordered table-hover shadow"
+                    style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                    <thead class="table-dark">
+                        <tr class="text-center">
+                            <th>ID</th>
+                            <th>Marca</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-success">
+                        <tr th:each="auto : ${autos}">
+                            <td class="text-center" th:text="${auto.id}"></td>
+                            <td th:text="${auto.marca}"></td>
+                            <td class="text-end" th:text="${auto.precioConFormato()}"></td>
+                            <td class="text-center">
+                                <a class="btn btn-success" 
+                                    title="Click para editar este registro" 
+                                    th:onclick="modificarRegistro(${auto.id})" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#modal-formulario-edicion"
+                                >
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a class="btn btn-danger" 
+                                    title="Click para borrar este registro" 
+                                    th:onclick="borrarRegistro(${auto.id})"
+                                >
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="table-secondary">
+                        <tr class="text-end">
+                            <td th:colspan="${totalRegistros}">Se recuperaron <strong th:text="${totalRegistros}"></strong> registros</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <!-- Modal de edición de datos -->
+        <section id="sec-modificar-datos">
+            <div class="modal fade" id="modal-formulario-edicion" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar datos</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body bg-warning-subtle">
+                            <!-- Formulario de modificación de datos -->
+                            <form id="form-modifica-datos">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="marcaModifica" class="form-label">Marca: </label>
+                                            <input type="text" class="form-control" id="marcaModifica"
+                                                name="marcaModifica" placeholder="Ingrese la marca del auto...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="modeloModifica" class="form-label">Modelo: </label>
+                                            <input type="text" class="form-control" id="modeloModifica"
+                                                name="modeloModifica" placeholder="Ingrese el modelo del auto...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="colorModifica" class="form-label">Color: </label>
+                                            <select name="colorModifica" id="colorModifica" class="form-select">
+                                                <option value="" selected hidden disabled>-- Seleccione un color --
+                                                </option>
+                                                <option value="blanco">Blanco</option>
+                                                <option value="negro">Negro</option>
+                                                <option value="gris">Gris</option>
+                                                <option value="marrón">Marrón</option>
+                                                <option value="azul">Azul</option>
+                                                <option value="naranja">Naranja</option>
+                                                <option value="rojo">Rojo</option>
+                                                <option value="amarillo">Amarillo</option>
+                                                <option value="cian">Cian</option>
+                                                <option value="celeste">Celeste</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="precioModifica" class="form-label">Precio: </label>
+                                            <input type="number" class="form-control" id="precioModifica"
+                                                name="precioModifica" min="0">
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="mb-3">
+                                            <label for="patenteModifica" class="form-label">Patente: </label>
+                                            <input type="text" class="form-control" id="patenteModifica"
+                                                name="patenteModifica" placeholder="AA123BCD...">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="chasisModifica" class="form-label">Número de chasis: </label>
+                                            <input type="text" class="form-control" id="chasisModifica"
+                                                name="chasisModifica"
+                                                placeholder="El nro de chasis consta de 17 caracteres">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="motorModifica" class="form-label">Número de motor: </label>
+                                            <input type="text" class="form-control" id="motorModifica"
+                                                name="motorModifica"
+                                                placeholder="El nro. de motor consta de 17 caracteres">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="submit" class="btn btn-primary w-25 mx-auto">Guardar cambios</button>
+                                </div>
+                            </form>
+                            <div id="resultado-form-modifica" class="alert alert-info" style="display: none;"></div>
+                        </div>
+                        <div class="modal-footer bg-secondary-subtle">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container border border-1 border-dark rounded-3 p-3 my-3 bg-light shadow-lg">
+        <h6>
+            Este es el trabajo práctico N° 4 del curso <strong>Diseño de Aplicaciónes Web</strong>
+            que forma parte del
+            <strong>Trayecto "Especialización Profesional en Programación Web"</strong>
+            del Centro de Formación Profesional N°8: SMATA (<a href="https://centro8smata.org.ar/" target="_blank"
+                title="Click para abrir la página en una nueva pestaña">CFP8</a>)
+        </h6>
+    </footer>
+
+    <!-- Rutinas Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <!-- Mis rutinas -->
+     <script src="js/rutinas.js"></script>
 </body>
+
 </html>
