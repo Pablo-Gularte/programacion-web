@@ -54,10 +54,6 @@ public class AutoService implements IAutoService {
 
     @Override
     public AutoResponseDTO editAuto(Long id, AutoRequestDTO autoDto) {
-        autoDto.validarDTO();
-        System.out.println("=== [ autoDto ] ===");
-        System.out.println(autoDto);
-
         Optional<Auto> autoExistente = autoRepo.findById(id);
         if (!autoExistente.isPresent()) {
             throw new IllegalArgumentException("No se encontró ningún auto con id = " + id);
