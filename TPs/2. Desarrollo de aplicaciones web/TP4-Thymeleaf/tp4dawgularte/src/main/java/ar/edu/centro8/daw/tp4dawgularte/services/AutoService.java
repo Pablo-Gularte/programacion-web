@@ -66,16 +66,13 @@ public class AutoService implements IAutoService {
 
         AutoMapper.updateEntity(auto, autoDto);
         Auto autoEditado = autoRepo.save(auto); 
-
-        System.out.println("=== [ autoEditado ] ===");
-        System.out.println(autoEditado);
         return AutoMapper.toResponseDTO(autoEditado);
     }
 
     private void validarMarcaUnica(String marca) {
         Optional<Auto> autoExistente = autoRepo.findByMarca(marca);
         if (autoExistente.isPresent()) {
-            throw new IllegalArgumentException("ya existe la marca: " + marca);
+            throw new IllegalArgumentException("ya existe la marca '" + marca + "'");
         }
 
     }
