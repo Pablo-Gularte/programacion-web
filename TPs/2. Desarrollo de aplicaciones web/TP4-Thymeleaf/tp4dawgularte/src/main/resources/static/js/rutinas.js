@@ -1,9 +1,3 @@
-// Variables para URLs de peticiones PUT y DELETE
-const url = "http://localhost";
-const puerto = "9090";
-const baseUrl = `${url}:${puerto}`;
-const epModificarAuto = `${baseUrl}/auto/editar/`;
-const epBorrarAuto = `${baseUrl}/auto/borrar/`;
 /**
  * Función que modifica el botón que expande y colapsa el panel que contiene el formulario de creación
  * de autos. Cuando no está desplegado el panel muestra leyenda para crear datos y al desplegar cambia 
@@ -43,9 +37,41 @@ function borrarRegistro(id) {
     if (confirmaBorrar) {
         const formBorrarRegistro = document.createElement("form");
         formBorrarRegistro.action="/autos/borrar/" + id;
-        formBorrarRegistro.method = "DELETE";
+        formBorrarRegistro.method = "post";
         document.body.appendChild(formBorrarRegistro);
         formBorrarRegistro.submit();
         document.body.removeChild(formBorrarRegistro);
     }
+}
+
+function abrirModal(id) {
+    const modal = new bootstrap.Modal(document.getElementById('modal-formulario'));
+    const tituloModal = document.getElementById("titulo-modal");
+    const formulario = document.getElementById("formulario-datos");
+    const btnFormulario = document.getElementById("btn-formulario");
+    // Cargo las opciones según se trate de creación o modificación de datos
+    if (id === 0) {
+        tituloModal.textContent = 'Crear nuevo auto';
+        formulario.action = "/autos/guardar/";
+        btnFormulario.textContent = "Crear auto";
+    } else {
+        tituloModal.textContent = 'Modificar datos del auto';
+        formulario.action = "/autos/editar/" + id;
+        const campoOculto = document.createElement("input");
+        campoOculto.type = "hidden";
+        campoOculto.value = id;
+        campoOculto.setAttribute("th:field", "*{id}");
+        formulario.append(campoOculto);
+        btnFormulario.textContent = "Modificar auto";
+
+        // Creo formulario temporal para lanzar petición POST que recupere los datos del auto a modificar
+        const tmpForm = document.createElement("form");
+        tmpForm.method = "get";
+        tmpForm.action = "/autos/listar/" + id;
+        document.body.appendChild(tmpForm);
+        tmpForm.submit();
+        document.body.removeChild(tmpForm);
+    }
+
+    modal.show();
 }

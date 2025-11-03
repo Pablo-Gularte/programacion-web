@@ -22,58 +22,33 @@
             vista basada en el motor de plantillas <strong>Thymeleaf</strong>. Se debe considerar la implementación de
             un <strong>CRUD</strong>.</h6>
     </header>
-    <nav></nav>
     <main class="container">
         <!-- Mensajes de éxito/error recibodos del servidor que se muestrar temporalmente -->
-        <div th:if="${mensaje}" 
+        <div th:if="${mensaje}"
             th:class="'toast-container p-3 top-50 start-50 translate-middle-x ' + ${tipoMensaje == 'ok' ? 'text-bg-success' : 'text-bg-danger'}"
-            id="mensaje-servidor"
+            id="mensaje-servidor" 
             role="alert" 
             aria-live="assertive" 
             aria-atomic="true"
         >
             <div class="d-flex">
                 <div class="toast-body" th:text="${mensaje}">
-                    Hello, world! This is a toast message.
+                    Texto de éxito/error
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                <button type="button" 
+                    class="btn-close btn-close-white me-2 m-auto" 
+                    data-bs-dismiss="toast"
                     aria-label="Close"></button>
             </div>
         </div>
 
-        <!-- Formulario de alta de datos -->
-        <section id="sec-crear-datos" class="container">
-            <!-- Botón para desplegar el formulario de creación de autos -->
-            <a id="btn-crear-auto" href="#form-alta-datos" data-bs-toggle="collapse" class="btn btn-success"
-                onclick="expandirPanel()" title="Click para desplegar el panel de creación de autos">
-                <h3><i class="bi bi-plus-circle"></i> Crear auto</h3>
-            </a>
-
-            <!-- Formulario de creación de autos -->
-            <form id="form-alta-datos" class="p-3 bg-info-subtle collapse shadow-lg" th:action="@{/autos/guardar}"
-                th:object="${autoDTO}" method="post">
-                <div class="row">
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="marca" class="form-label">Marca: </label>
-                            <input type="text" id="marca" class="form-control" name="marca" th:field="*{marca}"
-                                placeholder="Ingrese la marca del auto..." required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="mb-3">
-                            <label for="precio" class="form-label">Precio: </label>
-                            <input type="number" id="precio" class="form-control" name="precio" th:field="*{precio}"
-                                min="0" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <button type="submit" class="btn btn-success col-3 mx-auto shadow">Guardar datos</button>
-                </div>
-            </form>
-        </section>
-        <hr>
+        <!-- Botón abrir el modal de creacion de datos -->
+        <a id="btn-crear-auto" 
+            class="btn btn-primary"
+            onclick="abrirModal(0)" 
+            title="Click para desplegar el panel de creación de autos">
+            <h4>Crear auto</h4>
+        </a>
 
         <!-- Tabla de muestreo de datos -->
         <section id="sec-mostrar-datos" class="w-75 mx-auto">
@@ -97,13 +72,10 @@
                             <td class="text-center">
                                 <a class="btn btn-success" 
                                     title="Click para editar este registro"
-                                    th:onclick="'modificarRegistro(' + ${auto.id} + ')'" 
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modal-formulario-edicion">
+                                    th:onclick="'abrirModal(' + ${auto.id} + ')'">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
-                                <a class="btn btn-danger" 
-                                    title="Click para borrar este registro"
+                                <a class="btn btn-danger" title="Click para borrar este registro"
                                     th:onclick="'borrarRegistro(' + ${auto.id} + ')'">
                                     <i class="bi bi-trash3-fill"></i>
                                 </a>
@@ -113,7 +85,8 @@
                     <tfoot class="table-secondary">
                         <tr class="text-end">
                             <td th:if="${totalRegistros == 1}" colspan="4">Se recuperó <strong>1</strong> registros</td>
-                            <td th:if="${totalRegistros > 1}" colspan="4">Se recuperaron <strong th:text="${totalRegistros}"></strong> registros</td>
+                            <td th:if="${totalRegistros > 1}" colspan="4">Se recuperaron <strong
+                                    th:text="${totalRegistros}"></strong> registros</td>
                         </tr>
                     </tfoot>
                 </table>
@@ -125,42 +98,54 @@
             </div>
         </section>
 
-        <!-- Modal de edición de datos -->
+        <!-- Modal de creación/edición de datos -->
         <section id="sec-modificar-datos">
-            <div class="modal fade" id="modal-formulario-edicion" tabindex="-1" aria-labelledby="exampleModalLabel"
+            <div class="modal fade" id="modal-formulario" tabindex="-1" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-warning">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar datos</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Cerrar"></button>
+                            <h1 class="modal-title fs-5" id="titulo-modal">Editar datos</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Cerrar"></button>
                         </div>
-                        <div class="modal-body bg-warning-subtle">
-                            <!-- Formulario de modificación de datos -->
-                            <form id="form-modifica-datos">
+                        <div class="modal-body bg-warning-subtle" id="cuerpo-modal">
+                            <!-- Formulario de creación/modificación de datos -->
+                            <form id="formulario-datos" 
+                                class="p-3 bg-info-subtle collapse shadow-lg" 
+                                action=""
+                                method="post"
+                                th:object="${autoDTO}" 
+                                >
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label for="marcaModifica" class="form-label">Marca: </label>
-                                            <input type="text" class="form-control" id="marcaModifica"
-                                                name="marcaModifica" placeholder="Ingrese la marca del auto..."
+                                            <label for="marca" class="form-label">Marca: </label>
+                                            <input type="text" 
+                                                id="marca" 
+                                                class="form-control" 
+                                                name="marca" 
+                                                th:field="*{marca}"
+                                                placeholder="Ingrese la marca del auto..." 
                                                 required>
                                         </div>
                                     </div>
                                     <div class="col">
                                         <div class="mb-3">
-                                            <label for="precioModifica" class="form-label">Precio: </label>
-                                            <input type="number" class="form-control" id="precioModifica"
-                                                name="precioModifica" min="0" required>
+                                            <label for="precio" class="form-label">Precio: </label>
+                                            <input type="number" 
+                                                id="precio" 
+                                                class="form-control" 
+                                                name="precio" 
+                                                th:field="*{precio}"
+                                                min="0" 
+                                                required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <button type="submit" class="btn btn-primary w-25 mx-auto">Guardar cambios</button>
+                                    <button id="btn-formulario" type="submit" class="btn btn-success col-3 mx-auto shadow">Guardar datos</button>
                                 </div>
                             </form>
-                            <div id="resultado-form-modifica" class="alert alert-info" style="display: none;"></div>
                         </div>
                         <div class="modal-footer bg-secondary-subtle">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
