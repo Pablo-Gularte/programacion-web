@@ -45,7 +45,7 @@
         <!-- Botón abrir el modal de creacion de datos -->
         <a id="btn-crear-auto" 
             class="btn btn-primary"
-            onclick="abrirModal(0)" 
+            href="/autos/nuevo"
             title="Click para desplegar el panel de creación de autos">
             <h4>Crear auto</h4>
         </a>
@@ -98,62 +98,6 @@
             </div>
         </section>
 
-        <!-- Modal de creación/edición de datos -->
-        <section id="sec-modificar-datos">
-            <div class="modal fade" id="modal-formulario" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header bg-warning">
-                            <h1 class="modal-title fs-5" id="titulo-modal">Editar datos</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body bg-warning-subtle" id="cuerpo-modal">
-                            <!-- Formulario de creación/modificación de datos -->
-                            <form id="formulario-datos" 
-                                class="p-3 bg-info-subtle collapse shadow-lg" 
-                                action=""
-                                method="post"
-                                th:object="${autoDTO}" 
-                                >
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="marca" class="form-label">Marca: </label>
-                                            <input type="text" 
-                                                id="marca" 
-                                                class="form-control" 
-                                                name="marca" 
-                                                th:field="*{marca}"
-                                                placeholder="Ingrese la marca del auto..." 
-                                                required>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="precio" class="form-label">Precio: </label>
-                                            <input type="number" 
-                                                id="precio" 
-                                                class="form-control" 
-                                                name="precio" 
-                                                th:field="*{precio}"
-                                                min="0" 
-                                                required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <button id="btn-formulario" type="submit" class="btn btn-success col-3 mx-auto shadow">Guardar datos</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer bg-secondary-subtle">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="container border border-1 border-dark rounded-3 p-3 my-3 bg-light shadow-lg">

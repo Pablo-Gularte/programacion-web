@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
-
-
 @Controller
 public class AutoController {
 
@@ -26,12 +23,18 @@ public class AutoController {
     private IAutoService autoSvc;
 
     @GetMapping("/")
+    /**
+     * Método para listar los datos en la tabla de presentación de la página principal
+     * 
+     * @param modelo Objeto utilizado para enviar atributos a la plantilla Thymeleaf
+     * @return Página principal (index.html)
+     */
     public String listarAutos(Model modelo) {
         cargarAtributosListado(modelo);
         return "index";
     }
     
-    @GetMapping("/autos/listar/{id}")
+    @GetMapping("/autos/editar/{id}")
     public String listarAutoPorId(@PathVariable long id, Model modelo) {
         try {
             AutoResponseDTO autoGuardado = autoSvc.findAuto(id);
@@ -55,29 +58,32 @@ public class AutoController {
         }
     }
     
+    @GetMapping("/autos/nuevo")
+    public String pantallaNuevoAuto(Model modelo) {
+        modelo.addAttribute("autoDTO", new AutoRequestDTO());
+        modelo.addAttribute("idAuto", 0);
+        return "formulario";
+    }
+
     @PostMapping("/autos/guardar/")
-    public String guardarAuto(@ModelAttribute AutoRequestDTO autoDTO, Model modelo, RedirectAttributes mensajeRedireccionado ) {
+    public String guardarAuto(@ModelAttribute AutoRequestDTO autoDTO, Model modelo) {
         try {
             AutoResponseDTO autoNuevo = autoSvc.saveAuto(autoDTO);
-            mensajeRedireccionado.addFlashAttribute("tipoMensaje", "ok");
-            mensajeRedireccionado.addFlashAttribute("mensaje", "Se ha creado correctamente el nuevo auto con el ID = " + autoNuevo.getId());
+            modelo.addAttribute("tipoMensaje", "ok");
+            modelo.addAttribute("mensaje", "Se ha creado correctamente el nuevo auto con el ID = " + autoNuevo.getId());
             cargarAtributosListado(modelo);
-            return "redirect:/";
+            return "index";
         } catch (IllegalArgumentException e) {
             // Manejo de errores de validación (e.g., marca vacía o duplicada)
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
-            // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo);
             // Vuelve a la vista 'index'
-            return "index";
+            return "formulario";
         } catch (Exception e) {
             // MAnejo de errores inesperados
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
-            // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo);
-            return "index";
+            return "formulario";
         }
 
     }

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajo Práctico Nro. 4 Thymeleaf</title>
+    <!-- Estilos Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Íconos Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body class="bg-warning-subtle">
+    <header class="text-center p-5 text-bg-secondary mb-3">
+        <h1>Trabajo Práctico Nro. 4 Thymeleaf</h1>
+        <h6 class="text-dark">Tomar como base el proyecto del <strong>TPN2 JPA Hibernate</strong> y realizar las
+            modificaciones necesarias para tener una
+            vista basada en el motor de plantillas <strong>Thymeleaf</strong>. Se debe considerar la implementación de
+            un <strong>CRUD</strong>.</h6>
+    </header>
+    <main class="container">
+        <section id="sec-formulario-datos">
+            <h3 th:text="${idAuto == 0 ? 'Crear auto' : 'Modificar auto'}" class="border border-2 border-danger text-center shadow-lg text-bg-warning p-2 rounded-3">Título formulario</h3>
+            <form id="formulario-datos" 
+                class="p-3 bg-info-subtle shadow-lg" 
+                method="post" 
+                th:object="${autoDTO}"
+                th:action="${idAuto == 0 ? '/autos/guardar/' : '/autos/editar/' + idAuto}"
+            >
+                <div class="row">
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="marca" class="form-label">Marca: </label>
+                            <input type="text" 
+                                id="marca" 
+                                class="form-control" 
+                                name="marca" 
+                                placeholder="Ingrese la marca del auto..." 
+                                th:field="*{marca}"
+                                required
+                            >
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="mb-3">
+                            <label for="precio" class="form-label">Precio: </label>
+                            <input type="number" 
+                                id="precio" 
+                                class="form-control" 
+                                name="precio" 
+                                min="0" 
+                                th:field="*{precio}"
+                                required
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button id="btn-formulario" 
+                        type="submit" 
+                        class="btn btn-success col-3 mx-auto shadow"
+                        title="Click para conservar los datos cargados"
+                        th:text="${idAuto == 0 ? 'Guardar auto' : 'Modificar auto'}"
+                    >
+                        Texto botón
+                    </button>
+                    <button type="reset" 
+                        class="btn btn-danger col-3 mx-auto shadow" 
+                        onclick="window.location.href='/'"
+                        title="Click para desechar los datos cargados y volver a la página principal"
+                    >
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <footer class="container border border-1 border-dark rounded-3 p-3 my-3 bg-light shadow-lg">
+        <h6>
+            Este es el trabajo práctico N° 4 del curso <strong>Diseño de Aplicaciónes Web</strong>
+            que forma parte del
+            <strong>Trayecto "Especialización Profesional en Programación Web"</strong>
+            del Centro de Formación Profesional N°8: SMATA (<a href="https://centro8smata.org.ar/" target="_blank"
+                title="Click para abrir la página en una nueva pestaña">CFP8</a>)
+        </h6>
+    </footer>
+
+    <!-- Rutinas Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <!-- Mis rutinas -->
+    <script src="/js/rutinas.js"></script>
+</body>
+
+</html>
