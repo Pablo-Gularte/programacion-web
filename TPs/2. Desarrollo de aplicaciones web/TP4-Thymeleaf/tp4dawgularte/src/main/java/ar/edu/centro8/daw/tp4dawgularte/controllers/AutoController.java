@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class AutoController {
@@ -62,7 +64,7 @@ public class AutoController {
     public String pantallaNuevoAuto(Model modelo) {
         modelo.addAttribute("autoDTO", new AutoRequestDTO());
         modelo.addAttribute("idAuto", 0);
-        return "formulario";
+        return "index";
     }
 
     @PostMapping("/autos/guardar/")
@@ -78,12 +80,12 @@ public class AutoController {
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
             // Vuelve a la vista 'index'
-            return "formulario";
+            return "index";
         } catch (Exception e) {
             // MAnejo de errores inesperados
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
-            return "formulario";
+            return "index";
         }
 
     }
@@ -141,4 +143,25 @@ public class AutoController {
         modelo.addAttribute("totalRegistros", autos.size());
         modelo.addAttribute("autoDTO", new AutoRequestDTO());
     }
+    
+    @GetMapping("/prueba")
+    public String pruebaFragmentos(Model modelo) {
+        List<AutoResponseDTO> autos = autoSvc.getAutos();
+        modelo.addAttribute("autos", autos);
+        modelo.addAttribute("operacion", "listar");
+        return "prueba";
+    }
+
+    @GetMapping("/prueba/crear")
+    public String pruebaCrear(Model modelo) {
+        modelo.addAttribute("operacion", "crear");
+        return "prueba";
+    }
+
+    @GetMapping("/prueba/editar")
+    public String pruebaEditar(Model modelo) {
+        modelo.addAttribute("operacion", "editar");
+        return "prueba";
+    }
+    
 }

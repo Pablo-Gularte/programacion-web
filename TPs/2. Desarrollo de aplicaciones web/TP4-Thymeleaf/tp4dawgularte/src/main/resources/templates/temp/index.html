@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Autos - Spring Boot & Thymeleaf</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Estilo básico para centrar y usar la fuente Inter */
         body {
@@ -146,9 +148,6 @@
 
     <!-- 3. Pie de Página (Fragmento) -->
     <footer th:replace="~{fragmentos :: footerFragment}" class="mt-8"></footer>
-
-    <!-- Carga de Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Scripts de Interacción -->
     <script th:inline="javascript">
