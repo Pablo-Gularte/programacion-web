@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- Este archivo contiene fragmentos de Thymeleaf para ser incluidos en otras plantillas. -->
+
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <!-- Fragmento de Encabezado -->
+    <header th:fragment="headerFragment" class="bg-gray-800 text-white shadow-lg">
+        <div class="container mx-auto p-4 flex justify-between items-center">
+            <a th:href="@{/}"
+                class="text-2xl font-extrabold tracking-wider hover:text-blue-400 transition duration-300">
+                DAW Car App
+            </a>
+            <nav>
+                <a th:href="@{/}"
+                    class="text-gray-300 hover:text-white transition duration-300 px-3 py-2 rounded-md text-sm font-medium">Inicio</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Fragmento de Formulario de Creación/Edición -->
+    <!-- Recibe autoDTO (AutoRequestDTO) y actionUrl para la acción del formulario -->
+    <!-- La validación y manejo de errores se harían de forma más robusta con Spring Validation y Thymeleaf error binding -->
+    <div th:fragment="formFragment(autoDTO, actionUrl)">
+        <h2 id="form-title" class="text-2xl font-semibold text-gray-700 mb-4">Crear Nuevo Auto</h2>
+
+        <!-- El formulario usa un th:object para binding con el DTO -->
+        <form th:action="${actionUrl}" method="POST" th:object="${autoDTO}" class="space-y-4">
+
+            <!-- Campo Oculto para ID (si estamos en edición, el JS lo agregaría/manipularía si se usa el fragmento en la misma página) -->
+            <!-- Si se navegara a una URL como /autos/editar/{id}, Thymeleaf podría cargar el ID aquí.
+                 En este caso, lo manejamos principalmente con la acción del formulario y JS. -->
+            <!-- <input th:if="${autoDTO.id != null}" type="hidden" id="id-input" name="id" th:value="${autoDTO.id}" /> -->
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <!-- Campo Marca -->
+                <div>
+                    <label for="marca" class="block text-sm font-medium text-gray-700">Marca</label>
+                    <input type="text" id="marca" name="marca" th:field="*{marca}"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: Toyota" required>
+                    <!-- Aquí iría un mensaje de error si se usara Spring Validation -->
+                    <!-- <p th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="text-red-500 text-xs italic"></p> -->
+                </div>
+
+                <!-- Campo Precio -->
+                <div>
+                    <label for="precio" class="block text-sm font-medium text-gray-700">Precio</label>
+                    <input type="number" step="0.01" id="precio" name="precio" th:field="*{precio}"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Ej: 25000.00" required>
+                    <!-- Aquí iría un mensaje de error si se usara Spring Validation -->
+                    <!-- <p th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}" class="text-red-500 text-xs italic"></p> -->
+                </div>
+            </div>
+
+            <div class="pt-4 flex justify-end">
+                <button type="submit" id="submit-button"
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-lg transition duration-300">
+                    Crear Auto
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Fragmento de Pie de Página -->
+    <footer th:fragment="footerFragment" class="bg-gray-800 text-white py-4 mt-auto">
+        <div class="container mx-auto px-4 text-center text-sm">
+            <p>&copy; <span th:text="${#dates.year(#dates.createNow())}">2025</span> Gestión de Autos DAW. Desarrollado
+                con Spring Boot y Thymeleaf.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>
