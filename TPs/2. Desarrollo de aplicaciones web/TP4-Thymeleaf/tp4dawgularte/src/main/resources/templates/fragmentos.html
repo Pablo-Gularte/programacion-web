@@ -9,12 +9,13 @@
 <body>
     <!-- Sección de formulario de creación/edición de datos -->
     <section th:fragment="formularioDatos(operacion)">
-        <a href="/prueba" title="Volver al inicio" class="btn btn-secondary my-3">
+        <a th:href="@{/}" title="Volver al inicio" class="btn btn-secondary my-3">
             <i class="bi bi-arrow-left-circle"></i> Volver
         </a>
 
         <h2 th:text="${operacion == 'editar' ? 'Modificar auto' : 'Crear auto'}" class="text-bg-primary text-center py-3 mb-0"></h2>
-        <form th:action="@{/autos/guardar/}" method="post" class="bg-primary-subtle p-3" th:object="${autoDTO}">
+        <form th:action="${'/autos/guardar/' + operacion}" method="post" class="bg-primary-subtle p-3" th:object="${autoDTO}">
+            <input th:if="${operacion == 'editar'}" type="hidden" name="id" th:field="*{id}">
             <div class="mb-3">
                <label for="marca" class="form-label">Marca: </label>
                <input type="text" class="form-control" id="marca" name="marca" placeholder="Ej.: Ford" th:field="*{marca}" required>
@@ -31,12 +32,16 @@
     <!-- Sección de tabla de listado de datos -->
     <section th:fragment="tablaDatos(autos)" class="p-2 my-3">
         <!-- Botón para crear datos -->
-        <a href="/prueba/crear" class="btn btn-success mt-3" title="Click para crear un nuevo auto">
+        <a href="/autos/nuevo" class="btn btn-success mt-3" title="Click para crear un nuevo auto">
             <i class="bi bi-plus-circle"></i> Crear auto
         </a>
 
         <h2 class="text-center">Listado de autos</h2>
-        <h6 class="text-end">Total filas <span class="badge text-bg-warning" th:text="${autos.size()}">XX</span></h6>
+        <h6 class="text-end">
+            <span class="border border-2 border-success bg-light rounded-2 px-3 py-1">
+                Total filas <span class="badge text-bg-warning" th:text="${autos.size()}">XX</span>
+            </span>
+        </h6>
         <table class="table table-hover table-bordered shadow-lg">
             <thead>
                 <tr class="text-center">

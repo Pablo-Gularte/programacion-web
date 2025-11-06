@@ -76,7 +76,7 @@ public class AutoService implements IAutoService {
     private void validarMarcaUnica(String marca) {
         Optional<Auto> autoExistente = autoRepo.findByMarca(marca);
         if (autoExistente.isPresent()) {
-            throw new IllegalArgumentException("ya existe la marca '" + marca + "'");
+            throw new IllegalArgumentException("Ya existe la marca '" + marca + "'");
         }
 
     }

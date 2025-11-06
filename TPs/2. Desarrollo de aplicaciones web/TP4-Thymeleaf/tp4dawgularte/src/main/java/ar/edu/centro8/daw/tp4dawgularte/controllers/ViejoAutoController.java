@@ -3,7 +3,6 @@ package ar.edu.centro8.daw.tp4dawgularte.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import ar.edu.centro8.daw.tp4dawgularte.dto.AutoRequestDTO;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-@Controller
-public class AutoController {
+public class ViejoAutoController {
 
     @Autowired
     private IAutoService autoSvc;
@@ -31,8 +29,7 @@ public class AutoController {
      * @return Página principal (index.html)
      */
     public String listarAutos(Model modelo) {
-        cargarAtributosListado(modelo, new AutoRequestDTO());
-        modelo.addAttribute("operacion", "listar");
+        cargarAtributosListado(modelo);
         return "index";
     }
     
@@ -41,20 +38,20 @@ public class AutoController {
         try {
             AutoResponseDTO autoGuardado = autoSvc.findAuto(id);
             modelo.addAttribute("auto", autoGuardado);
-            cargarAtributosListado(modelo, new AutoRequestDTO());
-            return "redirect:/";
+            cargarAtributosListado(modelo);
+            return "index";
         } catch (IllegalArgumentException e) {
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
             // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             // Vuelve a la vista 'index'
             return "index";
         } catch (Exception e) {
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
             // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             // Vuelve a la vista 'index'
             return "index";
         }
@@ -63,95 +60,120 @@ public class AutoController {
     @GetMapping("/autos/nuevo")
     public String pantallaNuevoAuto(Model modelo) {
         modelo.addAttribute("autoDTO", new AutoRequestDTO());
-        modelo.addAttribute("operacion", "crear");
+        modelo.addAttribute("idAuto", 0);
         return "index";
+    }
+
+    @PostMapping("/autos/guardar/")
+    public String guardarAuto(@ModelAttribute AutoRequestDTO autoDTO, Model modelo) {
+        try {
+            AutoResponseDTO autoNuevo = autoSvc.saveAuto(autoDTO);
+            modelo.addAttribute("tipoMensaje", "ok");
+            modelo.addAttribute("mensaje", "Se ha creado correctamente el nuevo auto con el ID = " + autoNuevo.getId());
+            cargarAtributosListado(modelo);
+            return "index";
+        } catch (IllegalArgumentException e) {
+            // Manejo de errores de validación (e.g., marca vacía o duplicada)
+            modelo.addAttribute("tipoMensaje", "error");
+            modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
+            // Vuelve a la vista 'index'
+            return "index";
+        } catch (Exception e) {
+            // MAnejo de errores inesperados
+            modelo.addAttribute("tipoMensaje", "error");
+            modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
+            return "index";
+        }
+
     }
 
     @PostMapping("/autos/editar/{id}")
     public String guardarAuto(@PathVariable Long id, @ModelAttribute AutoRequestDTO autoDTO, Model modelo, RedirectAttributes mensajeRedireccionado ) {
         try {
             autoSvc.editAuto(id, autoDTO);
-            modelo.addAttribute("id", id);
-            modelo.addAttribute("operacion", "editar");
             mensajeRedireccionado.addFlashAttribute("tipoMensaje", "ok");
             mensajeRedireccionado.addFlashAttribute("mensaje", "Se ha modificado correctamente el nuevo auto con el ID = " + id);
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             // Manejo de errores de validación (e.g., marca vacía o duplicada)
-            modelo.addAttribute("id", id);
-            modelo.addAttribute("operacion", "editar");
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
             // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo, new AutoRequestDTO());
-            // Vuelve a la vista 'index'
-            return "index";
-        } catch (Exception e) {
-            // Manejo de errores inesperados
-            modelo.addAttribute("id", id);
-            modelo.addAttribute("operacion", "editar");
-            modelo.addAttribute("tipoMensaje", "error");
-            modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
-            // Mantener la lista y el DTO para que el usuario pueda corregir
-            cargarAtributosListado(modelo, new AutoRequestDTO());
-            return "index";
-        }
-    }
-    
-    @PostMapping("/autos/guardar/{operacion}")
-    public String guardarAuto(@ModelAttribute AutoRequestDTO autoDTO, @PathVariable String operacion, Model modelo, RedirectAttributes mensajeRedireccionado) {
-        try {
-            AutoResponseDTO autoNuevo = autoSvc.saveAuto(autoDTO);
-            mensajeRedireccionado.addAttribute("operacion", "listar");
-            mensajeRedireccionado.addFlashAttribute("tipoMensaje", "ok");
-            mensajeRedireccionado.addFlashAttribute("mensaje", "Se ha creado correctamente el nuevo auto con el ID = " + autoNuevo.getId());
-            cargarAtributosListado(modelo, new AutoRequestDTO());
-            return "redirect:/";
-        } catch (IllegalArgumentException e) {
-            // Manejo de errores de validación (e.g., marca vacía o duplicada)
-            modelo.addAttribute("operacion", operacion);
-            modelo.addAttribute("tipoMensaje", "error");
-            modelo.addAttribute("mensaje", "Error de argumento: " + e.getMessage());
-            cargarAtributosListado(modelo, autoDTO);
+            cargarAtributosListado(modelo);
             // Vuelve a la vista 'index'
             return "index";
         } catch (Exception e) {
             // MAnejo de errores inesperados
-            modelo.addAttribute("operacion", operacion);
             modelo.addAttribute("tipoMensaje", "error");
             modelo.addAttribute("mensaje", "Error inesperado: " + e.getMessage());
-            cargarAtributosListado(modelo, autoDTO);
+            // Mantener la lista y el DTO para que el usuario pueda corregir
+            cargarAtributosListado(modelo);
             return "index";
         }
-
     }
-
+    
     @PostMapping("/autos/borrar/{id}")
     public String borrarAuto(@PathVariable long id, Model modelo, RedirectAttributes mensajeRedireccionado) {
         try {
             autoSvc.deleteAuto(id);
             mensajeRedireccionado.addFlashAttribute("tipoMensaje", "ok");
             mensajeRedireccionado.addFlashAttribute("mensaje", "Se ha eliminado correctamente el auto de ID " + id);
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             mensajeRedireccionado.addFlashAttribute("tipoMensaje", "error");
             mensajeRedireccionado.addFlashAttribute("mensaje", "Error de argumento - " + e.getMessage());
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             return "redirect:/";
         } catch (Exception e) {
             mensajeRedireccionado.addFlashAttribute("tipoMensaje", "error");
             mensajeRedireccionado.addFlashAttribute("mensaje", "Error inesperado - " + e.getMessage());
-            cargarAtributosListado(modelo, new AutoRequestDTO());
+            cargarAtributosListado(modelo);
             return "redirect:/";
         }
     }
 
-    private void cargarAtributosListado(Model modelo, AutoRequestDTO autoDTO) {
+    private void cargarAtributosListado(Model modelo) {
         List<AutoResponseDTO> autos = autoSvc.getAutos();
         modelo.addAttribute("autos", autos);
         modelo.addAttribute("totalRegistros", autos.size());
-        modelo.addAttribute("autoDTO", autoDTO);
+        modelo.addAttribute("autoDTO", new AutoRequestDTO());
     }
+    
+    // Métodos que envían datos a la interfaz para presentación
+    // SIN REDIRECCIONAMIENTO 
+    @GetMapping("/prueba")
+    public String pruebaFragmentos(Model modelo) {
+        List<AutoResponseDTO> autos = autoSvc.getAutos();
+        modelo.addAttribute("autos", autos);
+        modelo.addAttribute("operacion", "listar");
+        return "index";
+    }
+    
+    @GetMapping("/prueba/crear")
+    public String pruebaCrear(Model modelo) {
+        modelo.addAttribute("autoDTO", new AutoRequestDTO());
+        modelo.addAttribute("operacion", "crear");
+        return "index";
+    }
+
+    @GetMapping("/prueba/editar/{id}")
+    public String pruebaEditar(@PathVariable long id, Model modelo, RedirectAttributes mensajeRedireccionado) {
+        try {
+            AutoResponseDTO autoDTO = autoSvc.findAuto(id);
+            modelo.addAttribute("id", id);
+            modelo.addAttribute("operacion", "editar");
+            modelo.addAttribute("autoDTO", autoDTO);
+            return "index";
+        } catch (Exception e) {
+            List<AutoResponseDTO> autos = autoSvc.getAutos();
+            modelo.addAttribute("autos", autos);
+            modelo.addAttribute("operacion", "listar");
+            mensajeRedireccionado.addFlashAttribute("tipoMensaje", "error");
+            mensajeRedireccionado.addFlashAttribute("mensaje", e.getMessage());
+            return "redirect:/prueba";
+        } 
+    }
+    
 }
