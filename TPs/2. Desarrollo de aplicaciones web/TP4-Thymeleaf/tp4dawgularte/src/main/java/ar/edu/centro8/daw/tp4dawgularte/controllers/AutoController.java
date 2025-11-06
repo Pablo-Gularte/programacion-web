@@ -150,16 +150,20 @@ public class AutoController {
         modelo.addAttribute("operacion", "listar");
         return "prueba";
     }
-
+    
     @GetMapping("/prueba/crear")
     public String pruebaCrear(Model modelo) {
+        modelo.addAttribute("autoDTO", new AutoRequestDTO());
         modelo.addAttribute("operacion", "crear");
         return "prueba";
     }
 
-    @GetMapping("/prueba/editar")
-    public String pruebaEditar(Model modelo) {
+    @GetMapping("/prueba/editar/{id}")
+    public String pruebaEditar(@PathVariable long id, Model modelo) {
+        AutoResponseDTO autoDTO = autoSvc.findAuto(id);
+        modelo.addAttribute("id", id);
         modelo.addAttribute("operacion", "editar");
+        modelo.addAttribute("autoDTO", autoDTO);
         return "prueba";
     }
     

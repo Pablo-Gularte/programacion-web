@@ -21,16 +21,13 @@
 
     <!-- Cuerpo principal -->
     <main class="container">
-        <a href="/prueba" class="btn btn-info">Listar</a>
-        <a href="/prueba/crear" class="btn btn-info">Crear</a>
-        <a href="/prueba/editar" class="btn btn-info">Editar</a>
         <!-- Agrego el fragmento correspondiente según indicación del controlador -->
-         <div th:if="${operacion == 'listar'}">
+         <th:block th:if="${operacion == 'listar'}">
              <section th:replace="~{fragmentos :: tablaDatos(autos=${autos})}"></section>
-         </div>
-         <div th:if="${operacion != 'listar'}">
+         </th:block>
+         <th:block th:if="${operacion != 'listar'}">
              <section th:replace="~{fragmentos :: formularioDatos(operacion=${operacion})}"></section>
-         </div>
+         </th:block>
     </main>
 
     <!-- Pié de página -->

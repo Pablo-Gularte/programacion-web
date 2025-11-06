@@ -9,12 +9,32 @@
 <body>
     <!-- Sección de formulario de creación/edición de datos -->
     <section th:fragment="formularioDatos(operacion)">
-        <h2>Este es el fragmento "formularioDatos"</h2>
-        <p th:text="'Operacion = ' + ${operacion}"></p>
+        <a href="/prueba" title="Volver al inicio" class="btn btn-secondary my-3">
+            <i class="bi bi-arrow-left-circle"></i> Volver
+        </a>
+
+        <h2 th:text="${operacion == 'editar' ? 'Modificar auto' : 'Crear auto'}" class="text-bg-primary text-center py-3 mb-0"></h2>
+        <form th:action="@{/autos/guardar/}" method="post" class="bg-primary-subtle p-3" th:object="${autoDTO}">
+            <div class="mb-3">
+               <label for="marca" class="form-label">Marca: </label>
+               <input type="text" class="form-control" id="marca" name="marca" placeholder="Ej.: Ford" th:field="*{marca}" required>
+            </div>
+            <div class="mb-3">
+               <label for="precio" class="form-label">Precio: </label>
+               <input type="number" class="form-control" id="precio" name="precio" min="0" th:field="*{precio}" required>
+            </div>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="reset" class="btn btn-warning">Cancelar</button>
+        </form>
     </section>
 
     <!-- Sección de tabla de listado de datos -->
     <section th:fragment="tablaDatos(autos)" class="p-2 my-3">
+        <!-- Botón para crear datos -->
+        <a href="/prueba/crear" class="btn btn-success mt-3" title="Click para crear un nuevo auto">
+            <i class="bi bi-plus-circle"></i> Crear auto
+        </a>
+
         <h2 class="text-center">Listado de autos</h2>
         <h6 class="text-end">Total filas <span class="badge text-bg-warning" th:text="${autos.size()}">XX</span></h6>
         <table class="table table-hover table-bordered shadow-lg">
@@ -33,7 +53,7 @@
                     <td class="text-end" th:text="${auto.precioConFormato()}"></td>
                     <td class="text-center">
                         <h3>
-                            <a href="#" class="badge bg-success" title="Editar">
+                            <a th:href="${'/prueba/editar/' + auto.id}" class="badge bg-success" title="Editar">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             <a href="#" class="badge bg-danger" title="Borrar">
