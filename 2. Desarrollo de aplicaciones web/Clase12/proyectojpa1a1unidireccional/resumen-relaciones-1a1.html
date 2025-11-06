@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relaciones JPA OneToOne (1:1) - Guía Completa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .section-composicion {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            border-left: 5px solid #e74c3c;
+        }
+
+        .section-agregacion {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-left: 5px solid #3498db;
+        }
+
+        .section-cascade {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left: 5px solid #f39c12;
+        }
+
+        .section-fetch {
+            background: linear-gradient(135deg, #e0c3fc 0%, #9bb5ff 100%);
+            border-left: 5px solid #9b59b6;
+        }
+
+        .section-ejemplos {
+            background: linear-gradient(135deg, #c3f0ca 0%, #ffc3a0 100%);
+            border-left: 5px solid #27ae60;
+        }
+
+        h2 {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            color: #34495e;
+            font-size: 1.4rem;
+            margin: 20px 0 15px 0;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 5px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+            white-space: pre-line;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .code-block .comment {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .code-block .annotation {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .code-block .keyword {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+        .code-line {
+            display: block;
+            margin: 4px 0;
+            padding: 2px 0;
+        }
+
+        .code-line:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        .comparison-table th {
+            background: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        .comparison-table tr:hover {
+            background-color: #e8f4fd;
+            transform: scale(1.01);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #fdcb6e;
+        }
+
+        .success-box {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #28a745;
+        }
+
+        .error-box {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #dc3545;
+        }
+
+        .emoji {
+            font-size: 1.5rem;
+        }
+
+        .cascade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .cascade-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 4px solid #3498db;
+        }
+
+        .cascade-item h4 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .example-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border-top: 3px solid #27ae60;
+        }
+
+        .example-card h5 {
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><span class="emoji">🚗</span> Relaciones JPA OneToOne (1:1)</h1>
+            <p>Guía completa sobre asociaciones unidireccionales Auto-Motor</p>
+        </div>
+
+        <div class="content">
+            <!-- Sección: Tipos de Asociaciones -->
+            <div class="section section-composicion">
+                <h2><span class="emoji">🔗</span> Tipos de Asociaciones</h2>
+                
+                <h3>1. COMPOSICIÓN (Composition) - "Parte de"</h3>
+                <ul>
+                    <li><strong>Dependencia fuerte:</strong> El hijo NO puede existir sin el padre</li>
+                    <li><strong>Ciclo de vida acoplado:</strong> Si eliminas el padre, se elimina el hijo</li>
+                    <li><strong>Propiedad exclusiva:</strong> El hijo pertenece a UN solo padre</li>
+                </ul>
+
+                <div class="code-block">
+<span class="code-line"><span class="annotation">@OneToOne</span>(<span class="keyword">cascade</span> = <span class="keyword">CascadeType.ALL</span>) <span class="comment">// ← COMPOSICIÓN</span></span>
+<span class="code-line"><span class="keyword">private</span> Motor motor;</span>
+                </div>
+
+                <div class="success-box">
+                    <strong>✅ Tu caso Auto-Motor es COMPOSICIÓN:</strong>
+                    <ul>
+                        <li>El Motor existe PARA el Auto</li>
+                        <li>Si eliminas el Auto, el Motor también se elimina</li>
+                        <li>El Motor no tiene sentido sin su Auto</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section section-agregacion">
+                <h3>2. AGREGACIÓN (Aggregation) - "Usa/Tiene"</h3>
+                <ul>
+                    <li><strong>Dependencia débil:</strong> El hijo PUEDE existir sin el padre</li>
+                    <li><strong>Ciclo de vida independiente:</strong> Eliminar el padre NO elimina el hijo</li>
+                    <li><strong>Propiedad compartida:</strong> El hijo puede pertenecer a varios padres</li>
+                </ul>
+
+                <div class="code-block">
+<span class="code-line"><span class="annotation">@ManyToOne</span> <span class="comment">// ← AGREGACIÓN</span></span>
+<span class="code-line"><span class="annotation">@JoinColumn</span>(<span class="keyword">name</span> = <span class="keyword">"departamento_id"</span>)</span>
+<span class="code-line"><span class="keyword">private</span> Departamento departamento;</span>
+                </div>
+
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>COMPOSICIÓN</th>
+                            <th>AGREGACIÓN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Símbolo UML</strong></td>
+                            <td>♦️ (rombo relleno)</td>
+                            <td>♢ (rombo vacío)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dependencia</strong></td>
+                            <td>Fuerte</td>
+                            <td>Débil</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cascade</strong></td>
+                            <td>CascadeType.ALL o REMOVE</td>
+                            <td>Sin REMOVE</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ejemplo</strong></td>
+                            <td>Auto-Motor</td>
+                            <td>Profesor-Estudiante</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Eliminación</strong></td>
+                            <td>Padre elimina → Hijo elimina</td>
+                            <td>Padre elimina → Hijo persiste</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sección: CascadeType -->
+            <div class="section section-cascade">
+                <h2><span class="emoji">⚡</span> Tipos de CascadeType</h2>
+                
+                <div class="cascade-grid">
+                    <div class="cascade-item">
+                        <h4>CascadeType.PERSIST</h4>
+                        <p><strong>Qué hace:</strong> Cuando guardas el Auto, automáticamente guarda el Motor</p>
+                        <p><strong>Cuándo:</strong> Para crear ambas entidades juntas</p>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>CascadeType.MERGE</h4>
+                        <p><strong>Qué hace:</strong> Cuando actualizas el Auto, también actualiza el Motor</p>
+                        <p><strong>Cuándo:</strong> Para sincronizar cambios</p>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>CascadeType.REMOVE</h4>
+                        <p><strong>Qué hace:</strong> Cuando eliminas el Auto, también elimina el Motor</p>
+                        <p><strong>Cuándo:</strong> Relaciones padre-hijo fuertes</p>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>CascadeType.REFRESH</h4>
+                        <p><strong>Qué hace:</strong> Refresca/recarga Auto Y Motor desde BD, descartando cambios en memoria</p>
+                        <p><strong>Cuándo:</strong> Cambios externos en BD, sincronización multi-usuario</p>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>CascadeType.DETACH</h4>
+                        <p><strong>Qué hace:</strong> Desconecta Auto Y Motor del EntityManager (no trackea cambios)</p>
+                        <p><strong>Cuándo:</strong> Optimización memoria, transferir entre contextos, evitar updates accidentales</p>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>CascadeType.ALL ⭐</h4>
+                        <p><strong>Qué hace:</strong> Aplica TODOS los cascade anteriores</p>
+                        <p><strong>Cuándo:</strong> Relaciones fuertes (Auto-Motor)</p>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 Para tu caso Auto-Motor:</strong> <code>CascadeType.ALL</code> es perfecto porque:
+                    <ul>
+                        <li>PERSIST: Guarda motor automáticamente</li>
+                        <li>MERGE: Actualiza motor automáticamente</li>
+                        <li>REMOVE: Elimina motor cuando eliminas auto</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección: FetchType -->
+            <div class="section section-fetch">
+                <h2><span class="emoji">🚀</span> Tipos de FetchType</h2>
+                
+                <h3>FetchType.EAGER ⚡ (Tu configuración actual)</h3>
+                <div class="success-box">
+                    <ul>
+                        <li><strong>Cuándo carga:</strong> Al momento de cargar el Auto, automáticamente carga el Motor</li>
+                        <li><strong>Ventaja:</strong> Motor disponible inmediatamente, no hay LazyInitializationException</li>
+                        <li><strong>Desventaja:</strong> Siempre carga datos que quizás no uses</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// SQL generado con EAGER:</span>
+<span class="keyword">SELECT</span> a.*, m.* 
+<span class="keyword">FROM</span> auto a 
+<span class="keyword">LEFT JOIN</span> motor m <span class="keyword">ON</span> a.id_motor = m.idMotor 
+<span class="keyword">WHERE</span> a.idAuto = 1
+                </div>
+
+                <h3>FetchType.LAZY 🐌 (Alternativa)</h3>
+                <div class="error-box">
+                    <ul>
+                        <li><strong>Cuándo carga:</strong> Solo cuando haces auto.getMotor()</li>
+                        <li><strong>Ventaja:</strong> Mejor rendimiento si no siempre necesitas el motor</li>
+                        <li><strong>Desventaja:</strong> Puede generar LazyInitializationException</li>
+                        <li><strong>Requiere:</strong> @Transactional en métodos que acceden a propiedades lazy</li>
+                    </ul>
+                </div>
+
+                <div class="highlight-box">
+                    <strong>🎯 ¿Por qué EAGER es bueno en tu caso?</strong>
+                    <ul>
+                        <li>✅ Relación fuerte: Auto sin motor no tiene mucho sentido</li>
+                        <li>✅ Uso frecuente: Probablemente siempre mostrarás datos del motor</li>
+                        <li>✅ Simplicidad: No te preocupas por LazyInitializationException</li>
+                        <li>✅ Rendimiento: Para OneToOne, el impacto es mínimo</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección: REFRESH y DETACH Detallados -->
+            <div class="section section-cascade">
+                <h2><span class="emoji">🔄</span> CascadeType.REFRESH - Detallado</h2>
+                
+                <div class="error-box">
+                    <h4>❌ REFRESH NO modifica la BD</h4>
+                    <p>Es exactamente lo contrario: <strong>recarga datos desde BD hacia la aplicación</strong></p>
+                </div>
+
+                <div class="success-box">
+                    <h4>✅ REFRESH sí hace esto:</h4>
+                    <ul>
+                        <li>Refresca/Recarga datos desde BD hacia la aplicación</li>
+                        <li>Sincroniza el estado de la entidad con lo que está en BD</li>
+                        <li>Descarta cambios no guardados en memoria</li>
+                    </ul>
+                </div>
+
+                <h3>🔄 Ejemplo práctico de REFRESH:</h3>
+                <div class="code-block">
+<span class="code-line"><span class="comment">// Situación inicial</span></span>
+<span class="code-line">Auto auto = autoRepository.findById(1L);</span>
+<span class="code-line">System.out.println(auto.getMarca()); <span class="comment">// "Toyota"</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// 1. Modificas en memoria (SIN guardar)</span></span>
+<span class="code-line">auto.setMarca(<span class="keyword">"Honda"</span>);</span>
+<span class="code-line">System.out.println(auto.getMarca()); <span class="comment">// "Honda" (solo en memoria)</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// 2. Alguien MÁS modifica la BD externamente</span></span>
+<span class="code-line"><span class="comment">// UPDATE auto SET marca = 'Nissan' WHERE idAuto = 1;</span></span>
+<span class="code-line"><span class="comment">// UPDATE motor SET cilindrada = 2500 WHERE idMotor = auto.id_motor;</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// 3. Ejecutas refresh() - Con CascadeType.REFRESH</span></span>
+<span class="code-line">entityManager.refresh(auto);</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// 4. Resultado:</span></span>
+<span class="code-line">System.out.println(auto.getMarca()); <span class="comment">// "Nissan" (desde BD, no "Honda")</span></span>
+<span class="code-line">System.out.println(auto.getMotor().getCilindrada()); <span class="comment">// 2500 (también refrescado)</span></span>
+                </div>
+
+                <div class="highlight-box">
+                    <h4>🎯 Cuándo usar REFRESH:</h4>
+                    <ul>
+                        <li><strong>Cambios externos en BD:</strong> Otros procesos, triggers, stored procedures</li>
+                        <li><strong>Aplicaciones multi-usuario:</strong> Otros usuarios modifican datos</li>
+                        <li><strong>Sincronización después de operaciones bulk</strong></li>
+                        <li><strong>Descartar cambios no guardados</strong></li>
+                    </ul>
+                </div>
+
+                <h3>⚠️ Cuidados con REFRESH:</h3>
+                <div class="code-block">
+<span class="code-line"><span class="comment">// 1. Pérdida de cambios no guardados</span></span>
+<span class="code-line">auto.setMarca(<span class="keyword">"BMW"</span>); <span class="comment">// Cambio en memoria</span></span>
+<span class="code-line">entityManager.refresh(auto); <span class="comment">// ❌ Pierdes el cambio "BMW"</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// 2. Estado de relaciones</span></span>
+<span class="code-line">Motor nuevoMotor = <span class="keyword">new</span> Motor(2000, <span class="keyword">"Volkswagen"</span>);</span>
+<span class="code-line">auto.setMotor(nuevoMotor); <span class="comment">// Solo en memoria</span></span>
+<span class="code-line">entityManager.refresh(auto); <span class="comment">// Motor vuelve al original de BD</span></span>
+                </div>
+            </div>
+
+            <div class="section section-fetch">
+                <h2><span class="emoji">🔌</span> CascadeType.DETACH - Detallado</h2>
+                
+                <div class="highlight-box">
+                    <h4>🔌 ¿Qué es DETACH?</h4>
+                    <p><strong>DETACH desconecta una entidad del EntityManager</strong> (contexto de persistencia). La entidad sigue en memoria, pero JPA ya no la "vigila".</p>
+                </div>
+
+                <h3>📊 Estados de una entidad JPA:</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Descripción</th>
+                            <th>Trackeo JPA</th>
+                            <th>Cambios automáticos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>NEW/TRANSIENT</strong></td>
+                            <td>Recién creada, JPA no la conoce</td>
+                            <td>❌ No</td>
+                            <td>❌ No</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MANAGED/PERSISTENT</strong></td>
+                            <td>JPA la trackea activamente</td>
+                            <td>✅ Sí</td>
+                            <td>✅ Se sincronizan</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DETACHED</strong></td>
+                            <td>Desconectada del contexto</td>
+                            <td>❌ No</td>
+                            <td>❌ NO se sincronizan</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REMOVED</strong></td>
+                            <td>Marcada para eliminación</td>
+                            <td>✅ Sí</td>
+                            <td>🗑️ Se elimina</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>🔌 Ejemplo SIN CASCADE vs CON CASCADE:</h3>
+                <div class="code-block">
+<span class="code-line"><span class="comment">// SIN CascadeType.DETACH</span></span>
+<span class="code-line"><span class="annotation">@OneToOne</span>(<span class="keyword">cascade</span> = {<span class="keyword">CascadeType.PERSIST</span>, <span class="keyword">CascadeType.MERGE</span>})</span>
+<span class="code-line"><span class="keyword">private</span> Motor motor;</span>
+<span class="code-line"></span>
+<span class="code-line">entityManager.detach(auto); <span class="comment">// Solo Auto se detach, Motor sigue MANAGED</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// CON CascadeType.DETACH (incluido en ALL)</span></span>
+<span class="code-line"><span class="annotation">@OneToOne</span>(<span class="keyword">cascade</span> = <span class="keyword">CascadeType.ALL</span>) <span class="comment">// Incluye DETACH</span></span>
+<span class="code-line"><span class="keyword">private</span> Motor motor;</span>
+<span class="code-line"></span>
+<span class="code-line">entityManager.detach(auto); <span class="comment">// Auto Y Motor se detach automáticamente</span></span>
+                </div>
+
+                <h3>🎯 Cuándo usar DETACH:</h3>
+                <div class="cascade-grid">
+                    <div class="cascade-item">
+                        <h4>1. Optimización de memoria</h4>
+                        <p>Procesar muchas entidades sin mantenerlas en contexto</p>
+                        <div class="code-block" style="font-size: 0.8rem; margin-top: 10px;">
+<span class="code-line"><span class="keyword">for</span> (<span class="keyword">int</span> i = 0; i < 10000; i++) {</span>
+<span class="code-line">    Auto auto = autoRepository.findById(i);</span>
+<span class="code-line">    procesarDatos(auto);</span>
+<span class="code-line">    entityManager.detach(auto); <span class="comment">// Libera memoria</span></span>
+<span class="code-line">}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>2. Transferir entre contextos</h4>
+                        <p>Usar entidades en diferentes transacciones</p>
+                        <div class="code-block" style="font-size: 0.8rem; margin-top: 10px;">
+<span class="code-line">entityManager.detach(auto);</span>
+<span class="code-line"><span class="keyword">return</span> auto; <span class="comment">// Seguro para UI</span></span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Más tarde...</span></span>
+<span class="code-line">Auto managed = entityManager.merge(auto);</span>
+                        </div>
+                    </div>
+                    
+                    <div class="cascade-item">
+                        <h4>3. Evitar updates accidentales</h4>
+                        <p>Pasar entidades a métodos no confiables</p>
+                        <div class="code-block" style="font-size: 0.8rem; margin-top: 10px;">
+<span class="code-line">entityManager.detach(auto);</span>
+<span class="code-line">metodoExterno(auto); <span class="comment">// No afecta BD</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="error-box">
+                    <h4>⚠️ Problema común - LazyInitializationException:</h4>
+                    <div class="code-block">
+<span class="code-line"><span class="annotation">@Transactional</span></span>
+<span class="code-line"><span class="keyword">public</span> Auto getAutoDetached(Long id) {</span>
+<span class="code-line">    Auto auto = autoRepository.findById(id);</span>
+<span class="code-line">    entityManager.detach(auto); <span class="comment">// Detach con motor LAZY</span></span>
+<span class="code-line">    <span class="keyword">return</span> auto;</span>
+<span class="code-line">}</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// En otro lugar...</span></span>
+<span class="code-line">Auto auto = autoService.getAutoDetached(1L);</span>
+<span class="code-line">Motor motor = auto.getMotor(); <span class="comment">// ❌ LazyInitializationException!</span></span>
+                    </div>
+                    
+                    <p><strong>Solución:</strong> Forzar carga ANTES de detach o usar EAGER</p>
+                </div>
+
+                <div class="success-box">
+                    <h4>✅ Métodos relacionados con DETACH:</h4>
+                    <div class="code-block">
+<span class="code-line"><span class="comment">// Detach una entidad específica</span></span>
+<span class="code-line">entityManager.detach(auto);</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Detach TODAS las entidades del contexto</span></span>
+<span class="code-line">entityManager.clear();</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Verificar si está managed</span></span>
+<span class="code-line"><span class="keyword">boolean</span> isManaged = entityManager.contains(auto);</span>
+<span class="code-line"></span>
+<span class="code-line"><span class="comment">// Re-attach una entidad detached</span></span>
+<span class="code-line">Auto managedAuto = entityManager.merge(autoDetached);</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Comparación REFRESH vs DETACH -->
+            <div class="section">
+                <h2><span class="emoji">⚖️</span> REFRESH vs DETACH - Comparación</h2>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Aspecto</th>
+                            <th>CascadeType.REFRESH</th>
+                            <th>CascadeType.DETACH</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Dirección</strong></td>
+                            <td>BD → App</td>
+                            <td>Desconecta del contexto</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Propósito</strong></td>
+                            <td>Sincronizar con cambios externos</td>
+                            <td>Optimizar memoria/transferir contextos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cambios en memoria</strong></td>
+                            <td>Se descartan</td>
+                            <td>Se mantienen (pero no se trackean)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estado resultante</strong></td>
+                            <td>MANAGED (actualizado)</td>
+                            <td>DETACHED</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uso común</strong></td>
+                            <td>Multi-usuario, triggers BD</td>
+                            <td>Batch processing, APIs</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="highlight-box">
+                    <h4>🎯 Para tu proyecto Auto-Motor:</h4>
+                    <p>Con <code>CascadeType.ALL</code> tienes ambos incluidos, pero probablemente:</p>
+                    <ul>
+                        <li><strong>REFRESH:</strong> Solo si otros procesos modifican autos/motores en BD</li>
+                        <li><strong>DETACH:</strong> Raramente necesario para operaciones CRUD básicas</li>
+                        <li><strong>Más importantes:</strong> PERSIST, MERGE, REMOVE para tu caso de uso</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Sección: @Transactional -->
+            <div class="section">
+                <h2><span class="emoji">🔄</span> ¿Cuándo necesitas @Transactional?</h2>
+                
+                <div class="success-box">
+                    <h4>✅ Con FetchType.EAGER (Tu caso) - NO necesitas @Transactional</h4>
+                    <p>Porque el motor se carga inmediatamente junto con el auto en una sola consulta SQL.</p>
+                </div>
+
+                <div class="error-box">
+                    <h4>⚠️ Con FetchType.LAZY - SÍ necesitas @Transactional</h4>
+                    <p>Para evitar LazyInitializationException cuando accedes a propiedades del motor.</p>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// SIN @Transactional con LAZY - ❌ FALLA</span>
+<span class="keyword">public</span> Auto getAutoConMotor(Long id) {
+    Auto auto = autoRepository.findById(id); <span class="comment">// Conexión BD se cierra aquí</span>
+    Motor motor = auto.getMotor(); <span class="comment">// ❌ LazyInitializationException!</span>
+    <span class="keyword">return</span> auto;
+}
+
+<span class="comment">// CON @Transactional - ✅ FUNCIONA</span>
+<span class="annotation">@Transactional</span>
+<span class="keyword">public</span> Auto getAutoConMotor(Long id) {
+    Auto auto = autoRepository.findById(id); 
+    Motor motor = auto.getMotor(); <span class="comment">// ✅ Sesión sigue abierta</span>
+    <span class="keyword">return</span> auto;
+}
+                </div>
+            </div>
+
+            <!-- Sección: Ejemplos de Relaciones 1:1 -->
+            <div class="section section-ejemplos">
+                <h2><span class="emoji">📚</span> Ejemplos de Relaciones OneToOne</h2>
+                
+                <h3>🔹 COMPOSICIÓN (Como Auto-Motor)</h3>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h5>Persona ← Corazón</h5>
+                        <p>Cada persona tiene un corazón específico</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Casa ← Dirección</h5>
+                        <p>Cada casa tiene una dirección única</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Producto ← CodigoBarras</h5>
+                        <p>Cada producto tiene su código único</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Empleado ← Expediente</h5>
+                        <p>Cada empleado tiene un expediente específico</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Pedido ← Factura</h5>
+                        <p>Cada pedido genera una factura</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Paciente ← HistoriaClinica</h5>
+                        <p>Cada paciente tiene una historia clínica</p>
+                    </div>
+                </div>
+
+                <h3>🔹 AGREGACIÓN</h3>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <h5>Empleado ← Oficina</h5>
+                        <p>Un empleado puede tener una oficina asignada</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Estudiante ← Casillero</h5>
+                        <p>Estudiante puede tener un casillero asignado</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Usuario ← Avatar</h5>
+                        <p>Usuario puede tener un avatar reutilizable</p>
+                    </div>
+                    <div class="example-card">
+                        <h5>Médico ← Consultorio</h5>
+                        <p>Médico puede cambiar de consultorio</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección: Tu implementación -->
+            <div class="section">
+                <h2><span class="emoji">🎯</span> Tu implementación Auto-Motor</h2>
+                
+                <div class="code-block">
+<span class="comment">// Tu configuración actual - PERFECTA para el caso de uso</span>
+<span class="annotation">@OneToOne</span>(<span class="keyword">fetch</span> = <span class="keyword">FetchType.EAGER</span>, <span class="keyword">cascade</span> = <span class="keyword">CascadeType.ALL</span>)
+<span class="annotation">@JoinColumn</span>(<span class="keyword">name</span> = <span class="keyword">"id_motor"</span>, <span class="keyword">referencedColumnName</span> = <span class="keyword">"idMotor"</span>)
+<span class="keyword">private</span> Motor motor;
+                </div>
+
+                <div class="success-box">
+                    <h4>✅ Por qué tu implementación es excelente:</h4>
+                    <ul>
+                        <li><strong>EAGER:</strong> Simple y directo, motor siempre disponible</li>
+                        <li><strong>CascadeType.ALL:</strong> Operaciones automáticas en motor</li>
+                        <li><strong>Unidireccional:</strong> Auto conoce Motor, Motor no conoce Auto</li>
+                        <li><strong>Composición:</strong> Motor existe para el Auto específico</li>
+                    </ul>
+                </div>
+
+                <h3>🗃️ Esquema de Base de Datos generado:</h3>
+                <div class="code-block">
+<span class="comment">-- Tabla MOTOR (independiente)</span>
+<span class="keyword">CREATE TABLE</span> motor (
+    idMotor <span class="keyword">BIGINT AUTO_INCREMENT PRIMARY KEY</span>,
+    cilindrada <span class="keyword">INT NOT NULL</span>,
+    marca_motor <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>
+);
+
+<span class="comment">-- Tabla AUTO (con FK hacia motor)</span>
+<span class="keyword">CREATE TABLE</span> auto (
+    idAuto <span class="keyword">BIGINT AUTO_INCREMENT PRIMARY KEY</span>,
+    marca <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>,
+    modelo <span class="keyword">VARCHAR</span>(255) <span class="keyword">NOT NULL</span>,
+    precio <span class="keyword">DECIMAL NOT NULL</span>,
+    id_motor <span class="keyword">BIGINT</span>, <span class="comment">-- FK hacia motor.idMotor</span>
+    <span class="keyword">CONSTRAINT</span> fk_auto_motor 
+        <span class="keyword">FOREIGN KEY</span> (id_motor) <span class="keyword">REFERENCES</span> motor(idMotor)
+);
+                </div>
+            </div>
+
+            <!-- Sección: Equals y HashCode -->
+            <div class="section">
+                <h2><span class="emoji">⚖️</span> equals() y hashCode() en relaciones unidireccionales</h2>
+                
+                <div class="highlight-box">
+                    <h4>❓ ¿Por qué NO es obligatorio pero SÍ es buena práctica?</h4>
+                    
+                    <h5>NO es obligatorio porque:</h5>
+                    <ul>
+                        <li>No hay referencias circulares (Motor no conoce Auto)</li>
+                        <li>Hibernate no necesita navegar hacia atrás</li>
+                        <li>No hay riesgo de bucles infinitos</li>
+                    </ul>
+
+                    <h5>SÍ es buena práctica porque:</h5>
+                    <ul>
+                        <li>Consistencia con Collections de Java (HashSet, etc.)</li>
+                        <li>Comparaciones en tests y lógica de negocio</li>
+                        <li>Prevención de problemas futuros</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+<span class="comment">// Tu implementación correcta - usa solo el ID</span>
+<span class="annotation">@Override</span>
+<span class="keyword">public int</span> hashCode() {
+    <span class="keyword">return</span> (idMotor == <span class="keyword">null</span>) ? 0 : idMotor.hashCode();
+}
+
+<span class="annotation">@Override</span>
+<span class="keyword">public boolean</span> equals(Object obj) {
+    <span class="comment">// ... comparación por ID</span>
+    <span class="keyword">return</span> idMotor.equals(other.idMotor);
+}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

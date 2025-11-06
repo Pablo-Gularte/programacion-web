@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Proyectojpa1a1UnidireccionalApplication<proyectojpa1a1unidireccional>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ar.edu.centro8.desarrollo.proyectojpa1a1unidireccional.Proyectojpa1a1UnidireccionalApplication",
+            "projectName": "proyectojpa1a1unidireccional",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

@@ -1,0 +1,11 @@
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\services\MotorService.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\controllers\MotorController.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\Proyectojpa1a1UnidireccionalApplication.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\repositories\IMotorRepository.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\services\AutoService.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\models\Auto.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\services\IAutoService.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\models\Motor.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\repositories\IAutoRepository.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\services\IMotorService.class
+ar\edu\centro8\desarrollo\proyectojpa1a1unidireccional\controllers\AutoController.class
