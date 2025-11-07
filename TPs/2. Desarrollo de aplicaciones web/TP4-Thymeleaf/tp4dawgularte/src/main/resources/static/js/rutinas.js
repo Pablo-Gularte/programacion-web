@@ -17,3 +17,21 @@ if(toastOk) {
     const toast = new bootstrap.Toast(toastOk);
     toast.show();
 }
+
+function borrarRegistro(id) {
+    if(confirm(`¿Desea eliminar el auto de ID ${id}?`)) {
+        // Creo un formulario temporal para enviar al controlafor una petición POST
+        // con el id del registro a borrar
+        const frmBorrar = document.createElement("form");
+        frmBorrar.action = "/autos/borrar/" + id;
+        frmBorrar.method = "post";
+        document.body.appendChild(frmBorrar);
+        frmBorrar.submit();
+        document.body.removeChild(frmBorrar);
+    } 
+}
+
+function resetearFormulario() {
+    document.getElementById("marca").value = "";
+    document.getElementById("precio").value = "";
+}

@@ -14,8 +14,7 @@
         </a>
 
         <h2 th:text="${operacion == 'editar' ? 'Modificar auto' : 'Crear auto'}" class="text-bg-primary text-center py-3 mb-0"></h2>
-        <form th:action="${'/autos/guardar/' + operacion}" method="post" class="bg-primary-subtle p-3" th:object="${autoDTO}">
-            <input th:if="${operacion == 'editar'}" type="hidden" name="id" th:field="*{id}">
+        <form th:action="${operacion == 'editar' ? '/autos/guardar/' + id : '/autos/guardar'}" method="post" class="bg-primary-subtle p-3" th:object="${autoDTO}">
             <div class="mb-3">
                <label for="marca" class="form-label">Marca: </label>
                <input type="text" class="form-control" id="marca" name="marca" placeholder="Ej.: Ford" th:field="*{marca}" required>
@@ -25,7 +24,7 @@
                <input type="number" class="form-control" id="precio" name="precio" min="0" th:field="*{precio}" required>
             </div>
             <button type="submit" class="btn btn-success">Guardar</button>
-            <button type="reset" class="btn btn-warning">Cancelar</button>
+            <button type="reset" class="btn btn-warning" onclick="resetearFormulario()">Cancelar</button>
         </form>
     </section>
 
@@ -51,23 +50,34 @@
                     <th class="text-bg-success">Acciones</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr th:each="auto : ${autos}" class="table-success">
-                    <td class="text-center" th:text="${auto.id}"></td>
-                    <td th:text="${auto.marca}"></td>
-                    <td class="text-end" th:text="${auto.precioConFormato()}"></td>
-                    <td class="text-center">
-                        <h3>
-                            <a th:href="${'/prueba/editar/' + auto.id}" class="badge bg-success" title="Editar">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a href="#" class="badge bg-danger" title="Borrar">
-                                <i class="bi bi-trash3-fill"></i>
-                            </a>
-                        </h3>
-                    </td>
-                </tr>
-            </tbody>
+            <th:block th:if="${autos.size() > 0}">
+                <tbody>
+                    <tr th:each="auto : ${autos}" class="table-success">
+                        <td class="text-center" th:text="${auto.id}"></td>
+                        <td th:text="${auto.marca}"></td>
+                        <td class="text-end" th:text="${auto.precioConFormato()}"></td>
+                        <td class="text-center">
+                            <h3>
+                                <a th:href="${'/autos/editar/' + auto.id}" class="badge bg-success" title="Editar">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a href="#" class="badge bg-danger" title="Borrar" th:onclick="'borrarRegistro(' + ${auto.id} + ')'">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </a>
+                            </h3>
+                        </td>
+                    </tr>
+                </tbody>
+            </th:block>
+            <th:block th:if="${autos.size() == 0}">
+                <tbody>
+                    <tr>
+                        <td colspan="4" class="text-center text-bg-secondary">
+                            <strong>Aún no se han ingresado datos</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </th:block>
         </table>
     </section>
 

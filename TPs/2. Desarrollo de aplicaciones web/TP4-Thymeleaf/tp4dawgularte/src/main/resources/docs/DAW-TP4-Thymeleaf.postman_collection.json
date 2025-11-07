@@ -1,0 +1,459 @@
+{
+	"info": {
+		"_postman_id": "0b5ad6c1-7739-4426-ae91-c3b30f6b1cff",
+		"name": "DAW-TP4-Thymeleaf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31671255"
+	},
+	"item": [
+		{
+			"name": "Visualización de plantillas",
+			"item": [
+				{
+					"name": "Formulario para crear auto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/autos/nuevo",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"nuevo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Formulario para modificar auto",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/autos/editar/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"editar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar todos los autos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Manipulación de datos",
+			"item": [
+				{
+					"name": "Crear auto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Chery",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "9876543.21",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar auto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Chery",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar/36",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar",
+								"36"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar auto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/autos/borrar/36",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"borrar",
+								"36"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Creación de registros",
+			"item": [
+				{
+					"name": "Creo auto marca Toyota",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Toyota",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "32500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creo auto marca Ford",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Ford",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "45800",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creo auto marca Chevrolet",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Chevrolet",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "25990",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creo auto marca Volkswagen",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Volkswagen",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "19500",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creo auto marca Renault",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Renault",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "14800",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Consultas con errores",
+			"item": [
+				{
+					"name": "Editar auto inexistente",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Crear auto con marca existente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Toyota",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "123456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Modificar marca de auto por una existente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "marca",
+									"value": "Ford",
+									"type": "text"
+								},
+								{
+									"key": "precio",
+									"value": "1234",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/autos/guardar/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"guardar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar auto inexistente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/autos/borrar/1000",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"autos",
+								"borrar",
+								"1000"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"requests": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:8080/"
+		}
+	]
+}
