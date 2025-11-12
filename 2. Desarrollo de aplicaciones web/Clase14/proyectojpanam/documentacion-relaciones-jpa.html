@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Relaciones JPA Many-to-Many</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .annotation {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .method {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        
+        .explanation {
+            background-color: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .warning {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        
+        .table-container {
+            margin: 20px 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .toc {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 5px;
+        }
+        
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        
+        .toc a {
+            text-decoration: none;
+            color: #007bff;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Documentación Técnica: Relaciones JPA Many-to-Many</h1>
+        <p style="text-align: center; color: #666; font-style: italic;">
+            Sistema de gestión de relaciones entre Estudiantes y Cursos
+        </p>
+
+        <div class="toc">
+            <h3>📋 Tabla de Contenidos</h3>
+            <ul>
+                <li><a href="#clase-curso">1. Clase Curso</a></li>
+                <li><a href="#clase-estudiante">2. Clase Estudiante</a></li>
+                <li><a href="#curso-controller">3. CursoController</a></li>
+                <li><a href="#estudiante-controller">4. EstudianteController</a></li>
+                <li><a href="#curso-repository">5. CursoRepository</a></li>
+                <li><a href="#diagrama-relaciones">6. Diagrama de Relaciones</a></li>
+            </ul>
+        </div>
+
+        <section id="clase-curso">
+            <h2>1️⃣ Clase Curso</h2>
+            
+            <h3>🔗 Anotación de Relación Many-to-Many</h3>
+            <div class="code-block">
+                <code>
+@ManyToMany(mappedBy = "cursos", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+@JsonIgnoreProperties("cursos")
+private List&lt;Estudiante&gt; estudiantes = new ArrayList&lt;&gt;();
+                </code>
+            </div>
+
+            <div class="annotation">
+                <h4>📖 Explicación detallada de la anotación:</h4>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Valor</th>
+                            <th>Descripción</th>
+                        </tr>
+                        <tr>
+                            <td><strong>mappedBy</strong></td>
+                            <td>"cursos"</td>
+                            <td>Indica que esta es la entidad <strong>inversa</strong> de la relación. La entidad propietaria está en la clase Estudiante, en el campo "cursos".</td>
+                        </tr>
+                        <tr>
+                            <td><strong>fetch</strong></td>
+                            <td>FetchType.LAZY</td>
+                            <td>Carga <strong>perezosa</strong>: los estudiantes se cargan solo cuando se accede a ellos, no automáticamente.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>cascade</strong></td>
+                            <td>PERSIST, MERGE</td>
+                            <td>
+                                <strong>PERSIST</strong>: Al guardar un curso, se guardan automáticamente los estudiantes nuevos.<br>
+                                <strong>MERGE</strong>: Al actualizar un curso, se actualizan los estudiantes modificados.
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>🎯 ¿Por qué @JsonIgnoreProperties("cursos")?</h4>
+                <p>Previene la <strong>serialización circular</strong> en JSON. Sin esto, cuando se serializa un Curso con sus Estudiantes, cada Estudiante intentaría serializar sus Cursos, creando un bucle infinito.</p>
+            </div>
+
+            <h3>🔧 Métodos de Gestión de Relaciones</h3>
+            
+            <div class="method">
+                <h4>📥 agregarEstudiante(Estudiante estudiante)</h4>
+                <div class="code-block">
+                    <code>
+public void agregarEstudiante(Estudiante estudiante) {
+    if (estudiantes == null) {
+        estudiantes = new ArrayList&lt;&gt;();
+    }
+    if (!estudiantes.contains(estudiante)) {
+        estudiantes.add(estudiante);
+        // Sincronizar el otro lado de la relación
+        if (estudiante.getCursos() == null) {
+            estudiante.setCursos(new ArrayList&lt;&gt;());
+        }
+        if (!estudiante.getCursos().contains(this)) {
+            estudiante.getCursos().add(this);
+        }
+    }
+}
+                    </code>
+                </div>
+                <div class="explanation">
+                    <h5>🎯 Funcionalidad:</h5>
+                    <ul>
+                        <li><strong>Validación de nulos:</strong> Inicializa la lista si es null</li>
+                        <li><strong>Prevención de duplicados:</strong> Solo agrega si no existe</li>
+                        <li><strong>Sincronización bidireccional:</strong> Actualiza ambos lados de la relación</li>
+                        <li><strong>Consistencia:</strong> Garantiza que ambas entidades conocen la relación</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="method">
+                <h4>📤 removerEstudiante(Estudiante estudiante)</h4>
+                <div class="code-block">
+                    <code>
+public void removerEstudiante(Estudiante estudiante) {
+    if (estudiantes != null) {
+        estudiantes.remove(estudiante);
+        // Sincronizar el otro lado de la relación
+        if (estudiante.getCursos() != null) {
+            estudiante.getCursos().remove(this);
+        }
+    }
+}
+                    </code>
+                </div>
+                <div class="explanation">
+                    <h5>🎯 Funcionalidad:</h5>
+                    <ul>
+                        <li><strong>Eliminación segura:</strong> Verifica que la lista no sea null</li>
+                        <li><strong>Limpieza bidireccional:</strong> Remueve la relación de ambos lados</li>
+                        <li><strong>Integridad:</strong> Mantiene la consistencia de datos</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="method">
+                <h4>🧹 removerTodosLosEstudiantes()</h4>
+                <div class="code-block">
+                    <code>
+public void removerTodosLosEstudiantes() {
+    if (estudiantes != null) {
+        // Crear una copia para evitar ConcurrentModificationException
+        List&lt;Estudiante&gt; estudiantesACopiar = new ArrayList&lt;&gt;(estudiantes);
+        for (Estudiante estudiante : estudiantesACopiar) {
+            removerEstudiante(estudiante);
+        }
+    }
+}
+                    </code>
+                </div>
+                <div class="warning">
+                    <h5>⚠️ Importante:</h5>
+                    <p>Se crea una <strong>copia de la lista</strong> antes de iterar para evitar <code>ConcurrentModificationException</code>, que ocurre cuando se modifica una colección mientras se itera sobre ella.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="clase-estudiante">
+            <h2>2️⃣ Clase Estudiante</h2>
+            
+            <h3>🔗 Anotación de Relación Many-to-Many (Propietaria)</h3>
+            <div class="code-block">
+                <code>
+@ManyToMany(fetch = FetchType.LAZY)
+@JsonIgnoreProperties("estudiantes")
+@JoinTable(
+    name = "estudiante_curso", 
+    joinColumns = @JoinColumn(name = "fk_estudiante", referencedColumnName = "id_estudiante"),
+    inverseJoinColumns = @JoinColumn(name = "fk_curso", referencedColumnName = "id_curso")    
+)
+private List&lt;Curso&gt; cursos = new ArrayList&lt;&gt;();
+                </code>
+            </div>
+
+            <div class="annotation">
+                <h4>📖 Explicación detallada:</h4>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Componente</th>
+                            <th>Descripción</th>
+                        </tr>
+                        <tr>
+                            <td><strong>@ManyToMany</strong></td>
+                            <td>Sin "mappedBy" = <strong>Entidad propietaria</strong> de la relación</td>
+                        </tr>
+                        <tr>
+                            <td><strong>@JoinTable</strong></td>
+                            <td>Define la <strong>tabla intermedia</strong> que almacena las relaciones</td>
+                        </tr>
+                        <tr>
+                            <td><strong>name</strong></td>
+                            <td>"estudiante_curso" = Nombre de la tabla intermedia</td>
+                        </tr>
+                        <tr>
+                            <td><strong>joinColumns</strong></td>
+                            <td>Columna que referencia a <strong>esta entidad</strong> (Estudiante)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>inverseJoinColumns</strong></td>
+                            <td>Columna que referencia a la <strong>entidad relacionada</strong> (Curso)</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>🏗️ Estructura de la Tabla Intermedia:</h4>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Columna</th>
+                            <th>Tipo</th>
+                            <th>Referencia</th>
+                        </tr>
+                        <tr>
+                            <td>fk_estudiante</td>
+                            <td>BIGINT</td>
+                            <td>→ estudiante.id_estudiante</td>
+                        </tr>
+                        <tr>
+                            <td>fk_curso</td>
+                            <td>BIGINT</td>
+                            <td>→ curso.id_curso</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <h3>🔧 Métodos de Gestión (Similares a Curso)</h3>
+            
+            <div class="method">
+                <h4>📥 agregarCurso(Curso curso)</h4>
+                <div class="explanation">
+                    <p><strong>Funcionalidad idéntica</strong> a <code>agregarEstudiante()</code> pero desde el lado del estudiante:</p>
+                    <ul>
+                        <li>Agrega el curso a la lista del estudiante</li>
+                        <li>Sincroniza agregando el estudiante a la lista del curso</li>
+                        <li>Previene duplicados y maneja casos de listas nulas</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="method">
+                <h4>📤 removerCurso(Curso curso)</h4>
+                <div class="explanation">
+                    <p><strong>Limpieza bidireccional</strong> de la relación:</p>
+                    <ul>
+                        <li>Remueve el curso de la lista del estudiante</li>
+                        <li>Remueve el estudiante de la lista del curso</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="method">
+                <h4>🧹 removerTodosLosCursos()</h4>
+                <div class="explanation">
+                    <p><strong>Desvincula</strong> al estudiante de todos sus cursos:</p>
+                    <ul>
+                        <li>Usa el patrón de copia para evitar excepciones</li>
+                        <li>Llama a <code>removerCurso()</code> para cada curso</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="curso-controller">
+            <h2>3️⃣ CursoController</h2>
+            
+            <h3>🧹 limpiarReferenciasHuerfanas()</h3>
+            <div class="code-block">
+                <code>
+private void limpiarReferenciasHuerfanas() {
+    try {
+        // 1. Limpiar la tabla intermedia con consulta nativa
+        cursoRepository.limpiarReferenciasHuerfanas();
+        
+        // 2. Actualizar las entidades en memoria
+        List&lt;Estudiante&gt; todosLosEstudiantes = estudianteRepository.findAll();
+        List&lt;Long&gt; idsCursosExistentes = cursoRepository.findAll()
+            .stream().map(Curso::getId).toList();
+        
+        // 3. Filtrar cursos válidos para cada estudiante
+        for (Estudiante estudiante : todosLosEstudiantes) {
+            if (estudiante.getCursos() != null && !estudiante.getCursos().isEmpty()) {
+                List&lt;Curso&gt; cursosValidos = new ArrayList&lt;&gt;();
+                
+                for (Curso curso : estudiante.getCursos()) {
+                    if (curso != null && curso.getId() != null && 
+                        idsCursosExistentes.contains(curso.getId())) {
+                        cursosValidos.add(curso);
+                    }
+                }
+                
+                // 4. Actualizar si hay cambios
+                if (cursosValidos.size() != estudiante.getCursos().size()) {
+                    estudiante.setCursos(cursosValidos);
+                    estudianteRepository.save(estudiante);
+                }
+            }
+        }
+    } catch (Exception e) {
+        System.err.println("Error limpiando referencias huérfanas: " + e.getMessage());
+    }
+}
+                </code>
+            </div>
+
+            <div class="explanation">
+                <h4>🎯 Proceso de Limpieza en 4 Pasos:</h4>
+                <ol>
+                    <li><strong>Limpieza de BD:</strong> Ejecuta consulta nativa para eliminar registros huérfanos</li>
+                    <li><strong>Obtener datos:</strong> Carga todos los estudiantes y IDs de cursos existentes</li>
+                    <li><strong>Filtrado:</strong> Para cada estudiante, mantiene solo cursos que existen</li>
+                    <li><strong>Actualización:</strong> Guarda cambios solo si hay diferencias</li>
+                </ol>
+            </div>
+
+            <h3>📝 crearCurso()</h3>
+            <div class="method">
+                <h4>🔄 Proceso de Creación:</h4>
+                <ol>
+                    <li><strong>Crear curso básico:</strong> Solo con nombre</li>
+                    <li><strong>Procesar estudiantes:</strong> Si vienen estudiantes en la petición</li>
+                    <li><strong>Resolver referencias:</strong> Buscar por ID o crear nuevos</li>
+                    <li><strong>Establecer relaciones:</strong> Sincronizar ambos lados</li>
+                    <li><strong>Guardar:</strong> Persistir curso y actualizar estudiantes</li>
+                </ol>
+            </div>
+
+            <h3>✏️ editarCurso()</h3>
+            <div class="method">
+                <h4>🎯 Funcionalidad:</h4>
+                <ul>
+                    <li><strong>Validación:</strong> Verifica que el nuevo nombre no esté vacío</li>
+                    <li><strong>Búsqueda:</strong> Encuentra el curso por ID original</li>
+                    <li><strong>Actualización:</strong> Solo modifica el nombre</li>
+                    <li><strong>Respuesta:</strong> Retorna el curso actualizado o 404 si no existe</li>
+                </ul>
+            </div>
+
+            <h3>🧽 limpiarTodasLasReferenciasHuerfanas()</h3>
+            <div class="method">
+                <h4>🌐 Endpoint Público:</h4>
+                <div class="code-block">
+                    <code>POST /api/cursos/limpiar-referencias</code>
+                </div>
+                <p>Permite ejecutar manualmente la limpieza de referencias huérfanas.</p>
+            </div>
+
+            <h3>🗑️ eliminarCurso()</h3>
+            <div class="warning">
+                <h4>⚠️ Proceso Crítico de Eliminación:</h4>
+                <ol>
+                    <li><strong>Validar existencia:</strong> Verificar que el curso existe</li>
+                    <li><strong>Limpiar relaciones directas:</strong> Desde el curso hacia estudiantes</li>
+                    <li><strong>Limpiar relaciones inversas:</strong> Buscar en todos los estudiantes</li>
+                    <li><strong>Limpieza de BD:</strong> Ejecutar consulta nativa de limpieza</li>
+                    <li><strong>Eliminación final:</strong> Borrar el curso</li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="estudiante-controller">
+            <h2>4️⃣ EstudianteController</h2>
+            
+            <h3>📝 crearEstudiante()</h3>
+            <div class="method">
+                <h4>🔄 Algoritmo de Creación:</h4>
+                <div class="code-block">
+                    <code>
+// 1. Crear estudiante básico
+Estudiante estudianteGuardado = new Estudiante(estudiante.getNombre());
+estudianteGuardado = estudianteRepository.save(estudianteGuardado);
+
+// 2. Procesar cursos si existen
+if (estudiante.getCursos() != null && !estudiante.getCursos().isEmpty()) {
+    for (Curso cursoInfo : estudiante.getCursos()) {
+        Curso curso = null;
+        
+        // 3. Resolver curso: buscar existente o crear nuevo
+        if (cursoInfo.getId() != null) {
+            Optional&lt;Curso&gt; cursoExistente = cursoRepository.findById(cursoInfo.getId());
+            if (cursoExistente.isPresent()) {
+                curso = cursoExistente.get();
+            } else if (cursoInfo.getNombre() != null) {
+                curso = new Curso(cursoInfo.getNombre());
+                curso = cursoRepository.save(curso);
+            }
+        } else if (cursoInfo.getNombre() != null) {
+            curso = new Curso(cursoInfo.getNombre());
+            curso = cursoRepository.save(curso);
+        }
+        
+        // 4. Establecer relación bidireccional
+        if (curso != null) {
+            estudianteGuardado.agregarCurso(curso);
+        }
+    }
+    
+    // 5. Guardar con relaciones
+    estudianteGuardado = estudianteRepository.save(estudianteGuardado);
+}
+                    </code>
+                </div>
+            </div>
+
+            <h3>✏️ editarEstudiante()</h3>
+            <div class="method">
+                <h4>🎯 Edición Simple:</h4>
+                <ul>
+                    <li><strong>Solo nombre:</strong> No modifica relaciones con cursos</li>
+                    <li><strong>Validación:</strong> Nombre no puede estar vacío</li>
+                    <li><strong>Búsqueda segura:</strong> Retorna 404 si no existe</li>
+                </ul>
+            </div>
+
+            <h3>🗑️ eliminarEstudiante()</h3>
+            <div class="method">
+                <h4>🔄 Proceso de Eliminación Segura:</h4>
+                <div class="code-block">
+                    <code>
+@DeleteMapping("/{id}")
+@Transactional
+public ResponseEntity&lt;Void&gt; eliminarEstudiante(@PathVariable Long id) {
+    Optional&lt;Estudiante&gt; optionalEstudiante = estudianteRepository.findById(id);
+    if (optionalEstudiante.isPresent()) {
+        Estudiante estudiante = optionalEstudiante.get();
+        
+        // Limpiar relaciones con cursos
+        if (estudiante.getCursos() != null && !estudiante.getCursos().isEmpty()) {
+            List&lt;Curso&gt; cursosACopiar = new ArrayList&lt;&gt;(estudiante.getCursos());
+            
+            for (Curso curso : cursosACopiar) {
+                curso.removerEstudiante(estudiante);
+                cursoRepository.save(curso);
+            }
+            
+            estudiante.getCursos().clear();
+            estudianteRepository.save(estudiante);
+        }
+        
+        // Eliminar estudiante
+        estudianteRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.notFound().build();
+}
+                    </code>
+                </div>
+                <div class="explanation">
+                    <h5>🛡️ Características de Seguridad:</h5>
+                    <ul>
+                        <li><strong>@Transactional:</strong> Todo o nada - si falla algo, se revierte</li>
+                        <li><strong>Copia de lista:</strong> Evita ConcurrentModificationException</li>
+                        <li><strong>Sincronización:</strong> Actualiza ambos lados de la relación</li>
+                        <li><strong>Limpieza completa:</strong> Remueve todas las referencias antes de eliminar</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="curso-repository">
+            <h2>5️⃣ CursoRepository</h2>
+            
+            <h3>🗃️ Consulta Nativa de Limpieza</h3>
+            <div class="code-block">
+                <code>
+@Modifying
+@Transactional
+@Query(value = "DELETE FROM estudiante_curso WHERE fk_curso NOT IN (SELECT id_curso FROM curso)", nativeQuery = true)
+void limpiarReferenciasHuerfanas();
+                </code>
+            </div>
+
+            <div class="annotation">
+                <h4>📖 Análisis de Anotaciones:</h4>
+                <div class="table-container">
+                    <table>
+                        <tr>
+                            <th>Anotación</th>
+                            <th>Propósito</th>
+                        </tr>
+                        <tr>
+                            <td><strong>@Modifying</strong></td>
+                            <td>Indica que la consulta <strong>modifica datos</strong> (INSERT, UPDATE, DELETE)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>@Transactional</strong></td>
+                            <td>Asegura que la operación sea <strong>atómica</strong> y reversible</td>
+                        </tr>
+                        <tr>
+                            <td><strong>@Query</strong></td>
+                            <td>Define una <strong>consulta personalizada</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>nativeQuery = true</strong></td>
+                            <td>Usa <strong>SQL nativo</strong> en lugar de JPQL</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>🔍 Explicación de la Consulta SQL:</h4>
+                <div class="code-block">
+                    <code>
+DELETE FROM estudiante_curso 
+WHERE fk_curso NOT IN (SELECT id_curso FROM curso)
+                    </code>
+                </div>
+                <ol>
+                    <li><strong>DELETE FROM estudiante_curso:</strong> Elimina registros de la tabla intermedia</li>
+                    <li><strong>WHERE fk_curso NOT IN:</strong> Condición para registros huérfanos</li>
+                    <li><strong>(SELECT id_curso FROM curso):</strong> Subconsulta con IDs de cursos existentes</li>
+                    <li><strong>Resultado:</strong> Elimina relaciones que apuntan a cursos inexistentes</li>
+                </ol>
+            </div>
+
+            <div class="warning">
+                <h4>⚠️ Consideraciones Importantes:</h4>
+                <ul>
+                    <li><strong>Performance:</strong> La subconsulta puede ser costosa en tablas grandes</li>
+                    <li><strong>Integridad:</strong> Solo elimina referencias, no afecta entidades principales</li>
+                    <li><strong>Timing:</strong> Mejor ejecutar cuando hay poca actividad en el sistema</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="diagrama-relaciones">
+            <h2>6️⃣ Diagrama de Relaciones</h2>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="border: 2px solid #3498db; padding: 20px; display: inline-block; margin: 10px;">
+                    <strong>ESTUDIANTE</strong><br>
+                    - id_estudiante (PK)<br>
+                    - nombre
+                </div>
+                <span style="font-size: 24px; margin: 0 20px;">↔️</span>
+                <div style="border: 2px solid #e74c3c; padding: 20px; display: inline-block; margin: 10px;">
+                    <strong>ESTUDIANTE_CURSO</strong><br>
+                    - fk_estudiante (FK)<br>
+                    - fk_curso (FK)
+                </div>
+                <span style="font-size: 24px; margin: 0 20px;">↔️</span>
+                <div style="border: 2px solid #27ae60; padding: 20px; display: inline-block; margin: 10px;">
+                    <strong>CURSO</strong><br>
+                    - id_curso (PK)<br>
+                    - nombre
+                </div>
+            </div>
+
+            <div class="explanation">
+                <h4>🔄 Flujo de Operaciones:</h4>
+                <ol>
+                    <li><strong>Crear relación:</strong> INSERT en tabla intermedia</li>
+                    <li><strong>Consultar:</strong> JOIN entre las tres tablas</li>
+                    <li><strong>Eliminar relación:</strong> DELETE de tabla intermedia</li>
+                    <li><strong>Limpiar huérfanas:</strong> DELETE WHERE NOT EXISTS</li>
+                </ol>
+            </div>
+
+            <div class="method">
+                <h4>✅ Beneficios del Sistema Implementado:</h4>
+                <ul>
+                    <li><strong>Integridad Referencial:</strong> No quedan referencias rotas</li>
+                    <li><strong>Sincronización Automática:</strong> Relaciones bidireccionales consistentes</li>
+                    <li><strong>Limpieza Automática:</strong> Mantenimiento transparente</li>
+                    <li><strong>Transaccionalidad:</strong> Operaciones atómicas y seguras</li>
+                    <li><strong>Performance:</strong> Carga perezosa y consultas optimizadas</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

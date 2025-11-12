@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explicación Detallada: Streams y Map en Java</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #34495e;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #333;
+            display: block;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .step {
+            background-color: #e7f3ff;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .example {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .explanation {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .comparison {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .diagram {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: monospace;
+        }
+        
+        .arrow {
+            font-size: 24px;
+            color: #007bff;
+            margin: 10px 0;
+        }
+        
+        ul {
+            line-height: 2;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .highlight {
+            background-color: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Explicación Detallada: Streams y Map en Java</h1>
+        <p style="text-align: center; color: #666; font-style: italic;">
+            Análisis paso a paso de la transformación de colecciones con Streams
+        </p>
+
+        <h2>📌 El Código a Analizar</h2>
+        <div class="code-block">
+            <code>List&lt;Long&gt; idsCursosExistentes = cursoRepository.findAll()
+    .stream()
+    .map(Curso::getId)
+    .toList();</code>
+        </div>
+
+        <h2>🔄 Desglose Paso a Paso</h2>
+
+        <div class="step">
+            <h3>1️⃣ cursoRepository.findAll()</h3>
+            <p><strong>¿Qué hace?</strong></p>
+            <ul>
+                <li>Consulta a la base de datos y retorna <strong>todos</strong> los cursos</li>
+                <li><strong>Tipo retornado:</strong> <span class="highlight">List&lt;Curso&gt;</span></li>
+                <li><strong>Ejemplo:</strong> <code>[Curso1, Curso2, Curso3]</code></li>
+            </ul>
+            <p>Cada objeto Curso contiene: id, nombre, estudiantes, etc.</p>
+        </div>
+
+        <div class="example">
+            <h4>💾 Datos en Base de Datos:</h4>
+            <table>
+                <tr>
+                    <th>id_curso</th>
+                    <th>nombre</th>
+                    <th>estudiantes</th>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Matemáticas</td>
+                    <td>[...]</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>Física</td>
+                    <td>[...]</td>
+                </tr>
+                <tr>
+                    <td>42</td>
+                    <td>Química</td>
+                    <td>[...]</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="step">
+            <h3>2️⃣ .stream()</h3>
+            <p><strong>¿Qué hace?</strong></p>
+            <ul>
+                <li>Convierte la lista en un <span class="highlight">Stream</span> (flujo de datos)</li>
+                <li><strong>Para qué:</strong> Los Streams permiten operaciones funcionales como filtrar, transformar, etc.</li>
+                <li><strong>Tipo resultante:</strong> <code>Stream&lt;Curso&gt;</code></li>
+            </ul>
+            
+            <div class="explanation">
+                <h4>🎯 Analogía:</h4>
+                <p>Es como poner todos los cursos en una <strong>"cinta transportadora"</strong> para procesarlos uno por uno de manera eficiente.</p>
+            </div>
+        </div>
+
+        <div class="diagram">
+            <div>📦 List&lt;Curso&gt;</div>
+            <div class="arrow">↓ .stream()</div>
+            <div>🌊 Stream&lt;Curso&gt;</div>
+            <div style="font-size: 12px; color: #666; margin-top: 10px;">
+                [Curso(id=10,...), Curso(id=25,...), Curso(id=42,...)]
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>3️⃣ .map(Curso::getId)</h3>
+            <p><strong>¿Qué hace?</strong></p>
+            <ul>
+                <li><strong>Transforma</strong> cada elemento del stream</li>
+                <li><strong>Cómo:</strong> Aplica el método <code>getId()</code> a cada <code>Curso</code></li>
+                <li><strong>Resultado:</strong> Convierte <code>Stream&lt;Curso&gt;</code> → <code>Stream&lt;Long&gt;</code></li>
+            </ul>
+
+            <div class="explanation">
+                <h4>📖 Sobre Curso::getId</h4>
+                <p><code>Curso::getId</code> es una <strong>referencia a método</strong> (method reference)</p>
+                <p><strong>Equivalente a escribir:</strong></p>
+                <div class="code-block">
+                    <code>.map(curso -&gt; curso.getId())</code>
+                </div>
+                <p>Es una forma más concisa de expresar la misma operación.</p>
+            </div>
+        </div>
+
+        <div class="diagram">
+            <h4>🔄 Transformación Visual:</h4>
+            <div style="background-color: #e3f2fd; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                <div><strong>ANTES del map:</strong></div>
+                <code>[Curso(id=10, nombre="Matemáticas"), Curso(id=25, nombre="Física"), Curso(id=42, nombre="Química")]</code>
+            </div>
+            <div class="arrow">↓ .map(Curso::getId) ↓</div>
+            <div style="background-color: #c8e6c9; padding: 15px; margin: 10px 0; border-radius: 5px;">
+                <div><strong>DESPUÉS del map:</strong></div>
+                <code>[10, 25, 42]</code>
+            </div>
+        </div>
+
+        <div class="step">
+            <h3>4️⃣ .toList()</h3>
+            <p><strong>¿Qué hace?</strong></p>
+            <ul>
+                <li>Convierte el <code>Stream&lt;Long&gt;</code> de vuelta a una <code>List&lt;Long&gt;</code></li>
+                <li><strong>Resultado final:</strong> Una lista con solo los IDs de los cursos</li>
+            </ul>
+            
+            <div class="explanation">
+                <h4>ℹ️ Nota Importante:</h4>
+                <p><code>.toList()</code> es nuevo en <strong>Java 16+</strong></p>
+                <p>Crea una lista <span class="highlight">inmutable</span> (no se puede modificar después)</p>
+                <p><strong>Alternativa en versiones anteriores:</strong></p>
+                <div class="code-block">
+                    <code>.collect(Collectors.toList())</code>
+                </div>
+            </div>
+        </div>
+
+        <h2>🎯 Resultado Completo</h2>
+        
+        <div class="example">
+            <h3>📊 Ejemplo con Datos Reales:</h3>
+            <p><strong>Si en la base de datos tienes:</strong></p>
+            <div class="code-block">
+                <code>Curso 1: id=10, nombre="Matemáticas", estudiantes=[...]
+Curso 2: id=25, nombre="Física", estudiantes=[...]
+Curso 3: id=42, nombre="Química", estudiantes=[...]</code>
+            </div>
+
+            <p><strong>La variable <code>idsCursosExistentes</code> contendrá:</strong></p>
+            <div class="code-block">
+                <code>[10, 25, 42]  // Solo los IDs, sin los objetos completos</code>
+            </div>
+        </div>
+
+        <h2>💡 ¿Para Qué Se Usa Esto?</h2>
+
+        <div class="explanation">
+            <h3>🎯 Contexto en el Método limpiarReferenciasHuerfanas()</h3>
+            <p>Esta lista se usa para <strong>validar</strong> que los cursos en las listas de estudiantes realmente existen:</p>
+            
+            <div class="code-block">
+                <code>// Verifica si el ID del curso está en la lista de IDs existentes
+if (idsCursosExistentes.contains(curso.getId())) {
+    cursosValidos.add(curso);  // El curso existe ✅
+} else {
+    // El curso no existe, es una referencia huérfana ❌
+}</code>
+            </div>
+
+            <h4>📋 Escenario de Uso:</h4>
+            <ol>
+                <li>Se obtienen todos los IDs de cursos que existen actualmente</li>
+                <li>Se recorren los cursos de cada estudiante</li>
+                <li>Se verifica si cada curso del estudiante existe en la lista de IDs</li>
+                <li>Si no existe, es una "referencia huérfana" que debe eliminarse</li>
+            </ol>
+        </div>
+
+        <h2>🔄 Comparación: Con y Sin Streams</h2>
+
+        <div class="comparison">
+            <h3>❌ Forma Tradicional (sin Streams):</h3>
+            <div class="code-block">
+                <code>// Forma tradicional con for
+List&lt;Long&gt; idsCursosExistentes = new ArrayList&lt;&gt;();
+List&lt;Curso&gt; cursos = cursoRepository.findAll();
+for (Curso curso : cursos) {
+    idsCursosExistentes.add(curso.getId());
+}</code>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>✅ Forma Moderna (con Streams):</h3>
+            <div class="code-block">
+                <code>// Forma moderna con Streams
+List&lt;Long&gt; idsCursosExistentes = cursoRepository.findAll()
+    .stream()
+    .map(Curso::getId)
+    .toList();</code>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>🚀 Ventajas de Usar Streams:</h3>
+            <ul>
+                <li><strong>✨ Código más conciso:</strong> Menos líneas de código</li>
+                <li><strong>📖 Más legible:</strong> El código expresa claramente la intención</li>
+                <li><strong>🔧 Funcional:</strong> Estilo de programación declarativo</li>
+                <li><strong>⚡ Optimizable:</strong> El compilador puede optimizar mejor</li>
+                <li><strong>🔗 Encadenable:</strong> Se pueden agregar más operaciones fácilmente</li>
+            </ul>
+        </div>
+
+        <h2>📚 Operaciones Comunes con Streams</h2>
+
+        <div class="example">
+            <h3>🔍 Filtrado:</h3>
+            <div class="code-block">
+                <code>// Obtener IDs de cursos cuyo nombre empiece con "M"
+List&lt;Long&gt; ids = cursoRepository.findAll()
+    .stream()
+    .filter(curso -&gt; curso.getNombre().startsWith("M"))
+    .map(Curso::getId)
+    .toList();</code>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>🔢 Conteo:</h3>
+            <div class="code-block">
+                <code>// Contar cuántos cursos hay
+long cantidad = cursoRepository.findAll()
+    .stream()
+    .count();</code>
+            </div>
+        </div>
+
+        <div class="example">
+            <h3>🎯 Búsqueda:</h3>
+            <div class="code-block">
+                <code>// Encontrar el primer curso que contenga "Java"
+Optional&lt;Curso&gt; curso = cursoRepository.findAll()
+    .stream()
+    .filter(c -&gt; c.getNombre().contains("Java"))
+    .findFirst();</code>
+            </div>
+        </div>
+
+        <h2>⚠️ Consideraciones Importantes</h2>
+
+        <div class="explanation">
+            <h3>🎯 Buenas Prácticas:</h3>
+            <ul>
+                <li><strong>No abuses de Streams:</strong> Para operaciones simples, un for tradicional puede ser más claro</li>
+                <li><strong>Streams son perezosos:</strong> Las operaciones no se ejecutan hasta que se llama a una operación terminal (como <code>toList()</code>)</li>
+                <li><strong>No modifiques la colección original:</strong> Dentro de un Stream</li>
+                <li><strong>Streams se consumen:</strong> Solo se pueden usar una vez</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

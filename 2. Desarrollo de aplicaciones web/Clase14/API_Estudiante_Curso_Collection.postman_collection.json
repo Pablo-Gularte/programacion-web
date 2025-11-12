@@ -1,0 +1,796 @@
+{
+	"info": {
+		"_postman_id": "estudiante-curso-api-2025",
+		"name": "Estudiante Curso API",
+		"description": "API REST para relaciones Many-to-Many entre Estudiantes y Cursos - Spring Boot + JPA + MySQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Estudiantes",
+			"description": "Endpoints para gestión de estudiantes",
+			"item": [
+				{
+					"name": "Obtener todos los estudiantes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response is an array', function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});",
+									"",
+									"if (pm.response.json().length > 0) {",
+									"    pm.test('Estudiante has required fields', function () {",
+									"        const estudiante = pm.response.json()[0];",
+									"        pm.expect(estudiante).to.have.property('id');",
+									"        pm.expect(estudiante).to.have.property('nombre');",
+									"        pm.expect(estudiante).to.have.property('cursos');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						},
+						"description": "Obtiene la lista completa de estudiantes con sus cursos asociados"
+					}
+				},
+				{
+					"name": "Obtener estudiante por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.test('Response has student data', function () {",
+									"        const estudiante = pm.response.json();",
+									"        pm.expect(estudiante).to.have.property('id');",
+									"        pm.expect(estudiante).to.have.property('nombre');",
+									"        pm.expect(estudiante).to.have.property('cursos');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes/{{estudianteId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes",
+								"{{estudianteId}}"
+							]
+						},
+						"description": "Obtiene un estudiante específico por su ID"
+					}
+				},
+				{
+					"name": "Crear estudiante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test('Response has created student', function () {",
+									"    const estudiante = pm.response.json();",
+									"    pm.expect(estudiante).to.have.property('id');",
+									"    pm.expect(estudiante).to.have.property('nombre');",
+									"    pm.expect(estudiante.nombre).to.eql('Juan Pérez');",
+									"});",
+									"",
+									"// Guardar ID para otros tests",
+									"if (pm.response.code === 201) {",
+									"    const responseJson = pm.response.json();",
+									"    pm.collectionVariables.set('estudianteId', responseJson.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Juan Pérez\",\n    \"cursos\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						},
+						"description": "Crea un nuevo estudiante"
+					}
+				},
+				{
+					"name": "Actualizar estudiante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.test('Student was updated', function () {",
+									"        const estudiante = pm.response.json();",
+									"        pm.expect(estudiante.nombre).to.eql('Juan Carlos Pérez');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes/editar/estudiante/{{estudianteId}}?nombre=Juan Carlos Pérez",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes",
+								"editar",
+								"estudiante",
+								"{{estudianteId}}"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Juan Carlos Pérez"
+								}
+							]
+						},
+						"description": "Actualiza el nombre de un estudiante existente"
+					}
+				},
+				{
+					"name": "Eliminar estudiante",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 204 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes/{{estudianteId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes",
+								"{{estudianteId}}"
+							]
+						},
+						"description": "Elimina un estudiante por su ID"
+					}
+				},
+				{
+					"name": "Crear estudiante con cursos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test('Response has created student with courses', function () {",
+									"    const estudiante = pm.response.json();",
+									"    pm.expect(estudiante).to.have.property('id');",
+									"    pm.expect(estudiante).to.have.property('nombre');",
+									"    pm.expect(estudiante).to.have.property('cursos');",
+									"    pm.expect(estudiante.cursos).to.be.an('array');",
+									"    pm.expect(estudiante.cursos.length).to.be.greaterThan(0);",
+									"});",
+									"",
+									"// Guardar ID para otros tests",
+									"if (pm.response.code === 201) {",
+									"    const responseJson = pm.response.json();",
+									"    pm.collectionVariables.set('estudianteConCursosId', responseJson.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"María García\",\n    \"cursos\": [\n        {\n            \"id\": 1,\n            \"nombre\": \"Spring Boot Avanzado\"\n        },\n        {\n            \"id\": 2,\n            \"nombre\": \"JPA Hibernate\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						},
+						"description": "Crea un nuevo estudiante y lo asocia con cursos existentes. Si los cursos no existen por ID, se pueden crear nuevos omitiendo el ID."
+					}
+				},
+				{
+					"name": "Crear estudiante con cursos nuevos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test('Response has created student with new courses', function () {",
+									"    const estudiante = pm.response.json();",
+									"    pm.expect(estudiante).to.have.property('id');",
+									"    pm.expect(estudiante).to.have.property('nombre');",
+									"    pm.expect(estudiante).to.have.property('cursos');",
+									"    pm.expect(estudiante.cursos).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Carlos López\",\n    \"cursos\": [\n        {\n            \"nombre\": \"Microservicios con Spring\"\n        },\n        {\n            \"nombre\": \"Docker y Kubernetes\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						},
+						"description": "Crea un nuevo estudiante y también crea cursos nuevos automáticamente (sin especificar ID)."
+					}
+				}
+			]
+		},
+		{
+			"name": "Cursos",
+			"description": "Endpoints para gestión de cursos",
+			"item": [
+				{
+					"name": "Obtener todos los cursos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response is an array', function () {",
+									"    pm.expect(pm.response.json()).to.be.an('array');",
+									"});",
+									"",
+									"if (pm.response.json().length > 0) {",
+									"    pm.test('Curso has required fields', function () {",
+									"        const curso = pm.response.json()[0];",
+									"        pm.expect(curso).to.have.property('id');",
+									"        pm.expect(curso).to.have.property('nombre');",
+									"        pm.expect(curso).to.have.property('estudiantes');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos"
+							]
+						},
+						"description": "Obtiene la lista completa de cursos con sus estudiantes asociados"
+					}
+				},
+				{
+					"name": "Obtener curso por ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.test('Response has course data', function () {",
+									"        const curso = pm.response.json();",
+									"        pm.expect(curso).to.have.property('id');",
+									"        pm.expect(curso).to.have.property('nombre');",
+									"        pm.expect(curso).to.have.property('estudiantes');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos/{{cursoId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos",
+								"{{cursoId}}"
+							]
+						},
+						"description": "Obtiene un curso específico por su ID"
+					}
+				},
+				{
+					"name": "Crear curso con estudiantes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 201', function () {",
+									"    pm.response.to.have.status(201);",
+									"});",
+									"",
+									"pm.test('Response has created course', function () {",
+									"    const curso = pm.response.json();",
+									"    pm.expect(curso).to.have.property('id');",
+									"    pm.expect(curso).to.have.property('nombre');",
+									"    pm.expect(curso.nombre).to.eql('Matemáticas Avanzadas');",
+									"});",
+									"",
+									"// Guardar ID para otros tests",
+									"if (pm.response.code === 201) {",
+									"    const responseJson = pm.response.json();",
+									"    pm.collectionVariables.set('cursoId', responseJson.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"Matemáticas Avanzadas\",\n    \"estudiantes\": [\n        {\n            \"nombre\": \"Ana García\"\n        },\n        {\n            \"nombre\": \"Luis Rodríguez\"\n        },\n        {\n            \"nombre\": \"María Fernández\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos"
+							]
+						},
+						"description": "Crea un nuevo curso junto con los estudiantes especificados"
+					}
+				},
+				{
+					"name": "Actualizar curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+									"});",
+									"",
+									"if (pm.response.code === 200) {",
+									"    pm.test('Course was updated', function () {",
+									"        const curso = pm.response.json();",
+									"        pm.expect(curso.nombre).to.eql('Matemáticas Aplicadas');",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos/editar/curso/{{cursoId}}?nombre=Matemáticas Aplicadas",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos",
+								"editar",
+								"curso",
+								"{{cursoId}}"
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Matemáticas Aplicadas"
+								}
+							]
+						},
+						"description": "Actualiza el nombre de un curso existente"
+					}
+				},
+				{
+					"name": "Eliminar curso",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 204 or 404', function () {",
+									"    pm.expect(pm.response.code).to.be.oneOf([204, 404]);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos/{{cursoId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos",
+								"{{cursoId}}"
+							]
+						},
+						"description": "Elimina un curso por su ID"
+					}
+				}
+			]
+		},
+		{
+			"name": "Tests de Validacion",
+			"description": "Requests para probar validaciones y casos edge",
+			"item": [
+				{
+					"name": "Crear estudiante sin nombre (Error 400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400 (Bad Request)', function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"\",\n    \"cursos\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes"
+							]
+						},
+						"description": "Intenta crear un estudiante con nombre vacío - debe devolver error 400"
+					}
+				},
+				{
+					"name": "Crear curso sin nombre (Error 400)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 400 (Bad Request)', function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nombre\": \"\",\n    \"estudiantes\": []\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos"
+							]
+						},
+						"description": "Intenta crear un curso con nombre vacío - debe devolver error 400"
+					}
+				},
+				{
+					"name": "Buscar estudiante inexistente (Error 404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 404 (Not Found)', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/estudiantes/99999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"estudiantes",
+								"99999"
+							]
+						},
+						"description": "Busca un estudiante que no existe - debe devolver error 404"
+					}
+				},
+				{
+					"name": "Buscar curso inexistente (Error 404)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 404 (Not Found)', function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/cursos/99999",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"cursos",
+								"99999"
+							]
+						},
+						"description": "Busca un curso que no existe - debe devolver error 404"
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"description": "URL base de la API"
+		},
+		{
+			"key": "estudianteId",
+			"value": "1",
+			"description": "ID de estudiante para pruebas"
+		},
+		{
+			"key": "cursoId",
+			"value": "1",
+			"description": "ID de curso para pruebas"
+		}
+	]
+}
