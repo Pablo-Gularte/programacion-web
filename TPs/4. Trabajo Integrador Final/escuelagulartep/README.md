@@ -23,10 +23,10 @@ Enlace a consigna de trabajo: [src/main/resources/Trabajo Integrador Final.pdf](
 
 
 ## 📔 Referencias
-💻 Repositorio del Trabajo Integrador del trayecto **Especialización Profesional en Programación Web** del Centro de Formación Profesional 8 - SMATA.  
+🖥️ Repositorio del Trabajo Integrador del trayecto **Especialización Profesional en Programación Web** del CFP8-SMATA.  
 👨‍🏫 Profesor: Jorge Sánchez.  
-📆 Cursada: segundo cuatrimestre 2025.  
-🏢 Sede: CFP8-SMATA. Av. Medrano 162, Almagro.  
+🗓️ Cursada: segundo cuatrimestre 2025.  
+🏢 Sede: Av. Medrano 162, Almagro. Centro de Formación Profesional 8 - SMATA (CFP8-SMATA)  
 
 ## 👤 Autor
 Pablo Gularte - pablo.gularte@proton.me
