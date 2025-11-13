@@ -1,0 +1,89 @@
+Verificar Node JS
+en terminal, 
+node -v
+
+
+Instalar Node JS
+https://nodejs.org/es/download
+
+Verificar npm
+npm -v
+
+Usar terminal cmd en lugar de powershell
+
+
+1) Instalación de React en forma global
+npm install -g create-react-app
+
+Para ver la version de React instalada:
+cmd /c "create-react-app --version"
+
+2) Creación del proyecto (para instalacion global)
+create-react-app proyecto1
+
+O usar la versión más moderna (recomendado)
+# Descarga, usa y elimina automáticamente
+npx create-react-app@latest proyecto1
+
+NOTA: En la terminal, si no funciona en powershell,cambiar a command prompt
+
+3) Ejecucion de la aplicacion
+cd proyecto1
+npm start
+
+-----------------------------------
+
+Proyecto Hola Mundo
+
+1. Creacion del proyecto 
+cmd /c "npx create-react-app@latest hola-mundo"
+
+Mientras se crea el proyecto (que puede tomar unos minutos), te explico qué vamos a hacer después:
+
+2. Estructura del "Hola Mundo"
+Una vez que termine la instalación, vamos a:
+
+a. Entrar al proyecto: cd hola-mundo
+b. Modificar el archivo src/App.js para mostrar "Hola Mundo"
+c. Ejecutar con npm start
+
+// src/App.js
+function App() {
+  return (
+    <div className="App">
+      <h1>¡Hola Mundo!</h1>
+      <p>Mi primera aplicación React</p>
+    </div>
+  );
+}
+
+export default App;
+-----------------------------------
+Instalacion de Boostrap
+npm install bootstrap
+
+Nota: en powershell, para usar cmd:
+cmd /c "cd /d d:\SMATA2025\Interfaces\Clase11\proyecto-react-api && npm install bootstrap"
+
+Agregar en index.js:
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
+
+
+
+
+
+-----------------------------------
+
+Para probar los diferentes proyectos, copiar el contenido completo de la carpeta del proyecto en el directorio raiz. Luego, modificar el archivo App.js de la carpeta src
+
+
+Nota: Para evitar problemas de bloqueos por SSL, antes de instalar dependencias con npm install, hacer:
+
+En Windows, agregamos estas variables de entorno:
+set NODE_OPTIONS=--openssl-legacy-provider
+set NODE_ENV=production 
+
+
+node modules --> npm install
