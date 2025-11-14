@@ -1,0 +1,20 @@
+[Estructura proyecto]
+--Models
+---Asistencia: entidad para manejar las asistencias a clases.
+---Boletin: entidad para registrar las notas del ciclo lectivo de cada asignatura.
+---Estudiante: entidad principal. Administra los datos de cada estudiante.
+---Grado: entidad principal para administrar los grados educativos en que cada estudiante está cursando.
+
+--Repositories
+--dto
+--Services
+--Controllers
+
+===============
+= Actividades =
+===============
+#1: Crear entidades principales
+#2: Crear repositorios de entidades principales
+--> #2.1: Definir e implementar Query Methods iniciales de entidades principales
+#3 Crear controladores REST para entidades principales
+#4 Crear controladores MVC para Asistencia y Boletin

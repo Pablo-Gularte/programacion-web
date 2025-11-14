@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
 
 @Repository
-public interface GradoRepository extends JpaRepository<Grado, Long> {
+public interface IGradoRepository extends JpaRepository<Grado, Long> {
 
 }

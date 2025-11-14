@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Estudiante;
 
 @Repository
-public interface EstudianteRepository extends JpaRepository<Estudiante, Long> {
+public interface IEstudianteRepository extends JpaRepository<Estudiante, Long> {
 
 }
