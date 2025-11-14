@@ -1,4 +1,4 @@
-package ar.edu.centro8.tifigwdaw.escuelagulartep.model;
+package ar.edu.centro8.tifigwdaw.escuelagulartep.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
