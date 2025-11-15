@@ -17,7 +17,6 @@ import ar.edu.centro8.tifigwdaw.escuelagulartep.services.GradoService;
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class GradoController {
     private final String urlObtenerTodosLosGrados = "/grados";
-    private final String urlObtenerEstudiantesPorGradoId = "/grados/{id}/estudiantes";
 
     @Autowired 
     private GradoService gradoSvc;
