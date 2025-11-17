@@ -1,5 +1,7 @@
 package ar.edu.centro8.tifigwdaw.escuelagulartep.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,5 +44,6 @@ public class Estudiante {
 
     @ManyToOne
     @JoinColumn(name = "id_grado")
+    @JsonIgnoreProperties("estudiantes")
     private Grado grado;
 }
