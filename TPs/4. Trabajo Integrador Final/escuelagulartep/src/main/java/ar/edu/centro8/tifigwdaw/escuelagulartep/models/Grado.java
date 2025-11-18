@@ -1,5 +1,6 @@
 package ar.edu.centro8.tifigwdaw.escuelagulartep.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -31,5 +32,5 @@ public class Grado {
 
     @OneToMany(mappedBy = "grado", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("grado")
-    private List<Estudiante> estudiantes;
+    private List<Estudiante> estudiantes = new ArrayList<>();
 }

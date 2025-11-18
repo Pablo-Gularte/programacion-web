@@ -24,9 +24,13 @@
 = Situaciones a contemplar =
 ============================
 -> Al crear un grado, puede tener o no tener estudiantes asignados.
---> Si tiene estudiantes: al guardarlos asignarles el id_grado correspondiente. Si el estudiante ya está asignado a otro grado, lanzar excepción.
 --> Si no tiene estudiantes: guardar sólo los datos del grado en la tabla
+--> Si tiene estudiantes: al guardarlos asignarles el id_grado correspondiente. Si el estudiante ya está asignado a otro grado, lanzar excepción.
 
 -> Al crear un estudiante, puede o no estar asignado a un grado.
---> Si está asignado a un grado: al guardarlo asignarle el id_grado correspondiente. Si no existe el grado, lanzar excepción.
 --> Si no está asignado: guardar sólo los datos del estudiante en la tabla.
+--> Si está asignado a un grado: al guardarlo asignarle el id_grado correspondiente. Si no existe el grado, lanzar excepción.
+
+
+===[ Explorar el uso de tablas de decisiones para definir reglas de negocios en Service ]===
+===[ Explorar el uso de entidades con atributos seleccionados para DTO ]===
