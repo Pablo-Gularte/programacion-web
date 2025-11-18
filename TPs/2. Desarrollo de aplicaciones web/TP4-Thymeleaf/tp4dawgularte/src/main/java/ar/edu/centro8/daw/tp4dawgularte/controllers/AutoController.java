@@ -70,6 +70,7 @@ public class AutoController {
     public String guardarAutoNuevo(@ModelAttribute AutoRequestDTO autoDTO, Model modelo, RedirectAttributes mensajeRedireccionado) {
         try {
             AutoResponseDTO autoNuevo = autoSvc.saveAuto(autoDTO);
+            mensajeRedireccionado.addFlashAttribute("operacion","listar");
             mensajeRedireccionado.addFlashAttribute("tipoMensaje", "ok");
             mensajeRedireccionado.addFlashAttribute("mensaje", "Se ha creado correctamente el nuevo auto con el ID = " + autoNuevo.getId());
             return "redirect:/";
