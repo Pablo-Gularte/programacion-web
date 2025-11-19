@@ -2,7 +2,6 @@ package ar.edu.centro8.tifigwdaw.escuelagulartep.dto;
 
 import java.util.List;
 
-import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Estudiante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,5 +16,5 @@ public class GradoRequestDTO {
     private String turno;
     private String docente;
     private boolean activo;
-    private List<Estudiante> estudiantes;
+    private List<EstudianteRequestDTO> estudiantes;
 }

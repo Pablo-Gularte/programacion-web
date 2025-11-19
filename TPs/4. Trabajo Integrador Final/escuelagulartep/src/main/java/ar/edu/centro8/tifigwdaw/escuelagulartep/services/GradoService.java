@@ -36,19 +36,41 @@ public class GradoService implements IGradoService {
 
     @Override
     public GradoResponseDTO crearGrado(GradoRequestDTO gradoDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearGrado'");
+        Grado nuevoGrado = GradoMapper.toEntity(gradoDTO);
+        // Si el grado contiene listado de estudiantes, establecer la relación bidireccional
+        if (nuevoGrado.getEstudiantes() != null) {
+            for (var estudiante : nuevoGrado.getEstudiantes()) {
+                estudiante.setGrado(nuevoGrado);
+            }
+        }
+        nuevoGrado = gradoRepo.save(nuevoGrado);
+        return GradoMapper.toResponseDTO(nuevoGrado);
     }
 
     @Override
     public GradoResponseDTO modificarGrado(Long id, GradoRequestDTO gradoDTO) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modificarGrado'");
+        Optional<Grado> gradoOpt = gradoRepo.findById(id);
+        if(gradoOpt.isPresent()) {
+            Grado gradoExistente = gradoOpt.get();
+            GradoMapper.updateEntity(gradoExistente, gradoDTO);
+            // Si el grado contiene listado de estudiantes, establecer la relación bidireccional
+            if (gradoExistente.getEstudiantes() != null) {
+                for (var estudiante : gradoExistente.getEstudiantes()) {
+                    estudiante.setGrado(gradoExistente);
+                }
+            }
+            gradoExistente = gradoRepo.save(gradoExistente);
+            return GradoMapper.toResponseDTO(gradoExistente);
+        }
+        throw new IllegalArgumentException("No se encontró ningún grado con ID " + id);
     }
 
     @Override
     public void eliminarGrado(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'eliminarGrado'");
+        if(gradoRepo.existsById(id)) {
+            gradoRepo.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("No se encontró ningún grado con ID " + id);
+        }
     }
 }

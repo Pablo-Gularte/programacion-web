@@ -5,6 +5,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +28,6 @@ public class Grado {
     private String docente;
     private boolean activo;
 
-    @OneToMany(mappedBy = "grado", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "grado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Estudiante> estudiantes;
 }

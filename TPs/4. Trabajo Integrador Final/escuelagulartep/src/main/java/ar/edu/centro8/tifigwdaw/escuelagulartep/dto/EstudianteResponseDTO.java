@@ -1,23 +1,16 @@
 package ar.edu.centro8.tifigwdaw.escuelagulartep.dto;
 
-import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Value;
 
-@AllArgsConstructor @NoArgsConstructor
-@Setter @Getter @ToString
+@Value // Hace la clase inmutable y genera Constructor, Getters, toString, equals y hashCode.
 public class EstudianteResponseDTO {
-    private Long id;
-    private String nombre;
-    private String apellido;
-    private int edad;
-    private String direccion;
-    private String nombreMadre;
-    private String nombrePadre;
-    private boolean hnoEnEscuela;
-    private boolean esRegular;
-    private Grado gardo;
+    private final Long id;
+    private final String nombre;
+    private final String apellido;
+    private final int edad;
+    private final String direccion;
+    private final String nombreMadre;
+    private final String nombrePadre;
+    private final boolean hnoEnEscuela;
+    private final boolean esRegular;
 }
