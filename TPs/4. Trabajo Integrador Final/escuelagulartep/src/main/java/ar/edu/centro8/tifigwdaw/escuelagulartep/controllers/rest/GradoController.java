@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import ar.edu.centro8.tifigwdaw.escuelagulartep.dto.GradoRequestDTO;
-import ar.edu.centro8.tifigwdaw.escuelagulartep.dto.GradoResponseDTO;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.services.GradoService;
 
 @RestController
@@ -32,9 +31,9 @@ public class GradoController {
     private GradoService gradoSvc;
 
     @GetMapping(urlObtenerTodosLosGrados)
-    public ResponseEntity<List<GradoResponseDTO>> obtenerTodosLosGrados() {
+    public ResponseEntity<List<Grado>> obtenerTodosLosGrados() {
         try {
-            List<GradoResponseDTO> grados = gradoSvc.obtenerTodosLosGrados();
+            List<Grado> grados = gradoSvc.obtenerTodosLosGrados();
             return ResponseEntity.ok(grados);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -42,9 +41,9 @@ public class GradoController {
     }
 
     @GetMapping(urlObtenerGradoPorId)
-    public ResponseEntity<GradoResponseDTO> obtenerGradoPorId(@PathVariable Long id) {
+    public ResponseEntity<Grado> obtenerGradoPorId(@PathVariable Long id) {
         try {
-            GradoResponseDTO grado = gradoSvc.obtenerGradoPorId(id);
+            Grado grado = gradoSvc.obtenerGradoPorId(id);
             return ResponseEntity.ok(grado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -54,9 +53,9 @@ public class GradoController {
     }
 
     @PostMapping(urlCrearGrado)
-    public ResponseEntity<GradoResponseDTO> crearGrado(@RequestBody GradoRequestDTO gradoDTO) {
+    public ResponseEntity<Grado> crearGrado(@RequestBody Grado gradoDTO) {
         try {
-            GradoResponseDTO nuevoGrado = gradoSvc.crearGrado(gradoDTO);
+            Grado nuevoGrado = gradoSvc.crearGrado(gradoDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoGrado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -66,9 +65,9 @@ public class GradoController {
     }
 
     @PutMapping(urlEditarGrado)
-    public ResponseEntity<GradoResponseDTO> editarGrado(@PathVariable Long id, @RequestBody GradoRequestDTO gradoDTO) {
+    public ResponseEntity<Grado> editarGrado(@PathVariable Long id, @RequestBody Grado gradoDTO) {
         try {
-            GradoResponseDTO gradoActualizado = gradoSvc.modificarGrado(id, gradoDTO);
+            Grado gradoActualizado = gradoSvc.modificarGrado(id, gradoDTO);
             return ResponseEntity.ok(gradoActualizado);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

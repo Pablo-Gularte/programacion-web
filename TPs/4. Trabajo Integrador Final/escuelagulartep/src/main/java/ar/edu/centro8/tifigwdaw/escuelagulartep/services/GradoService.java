@@ -6,66 +6,38 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.edu.centro8.tifigwdaw.escuelagulartep.dto.GradoMapper;
-import ar.edu.centro8.tifigwdaw.escuelagulartep.dto.GradoRequestDTO;
-import ar.edu.centro8.tifigwdaw.escuelagulartep.dto.GradoResponseDTO;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.repositories.IGradoRepository;
 
 @Service
-public class GradoService implements IGradoService {
+public class GradoService {
 
     @Autowired IGradoRepository gradoRepo;
 
-    @Override
-    public List<GradoResponseDTO> obtenerTodosLosGrados() {
-        List<Grado> grados = gradoRepo.findAll();
-        return grados.stream()
-            .map(GradoMapper::toResponseDTO)
-            .toList();
+    public List<Grado> obtenerTodosLosGrados() {
+        return gradoRepo.findAll();
     }
 
-    @Override
-    public GradoResponseDTO obtenerGradoPorId(Long id) {
+    public Grado obtenerGradoPorId(Long id) {
         Optional<Grado> grado = gradoRepo.findById(id);
         if(grado.isPresent()) {
-            return GradoMapper.toResponseDTO(grado.get());
+            return grado.get();
         }
         throw new IllegalArgumentException("No se encontró ningún grado con ID " + id);
     }
 
-    @Override
-    public GradoResponseDTO crearGrado(GradoRequestDTO gradoDTO) {
-        Grado nuevoGrado = GradoMapper.toEntity(gradoDTO);
-        // Si el grado contiene listado de estudiantes, establecer la relación bidireccional
-        if (nuevoGrado.getEstudiantes() != null) {
-            for (var estudiante : nuevoGrado.getEstudiantes()) {
-                estudiante.setGrado(nuevoGrado);
-            }
-        }
-        nuevoGrado = gradoRepo.save(nuevoGrado);
-        return GradoMapper.toResponseDTO(nuevoGrado);
+    public Grado crearGrado(Grado nuevoGrado) {
+        return gradoRepo.save(nuevoGrado);
     }
 
-    @Override
-    public GradoResponseDTO modificarGrado(Long id, GradoRequestDTO gradoDTO) {
-        Optional<Grado> gradoOpt = gradoRepo.findById(id);
-        if(gradoOpt.isPresent()) {
-            Grado gradoExistente = gradoOpt.get();
-            GradoMapper.updateEntity(gradoExistente, gradoDTO);
-            // Si el grado contiene listado de estudiantes, establecer la relación bidireccional
-            if (gradoExistente.getEstudiantes() != null) {
-                for (var estudiante : gradoExistente.getEstudiantes()) {
-                    estudiante.setGrado(gradoExistente);
-                }
-            }
-            gradoExistente = gradoRepo.save(gradoExistente);
-            return GradoMapper.toResponseDTO(gradoExistente);
+    public Grado modificarGrado(Long id, Grado gradoDTO) {
+        Optional<Grado> gradoEnBD = gradoRepo.findById(id);
+        if(gradoEnBD.isPresent()) {
+            return gradoRepo.save(gradoEnBD.get());
         }
         throw new IllegalArgumentException("No se encontró ningún grado con ID " + id);
     }
 
-    @Override
     public void eliminarGrado(Long id) {
         if(gradoRepo.existsById(id)) {
             gradoRepo.deleteById(id);

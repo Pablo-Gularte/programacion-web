@@ -9,6 +9,7 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body style="background-color: burlywood;">
+    <!-- Encabezado de página -->
     <header class="bg-secondary-subtle p-3 border-bottom border-5 border-secondary">
         <h1 class="text-center mb-3">Trabajo Integrador Final - Aplicación FullStack Java</h1>
         <p>
@@ -22,24 +23,25 @@
         </h6>
 
     </header>
+
+    <!-- Cuerpo principal de la vista -->
     <main class="container p-3 my-3 rounded-2" style="background-color: beige;">
         <section class="row">
-            <article id="botonera-grados" class="col-3">
-                <select class="form-select" aria-label="grago">
-                    <option selected hidden disabled>Seleccione un grado</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-            </article>
+            <!-- Menú desplegable para seleccionar turnos de grados (se carga dinámicamente) -->
             <article id="botonera-turnos" class="col-3">
                 <select class="form-select" aria-label="turno">
                     <option selected hidden disabled>Seleccione un turno</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
                 </select>
             </article>
+
+            <!-- Menú desplegable para seleccionar grados (se carga dinámicamente) -->
+            <article id="botonera-grados" class="col-3">
+                <select class="form-select" aria-label="grago" style="display: none;">
+                    <option selected hidden disabled>Seleccione un grado</option>
+                </select>
+            </article>
+
+            <!-- Tabla con el detalle de los estudiantes del grado/turno seleccionado -->
             <h2 class="pt-4">Estudiantes del grado</h2>
             <hr>
             <article id="datos-grados">
@@ -47,6 +49,8 @@
             </article>
         </section>
     </main>
+
+    <!-- Pie de página -->
     <footer>
         <h6 class="border-top border-2 border-danger py-3 text-bg-dark text-center">
             Trabajo Final Integrador del
@@ -58,5 +62,8 @@
 
     <!-- Bootstrap -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+     <!-- Rutinas personalizadas -->
+      <script src="js/rutinas.js"></script>
 </body>
 </html>

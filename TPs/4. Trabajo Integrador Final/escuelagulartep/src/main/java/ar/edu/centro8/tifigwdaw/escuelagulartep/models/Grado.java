@@ -2,6 +2,8 @@ package ar.edu.centro8.tifigwdaw.escuelagulartep.models;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,5 +31,6 @@ public class Grado {
     private boolean activo;
 
     @OneToMany(mappedBy = "grado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("grado")
     private List<Estudiante> estudiantes;
 }
