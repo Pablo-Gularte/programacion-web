@@ -1,4 +1,4 @@
-package ar.edu.centro8.tifigwdaw.escuelagulartep.controllers.rest;
+package ar.edu.centro8.tifigwdaw.escuelagulartep.controllers;
 
 import java.util.List;
 
@@ -32,59 +32,31 @@ public class GradoController {
 
     @GetMapping(urlObtenerTodosLosGrados)
     public ResponseEntity<List<Grado>> obtenerTodosLosGrados() {
-        try {
-            List<Grado> grados = gradoSvc.obtenerTodosLosGrados();
-            return ResponseEntity.ok(grados);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        List<Grado> grados = gradoSvc.obtenerTodosLosGrados();
+        return ResponseEntity.ok(grados);
     }
 
     @GetMapping(urlObtenerGradoPorId)
     public ResponseEntity<Grado> obtenerGradoPorId(@PathVariable Long id) {
-        try {
-            Grado grado = gradoSvc.obtenerGradoPorId(id);
-            return ResponseEntity.ok(grado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Grado grado = gradoSvc.obtenerGradoPorId(id);
+        return ResponseEntity.ok(grado);
     }
 
     @PostMapping(urlCrearGrado)
     public ResponseEntity<Grado> crearGrado(@RequestBody Grado gradoDTO) {
-        try {
-            Grado nuevoGrado = gradoSvc.crearGrado(gradoDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoGrado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Grado nuevoGrado = gradoSvc.crearGrado(gradoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(nuevoGrado);
     }
 
     @PutMapping(urlEditarGrado)
     public ResponseEntity<Grado> editarGrado(@PathVariable Long id, @RequestBody Grado gradoDTO) {
-        try {
-            Grado gradoActualizado = gradoSvc.modificarGrado(id, gradoDTO);
-            return ResponseEntity.ok(gradoActualizado);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        Grado gradoActualizado = gradoSvc.modificarGrado(id, gradoDTO);
+        return ResponseEntity.ok(gradoActualizado);
     }
 
     @DeleteMapping(urlBorrarGrado)
     public ResponseEntity<Void> borrarGrado(@PathVariable Long id) {
-        try {
-            gradoSvc.eliminarGrado(id);
-            return ResponseEntity.noContent().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        gradoSvc.eliminarGrado(id);
+        return ResponseEntity.noContent().build();
     }
 }

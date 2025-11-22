@@ -1,0 +1,11 @@
+[Reglas de dominio] (Entidades)
+==> Grado
+-> La combinación "nombreGrado" y "turno" debe ser única.
+-> La combinación "docente" y "activo" debe ser única.
+-> Los grados de primer ciclo deben ser: 1ro, 2do y 3ro
+-> Los grados de segundo ciclo deben ser: 4to, 5to, 6to y 7mo.
+
+==> Estudiante
+-> La combinación "nombre", "apellido" y "edad" debe ser única.
+
+[Reglas de negocio]

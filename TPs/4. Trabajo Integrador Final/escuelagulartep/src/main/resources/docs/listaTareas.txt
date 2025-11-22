@@ -18,4 +18,4 @@
 --> #2.1: Definir e implementar Query Methods iniciales de entidades principales
 #3 Crear controladores REST para entidades principales
 #4 Crear controladores MVC para Asistencia y Boletin
-
+#5 Crear un paquete "excepciones" para agrupar todas las excepciones personalizadas que vaya necesitando en el proyecto
