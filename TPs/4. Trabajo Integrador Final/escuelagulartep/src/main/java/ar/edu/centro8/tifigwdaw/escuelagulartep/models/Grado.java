@@ -53,7 +53,7 @@ public class Grado {
     private Turno turno;
     
     private String docente;
-    private boolean activo;
+    private Boolean activo;
 
     @OneToMany(mappedBy = "grado", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("grado")

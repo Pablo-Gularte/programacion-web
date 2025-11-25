@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ar.edu.centro8.tifigwdaw.escuelagulartep.excepciones.DniDuplicadoException;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.excepciones.RecursoDuplicadoExcepcion;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Estudiante;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.repositories.IEstudianteRepository;
 
@@ -26,7 +26,7 @@ public class EstudianteService {
     public Estudiante crearEstudiante(Estudiante nuevoEstudiante) {
         // Verifico si el DNI ya existe en la base de datos
         if (estudianteRepo.existsByDni(nuevoEstudiante.getDni())) {
-            throw new DniDuplicadoException("El DNI " + nuevoEstudiante.getDni() + " ya está registrado.");
+            throw new RecursoDuplicadoExcepcion("El DNI " + nuevoEstudiante.getDni() + " ya está registrado.");
         }
         return estudianteRepo.save(nuevoEstudiante);
     }

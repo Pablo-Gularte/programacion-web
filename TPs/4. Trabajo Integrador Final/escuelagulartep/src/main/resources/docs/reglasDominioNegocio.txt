@@ -6,6 +6,7 @@
 -> Los grados de segundo ciclo deben ser: 4to, 5to, 6to y 7mo.
 
 ==> Estudiante
--> La combinación "nombre", "apellido" y "edad" debe ser única.
+-> El DNI debe ser único.
+-> Un estudiante (DNI) no puede estar activo en más de un grado por vez
 
 [Reglas de negocio]

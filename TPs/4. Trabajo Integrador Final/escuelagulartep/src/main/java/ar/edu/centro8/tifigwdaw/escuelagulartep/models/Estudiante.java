@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -20,15 +19,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor @NoArgsConstructor @Data
 @Entity
-@Table(
-        name="estudiantes",
-        uniqueConstraints = {
-                // Valido que no haya ningún DNI duplicado
-                @UniqueConstraint( columnNames = "dni" ),
-                // Valido que no haya nigún estudiante con el mismo nombre, apellido, edad y dni
-                @UniqueConstraint( columnNames = {"nombre", "apellido", "edad", "dni"} )
-        }
-    )
+@Table(name="estudiantes")
 public class Estudiante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,14 +39,14 @@ public class Estudiante {
     @Max(value = 14, message = "La edad no puede ser mayor a {value} años.")
     private int edad;
     
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String dni;
 
     private String direccion;
     private String nombreMadre;
     private String nombrePadre;
-    private boolean hnoEnEscuela = false;
-    private boolean esRegular = true;
+    private Boolean hnoEnEscuela = false;
+    private Boolean regular = true;
 
     @ManyToOne
     @JoinColumn(name = "id_grado")

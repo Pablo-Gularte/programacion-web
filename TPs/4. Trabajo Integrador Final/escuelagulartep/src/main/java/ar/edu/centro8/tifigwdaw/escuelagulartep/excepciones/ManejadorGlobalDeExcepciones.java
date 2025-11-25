@@ -9,42 +9,28 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class ManejadorGlobalDeExcepciones {
     /**
-     * Manejador de la excepción DniDuplicadoException
+     * Manejador de la excepción personalizada RecursoDuplicadoException
      * Devuelvo un código de errro HTTP 409: Conflict.
-     * En este caso, el conflicto implica que se detectó el intento de registrar un DNI que ya existe.
-     * @param e Es el mensaje indica que se detectó el intento de registrar un DNI que ya existe.
+     * Esta excepción se lanza cuando se intenta crear un recurso que ya existe en la base de datos.
+     * @param e Contiene el mensaje que indica cuál es el recurso que se intenta crear de manera duplicada.
      * @param request El request web que generó la excepción
      * @return ResponseEntity con el código de estado HTTP y el mensaje de error
      */
-    @ExceptionHandler(DniDuplicadoException.class)
-    public ResponseEntity<Object> manejadorDniDuplicadoException(DniDuplicadoException e, WebRequest request) {
+    @ExceptionHandler(RecursoDuplicadoExcepcion.class)
+    public ResponseEntity<Object> manejadorRecursoDuplicadoException(RecursoDuplicadoExcepcion e, WebRequest request) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
     /**
-     * Manejador de la excepción GradoDuplicadoException
-     * Devuelvo un código de errro HTTP 409: Conflict.
-     * En este caso, el conflicto implica que se detectó el intento de registrar un Grado que ya existe.
-     * @param e Es el mensaje que indica que se detectó el intento de registrar un Grado que ya existe.
+     * Manejador de la excepción IllegalArgumentException
+     * Devuelvo un código de error HTTP 400: Bad Request.
+     * Esta excepción se lanza cuando un método recibe un argumento ilegal o inapropiado.
+     * @param e La excepción lanzada que contiene el mensaje de error
      * @param request El request web que generó la excepción
      * @return ResponseEntity con el código de estado HTTP y el mensaje de error
      */
-    @ExceptionHandler(GradoDuplicadoException.class)
-    public ResponseEntity<Object> manejadorGradoDuplicado(GradoDuplicadoException e, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    }
-
-    /**
-     * Manejador de la excepción DocenteYaAsignadoException
-     * Devuelvo un código de errro HTTP 409: Conflict.
-     * En este caso, el conflicto implica que se detectó el intento de asignar un docente que ya está asignado a otro grado activo.
-     * 
-     * @param e Es el mensaje que indica que se detectó el intento de asignar un docente que ya está asignado a otro grado activo.
-     * @param request El request web que generó la excepción
-     * @return ResponseEntity con el código de estado HTTP y el mensaje de error
-     */
-    @ExceptionHandler(DocenteYaAsignadoException.class)
-    public ResponseEntity<Object> manejadorDocenteYaAsignado(DocenteYaAsignadoException e, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> manejadorIllegalArgumentException(IllegalArgumentException e, WebRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

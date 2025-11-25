@@ -18,7 +18,7 @@ public enum NombreGrado {
     PRIMERO("primer grado", Ciclo.PRIMERO),
     SEGUNDO("segundo grado", Ciclo.PRIMERO),
     TERCERO("tercer grado", Ciclo.PRIMERO),
-    CUARTO("cUarto grado", Ciclo.SEGUNDO),
+    CUARTO("cuarto grado", Ciclo.SEGUNDO),
     QUINTO("quinto grado", Ciclo.SEGUNDO),
     SEXTO("sexto grado", Ciclo.SEGUNDO),
     SEPTIMO("séptimo grado", Ciclo.SEGUNDO);
