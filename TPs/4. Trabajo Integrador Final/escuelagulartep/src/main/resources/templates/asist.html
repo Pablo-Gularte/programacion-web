@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de gestión de asistencias</title>
+</head>
+<body>
+    <h1>Página de gestión de asistencias</h1>
+    <hr>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Asistencia</th>
+            <th>Estudiante</th>
+        </thead>
+        <tbody>
+            <tr th:each="asistencia : ${asistencias}">
+                <td th:text="${asistencia.getId()}"></td>
+                <td th:text="${asistencia.getFecha()}"></td>
+                <td th:text="${asistencia.getTipoAsistencia()}"></td>
+                <td th:text="${asistencia.getEstudiante().getNombre + ' ' + asistencia.getEstudiante().getApellido}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
