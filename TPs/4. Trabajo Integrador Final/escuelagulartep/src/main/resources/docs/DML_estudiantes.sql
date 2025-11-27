@@ -1,0 +1,77 @@
+SET NAMES 'utf8';
+USE `tif_escuela`;
+
+-- Primer grado TM
+INSERT INTO estudiantes (nombre, apellido, edad, dni, direccion, nombre_madre, nombre_padre, hno_en_escuela, regular, id_grado) VALUES 
+('Martín', 'Arriola', 6, 48034002, 'Humahuaca 4243', 'Mariana Segovia', 'Nicolás Arriola', 0, 1, 1),
+('Sofía', 'Giménez', 7, 49123456, 'Av. Libertador 1500', 'Laura Torres', 'Pedro Giménez', 1, 1, 1),
+('Valentina', 'Díaz', 6, 48987654, 'Calle 32 N° 789', 'Andrea Gómez', 'Javier Díaz', 0, 1, 1),
+('Benjamín', 'Castro', 7, 49555111, 'Rivadavia 2050', 'Romina Paz', 'Diego Castro', 0, 1, 1),
+('Emilia', 'Méndez', 6, 48102030, 'Junín 100', 'Carla Ruiz', 'Fabián Méndez', 1, 1, 1),
+('Lucas', 'Ramos', 7, 49333999, 'Alsina 500', 'Silvia Vega', 'Pablo Ramos', 0, 1, 1),
+('Julieta', 'Acosta', 6, 48777000, 'Santa Fe 345', 'Natalia Ponce', 'Guillermo Acosta', 0, 1, 1),
+('Camila', 'Herrera', 7, 49001234, 'Paraguay 88', 'Belén Flores', 'Ricardo Herrera', 1, 1, 1),
+('Mateo', 'López', 6, 48543210, 'San Martín 1234', 'Alejandra Sosa', 'Martín López', 1, 1, 1),
+('Agustina', 'Vera', 7, 49765432, 'Maipú 950', 'Cecilia Aguirre', 'Esteban Vera', 0, 1, 1),
+('Delfina', 'Morales', 6, 48210987, 'Tucumán 456', 'Marina Ríos', 'Federico Morales', 0, 1, 1),
+('Lautaro', 'Núñez', 7, 49876543, 'Córdoba 1010', 'Vanessa Soto', 'Mauro Núñez', 0, 1, 1),
+('Victoria', 'Pérez', 6, 48432109, 'Florida 200', 'Elena Cárdenas', 'Juan Pérez', 1, 1, 1),
+('Malena', 'Sánchez', 7, 49607080, 'Corrientes 777', 'Gabriela Luna', 'Andrés Sánchez', 0, 1, 1),
+('Facundo', 'Torres', 6, 48050607, 'Bolívar 10', 'Jimena Blanco', 'Maximiliano Torres', 1, 1, 1),
+('Abril', 'Rivero', 7, 49998877, 'Suipacha 15', 'Florencia Vidal', 'Luciano Rivero', 0, 1, 1),
+('Helena', 'Godoy', 6, 48112233, 'Lavalle 555', 'Verónica Gómez', 'Ramiro Godoy', 1, 1, 1),
+('Joaquín', 'Ortiz', 7, 49445566, 'Sarmiento 900', 'Viviana Díaz', 'Gustavo Ortiz', 0, 1, 1),
+('Bianca', 'Molina', 6, 48667788, 'Viamonte 303', 'Adriana Peña', 'Sebastián Molina', 0, 1, 1),
+('Renata', 'Silva', 7, 49223344, 'Independencia 111', 'Lorena Chávez', 'Alexis Silva', 1, 1, 1),
+('Thiago', 'Guerra', 6, 48889900, 'Belgrano 44', 'Susana Rojas', 'Franco Guerra', 0, 1, 1),
+('Paula', 'Juárez', 7, 49098765, 'Ayacucho 12', 'Mónica Castro', 'Leandro Juárez', 1, 1, 1),
+('Guadalupe', 'Fernández', 6, 48334455, 'Perú 678', 'Diana Solís', 'Héctor Fernández', 0, 1, 1),
+('Felipe', 'Carrizo', 7, 49500000, 'Chile 20', 'Marisa Herrera', 'Juan Carrizo', 1, 1, 1),
+('Lucía', 'Paz', 6, 48700011, 'Venezuela 99', 'Nora Toledo', 'Ezequiel Paz', 0, 1, 1),
+('Juan', 'Gómez', 7, 49301020, 'Av. Mayo 15', 'Clara Benítez', 'Alfredo Gómez', 0, 1, 1);
+
+-- Segundo grado TM
+INSERT INTO estudiantes (nombre, apellido, edad, dni, direccion, nombre_madre, nombre_padre, hno_en_escuela, regular, id_grado) VALUES 
+('Catalina', 'Méndez', 8, 48011223, 'Libertad 123', 'Luciana Sosa', 'Raúl Méndez', 0, 1, 2),
+('Jerónimo', 'Silva', 7, 49988776, 'San Juan 456', 'Martina Castro', 'Sergio Silva', 1, 1, 2),
+('Paula', 'García', 8, 48334005, 'Defensa 789', 'Fernanda López', 'Hugo García', 0, 1, 2),
+('Ignacio', 'Rivas', 7, 49556677, 'Avenida de Mayo 10', 'Daniela Rico', 'Omar Rivas', 0, 1, 2),
+('Julia', 'Vargas', 8, 48102938, 'Callao 2020', 'Estela Paz', 'Ricardo Vargas', 1, 1, 2),
+('Santiago', 'Romero', 7, 49700010, 'Rodríguez Peña 50', 'Sofía Vidal', 'Alan Romero', 0, 1, 2),
+('Abril', 'Pereyra', 8, 48809001, 'Montevideo 300', 'Karina Gil', 'Marcelo Pereyra', 0, 1, 2),
+('Manuel', 'Castro', 7, 49405060, 'Venezuela 400', 'Rocío Núñez', 'Bruno Castro', 1, 1, 2),
+('Alma', 'Correa', 8, 48607080, 'Entre Ríos 55', 'Valeria Cruz', 'Damián Correa', 0, 1, 2),
+('Guillermina', 'Díaz', 7, 49110022, 'Lima 60', 'Juana Ferrer', 'Ezequiel Díaz', 1, 1, 2),
+('Nicolás', 'Pérez', 8, 48203040, 'Chacabuco 70', 'Luján Suárez', 'Gerardo Pérez', 0, 1, 2),
+('Brenda', 'Herrera', 7, 49301900, 'Perú 800', 'Tamara Torres', 'Patricio Herrera', 0, 1, 2),
+('Luciana', 'Ferreyra', 8, 48405060, 'Misiones 99', 'Adriana Ríos', 'Jonás Ferreyra', 1, 1, 2),
+('Alejo', 'Ruiz', 7, 49607180, 'Salta 101', 'Paula Godoy', 'Sebastián Ruiz', 0, 1, 2),
+('Pilar', 'Suárez', 8, 48506070, 'Jujuy 202', 'Cintia Gómez', 'Federico Suárez', 0, 1, 2),
+('Franco', 'Arias', 7, 49809000, 'Tucumán 303', 'Eliana Vera', 'Gonzalo Arias', 1, 1, 2),
+('Martina', 'Ortiz', 8, 48708090, 'Chaco 404', 'Inés Blanco', 'Mario Ortiz', 0, 1, 2),
+('Victoria', 'Luna', 7, 49001122, 'Formosa 505', 'Nora Jiménez', 'Pablo Luna', 0, 1, 2),
+('Máximo', 'Sosa', 8, 48900011, 'La Pampa 606', 'Olivia Carrizo', 'Quique Sosa', 0, 1, 2);
+
+-- Tercer grado TM
+INSERT INTO estudiantes (nombre, apellido, edad, dni, direccion, nombre_madre, nombre_padre, hno_en_escuela, regular, id_grado) VALUES 
+('Elena', 'Blanco', 9, 48022334, 'Cerrito 500', 'Silvana Castro', 'Lucas Blanco', 0, 1, 3),
+('Thiago', 'Soto', 8, 49977665, 'Arenales 100', 'Marta Gómez', 'Franco Soto', 1, 1, 3),
+('Sofia', 'Ramos', 9, 48445566, 'Juncal 200', 'Verónica Diaz', 'Patricio Ramos', 0, 1, 3),
+('Joaquín', 'Paz', 8, 49500112, 'Callao 303', 'Roxana Luna', 'Mario Paz', 0, 1, 3),
+('Guadalupe', 'Méndez', 9, 48113344, 'Posadas 404', 'Lourdes Ríos', 'Héctor Méndez', 1, 1, 3),
+('Valentino', 'Torres', 8, 49303040, 'Quintana 55', 'Claudia Vera', 'Guillermo Torres', 0, 1, 3),
+('Isabella', 'Núñez', 9, 48778899, 'Ayacucho 600', 'Natalia Ponce', 'Javier Núñez', 0, 1, 3),
+('Martina', 'Carrizo', 8, 49010203, 'Alvear 777', 'Cecilia Aguirre', 'Esteban Carrizo', 1, 1, 3),
+('Santino', 'Díaz', 9, 48556677, 'San Juan 80', 'Alejandra Sosa', 'Martín Díaz', 1, 1, 3),
+('Victoria', 'Giménez', 8, 49776655, 'Perú 909', 'Jimena Blanco', 'Maximiliano Giménez', 0, 1, 3),
+('Justina', 'Morales', 9, 48223344, 'México 1000', 'Marina Silva', 'Federico Morales', 0, 1, 3),
+('Benicio', 'López', 8, 49887766, 'Venezuela 111', 'Vanessa Soto', 'Mauro López', 0, 1, 3),
+('Renata', 'Castro', 9, 48443322, 'Cochabamba 200', 'Elena Cárdenas', 'Juan Castro', 1, 1, 3),
+('Candela', 'Pereyra', 8, 49665544, 'Salta 333', 'Gabriela Luna', 'Andrés Pereyra', 0, 1, 3),
+('Simón', 'Acosta', 9, 48060708, 'Jujuy 444', 'Florencia Vidal', 'Luciano Acosta', 1, 1, 3),
+('Josefina', 'Herrera', 8, 49900112, 'Corrientes 500', 'Verónica Gómez', 'Ramiro Herrera', 0, 1, 3),
+('Luana', 'Sánchez', 9, 48123456, 'Tucumán 666', 'Viviana Díaz', 'Gustavo Sánchez', 1, 1, 3),
+('Faustina', 'Godoy', 8, 49456789, 'Lavalle 700', 'Adriana Peña', 'Sebastián Godoy', 0, 1, 3),
+('Manuel', 'Juárez', 9, 48678901, 'Viamonte 888', 'Lorena Chávez', 'Alexis Juárez', 0, 1, 3),
+('Pilar', 'Fernández', 8, 49234567, 'Suipacha 99', 'Mónica Castro', 'Leandro Fernández', 1, 1, 3),
+('Bautista', 'Pérez', 9, 48890123, 'Carlos Pellegrini 10', 'Susana Rojas', 'Franco Pérez', 0, 1, 3);

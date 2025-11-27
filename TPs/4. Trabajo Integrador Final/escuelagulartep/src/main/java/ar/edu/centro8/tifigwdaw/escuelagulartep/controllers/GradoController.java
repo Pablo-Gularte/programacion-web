@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,9 +58,6 @@ public class GradoController {
 
     @DeleteMapping(urlBorrarGrado)
     public ResponseEntity<Void> borrarGrado(@PathVariable Long id) {
-        System.out.println("======================================================");
-        System.out.println("[borrarGrado] ID recibido: " + id);
-        System.out.println("======================================================");
         gradoSvc.eliminarGrado(id);
         return ResponseEntity.noContent().build();
     }
