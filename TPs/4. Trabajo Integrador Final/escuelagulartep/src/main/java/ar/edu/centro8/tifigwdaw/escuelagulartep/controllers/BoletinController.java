@@ -13,11 +13,11 @@ import ar.edu.centro8.tifigwdaw.escuelagulartep.services.BoletinService;
 @Controller
 public class BoletinController {
     private final String urlObtenerTodosLosBoletines = "/boletines";
-    private final String urlObtenerBoletinPorId = "/boletines/{id}";
-    private final String urlObtenerBoletinPorEstudiante = "/boletines/estudiante/{id}";
-    private final String urlCrearBoletin = "/boletines/nuevo";
-    private final String urlEditarBoletin = "/boletines/editar/{id}";
-    private final String urlBorrarBoletin = "/boletines/borrar/{id}";
+    // private final String urlObtenerBoletinPorId = "/boletines/{id}";
+    // private final String urlObtenerBoletinPorEstudiante = "/boletines/estudiante/{id}";
+    // private final String urlCrearBoletin = "/boletines/nuevo";
+    // private final String urlEditarBoletin = "/boletines/editar/{id}";
+    // private final String urlBorrarBoletin = "/boletines/borrar/{id}";
 
     @Autowired
     BoletinService boletinSvc;

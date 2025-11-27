@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // Creo el encabezado de la tabla
                     const thead = document.createElement("thead");
                     const encabezado = document.createElement("tr");
-                    ["ID", "Nombre", "Apellido", "Edad", "Acciones"].forEach(texto => {
+                    ["ID", "Nombre", "Apellido", "Edad", "DNI", "Acciones"].forEach(texto => {
                         const th = document.createElement("th");
                         th.textContent = texto;
                         th.className = "text-center text-bg-success";
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     gradoSeleccionado.estudiantes.forEach(estudiante => {
                         const fila = document.createElement("tr");
                         
-                        // Celda ID, Nombre, Apellido, Edad
+                        // Celda ID, Nombre, Apellido, Edad, DNI
                         const celdaId = document.createElement("td");
                         celdaId.textContent = estudiante.id;
                         celdaId.className = "text-center";
@@ -107,20 +107,25 @@ document.addEventListener("DOMContentLoaded", () => {
                         celdaEdad.textContent = estudiante.edad;
                         celdaEdad.className = "text-center";
                         fila.appendChild(celdaEdad);
+
+                        const celdaDni = document.createElement("td");
+                        celdaDni.textContent = estudiante.dni;
+                        celdaDni.className = "text-end";
+                        fila.appendChild(celdaDni);
                         
                         // Celda de acciones con botones Editar y Eliminar
                         const celdaAcciones = document.createElement("td");
                         celdaAcciones.className = "text-center";
                         const botonEditar = document.createElement("button");
                         botonEditar.textContent = "Editar";
-                        botonEditar.setAttribute("title", "Editar estudiante");
+                        botonEditar.setAttribute("title", "Click para editar estudiante");
                         botonEditar.setAttribute('onclick', `editarEstudiante(${estudiante.id})`);
                         botonEditar.className = "btn btn-primary btn-sm me-2";
                         celdaAcciones.appendChild(botonEditar);
                         
                         const botonEliminar = document.createElement("button");
-                        botonEliminar.textContent = "Eliminar";
-                        botonEliminar.setAttribute("title", "Eliminar estudiante");
+                        botonEliminar.textContent = "Borrar";
+                        botonEliminar.setAttribute("title", "CLick para borrar estudiante");
                         botonEliminar.setAttribute('onclick', `eliminarEstudiante(${estudiante.id})`);
                         botonEliminar.className = "btn btn-danger btn-sm";
                         celdaAcciones.appendChild(botonEliminar);
