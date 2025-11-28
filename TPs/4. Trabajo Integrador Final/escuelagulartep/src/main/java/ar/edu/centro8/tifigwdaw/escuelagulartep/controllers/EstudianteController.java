@@ -62,7 +62,7 @@ public class EstudianteController {
     }
 
     @PatchMapping(urlEditarEstudiante)
-    public ResponseEntity<Estudiante> modificarEstudiante(@PathVariable Long id, Estudiante estudiante) {
+    public ResponseEntity<Estudiante> modificarEstudiante(@PathVariable Long id, @RequestBody Estudiante estudiante) {
         return ResponseEntity.ok(estudianteSvc.modificarEstudiante(id, estudiante));
     }
 
