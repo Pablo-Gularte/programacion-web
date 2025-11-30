@@ -1,5 +1,6 @@
 package ar.edu.centro8.tifigwdaw.escuelagulartep.controllers;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.models.enums.NombreGrado;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.models.enums.Turno;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.services.GradoService;
 
 @RestController
@@ -23,6 +26,9 @@ import ar.edu.centro8.tifigwdaw.escuelagulartep.services.GradoService;
 public class GradoController {
     private final String urlObtenerTodosLosGrados = "/grados";
     private final String urlObtenerGradoPorId = "/grados/{id}";
+    private final String urlObtenerGradoPorTurnoYNombre = "/grados/{turno}/{nombre}";
+    private final String urlObtenerInfoTurnos = "/grados/info-turnos";
+    private final String urlObtenerInfoGrados = "/grados/info-grados";
     private final String urlCrearGrado = "/grados/nuevo";
     private final String urlEditarGrado = "/grados/editar/{id}";
     private final String urlBorrarGrado = "/grados/borrar/{id}";
@@ -42,6 +48,22 @@ public class GradoController {
     public ResponseEntity<Grado> obtenerGradoPorId(@PathVariable Long id) {
         Grado grado = gradoSvc.obtenerGradoPorId(id);
         return ResponseEntity.ok(grado);
+    }
+
+    @GetMapping(urlObtenerGradoPorTurnoYNombre)
+    public ResponseEntity<Grado> obtenerGradoPorTurnoYNombre(@PathVariable NombreGrado nombre, @PathVariable Turno turno) {
+        Grado grado = gradoSvc.obtenerGradoPorTurnoYNombre(nombre, turno);
+        return ResponseEntity.ok(grado);
+    }
+
+    @GetMapping(urlObtenerInfoGrados)
+    public ResponseEntity<List<NombreGrado>> obtenerInfoGrados() {
+        return ResponseEntity.ok(Arrays.asList(NombreGrado.values()));
+    }
+
+    @GetMapping(urlObtenerInfoTurnos)
+    public ResponseEntity<List<Turno>> obtenerInfoTrunos() {
+        return ResponseEntity.ok(Arrays.asList(Turno.values()));
     }
 
     @PostMapping(urlCrearGrado)

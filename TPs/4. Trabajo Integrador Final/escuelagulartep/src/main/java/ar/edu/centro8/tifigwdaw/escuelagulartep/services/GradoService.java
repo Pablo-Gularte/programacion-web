@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.excepciones.RecursoDuplicadoExcepcion;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Estudiante;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Grado;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.models.enums.NombreGrado;
+import ar.edu.centro8.tifigwdaw.escuelagulartep.models.enums.Turno;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.repositories.IGradoRepository;
 import lombok.extern.slf4j.Slf4j;   // Importo el paquete que habilita el logging con lombok
 
@@ -34,6 +36,17 @@ public class GradoService {
         }
         log.warn("No se encontró ningún grado con ID " + id);
         throw new IllegalArgumentException("No se encontró ningún grado con ID " + id);
+    }
+
+    public Grado obtenerGradoPorTurnoYNombre(NombreGrado nombre, Turno turno) {
+        log.info("METODO: obtenerGradoPorNombreYTurno(" + nombre + " " + turno.getLeyendaUI() + ") - INICIO");
+        Grado grado = gradoRepo.findByTurnoAndNombre(turno, nombre);
+        if(grado != null) {
+            log.info("Grado encontrado");;
+            return grado;
+        }
+        log.warn("No se encontró ningún grado con nombre " + nombre + " en el turno " + turno.getLeyendaUI());
+        throw new IllegalArgumentException("No se encontró ningún grado con nombre " + nombre + " en el turno " + turno.getLeyendaUI());
     }
 
     public Grado crearGrado(Grado nuevoGrado) {
@@ -110,7 +123,7 @@ public class GradoService {
         }
 
         // Verifico que el docente no esté activo en otro grado
-        if (gradoRepo.existsByDocenteAndActivo(grado.getDocente(), Boolean.TRUE.equals(grado.getActivo()))) {
+        if (gradoRepo.existsByDocenteAndActivoTrue(grado.getDocente())) {
             log.error("El docente " + grado.getDocente() + " ya está asignado a otro grado activo.");
             throw new RecursoDuplicadoExcepcion("El docente " + grado.getDocente() + " ya está asignado a otro grado activo.");
         }

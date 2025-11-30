@@ -19,9 +19,18 @@ public interface IGradoRepository extends JpaRepository<Grado, Long> {
 
     /**
      * Query Method para verificar si ya existe el docente en un grado activo.
+     * Validación para regla de negocio: cada docente sólo puede estar activo
+     * en un grado por vez
      * @param docente Es el nombre del docente a verificar.
-     * @param activo Indica si el grado está activo o no.
      * @return true si el docente ya está asignado a un grado activo, false en caso contrario.
      */
-    boolean existsByDocenteAndActivo(String docente, boolean activo);
+    boolean existsByDocenteAndActivoTrue(String docente);
+
+    /**
+     * Query Method para recuperar un grado puscando por nombre y turno.
+     * @param nombre es el nombre del grado a buscar.
+     * @param turno es el turno del grado a buscar.
+     * @return Devuelve el grado de nombre "nombre" en el turno "turno".
+     */
+    Grado findByTurnoAndNombre(Turno turno, NombreGrado nombre);
 }
