@@ -14,7 +14,7 @@ public enum TipoAsistencia {
         this.leyenda = leyenda;
     }
 
-    public String getNombre() {
+    public String getValor() {
         return this.name();
     }
 

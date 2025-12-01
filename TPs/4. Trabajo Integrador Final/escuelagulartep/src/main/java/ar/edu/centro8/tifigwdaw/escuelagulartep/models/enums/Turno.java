@@ -25,7 +25,7 @@ public enum Turno {
         this.leyendaUI = leyenda;
     }
 
-    public String getNombre() {
+    public String getValor() {
         return this.name();
     }
 

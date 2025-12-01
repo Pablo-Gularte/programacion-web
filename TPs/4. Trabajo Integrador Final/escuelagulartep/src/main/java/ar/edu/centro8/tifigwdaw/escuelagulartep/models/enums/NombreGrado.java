@@ -35,7 +35,7 @@ public enum NombreGrado {
         this.cicloAsociado = ciclo;
     }
 
-    public String getNombre() {
+    public String getValor() {
         return this.name();
     }
 

@@ -23,7 +23,7 @@ import ar.edu.centro8.tifigwdaw.escuelagulartep.services.GradoService;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-public class GradoController {
+public class GradoRestController {
     private final String urlObtenerTodosLosGrados = "/grados";
     private final String urlObtenerGradoPorId = "/grados/{id}";
     private final String urlObtenerGradoPorTurnoYNombre = "/grados/{turno}/{nombre}";

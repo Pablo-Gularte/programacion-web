@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
-public class EstudianteController {
+public class EstudianteRestController {
     private final String urlObtenerTodosLosEstudiantes = "/estudiantes";
     private final String urlObtenerTodosLosEstudiantesPorGrado = "/estudiantes/grado/{idGrado}";
     private final String urlObtenerTodosLosEstudiantesSinGrado = "/estudiantes/sin-grado";

@@ -19,3 +19,43 @@
 #3 Crear controladores REST para entidades principales
 #4 Crear controladores MVC para Asistencia y Boletin
 #5 Crear un paquete "excepciones" para agrupar todas las excepciones personalizadas que vaya necesitando en el proyecto
+
+===============================
+= Controladores y sus métodos =
+===============================
+@RestController
+[Grado]
+    urlObtenerTodosLosGrados = "/grados";
+    urlObtenerGradoPorId = "/grados/{id}";
+    urlObtenerGradoPorTurnoYNombre = "/grados/{turno}/{nombre}";
+    urlObtenerInfoTurnos = "/grados/info-turnos";
+    urlObtenerInfoGrados = "/grados/info-grados";
+    urlCrearGrado = "/grados/nuevo";
+    urlEditarGrado = "/grados/editar/{id}";
+    urlBorrarGrado = "/grados/borrar/{id}";
+    urlCrearGradoMasivo = "/grados/nuevo/masivo";
+    urlEditarGradoMasivo = "/grados/editar/masivo";
+
+[Estudiante]
+    urlObtenerTodosLosEstudiantes = "/estudiantes";
+    urlObtenerTodosLosEstudiantesPorGrado = "/estudiantes/grado/{idGrado}";
+    urlObtenerTodosLosEstudiantesSinGrado = "/estudiantes/sin-grado";
+    urlObtenerEstudiantePorId = "/estudiantes/{id}";
+    urlCrearEstudiante = "/estudiantes/nuevo";
+    urlEditarEstudiante = "/estudiantes/editar/{id}";
+    urlBorrarEstudiante = "/estudiantes/borrar/{id}";
+
+@Controller
+[Asistencia]
+    urlObtenerAsistenciaPorEstudiante = "/asistencias/{idEstudiante}";
+
+[Boletin]
+    urlObtenerBoletinPorEstudiante = "/boletines/{idEstudiante}";
+
+=========================
+= Interfaces de usuario =
+=========================
+[Formulario de creación/modificación]
+    Grado
+
+    Estudiante

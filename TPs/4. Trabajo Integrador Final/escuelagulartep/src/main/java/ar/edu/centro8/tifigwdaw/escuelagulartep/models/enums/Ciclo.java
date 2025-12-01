@@ -23,7 +23,7 @@ public enum Ciclo {
         this.leyendaUI = leyenda;
     }
 
-    public String getNombre() {
+    public String getValor() {
         return this.name();
     }
 
