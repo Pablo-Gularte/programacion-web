@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es-AR" xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="contenido">
+    <div class="card shadow mb-4">
+        <div class="card-header bg-info text-white">
+            <h2 th:text="${tituloVista}">Listado de Asistencias</h2>
+        </div>
+        <div class="card-body">
+
+            <div th:if="${listaAsistencias.isEmpty()}" class="alert alert-warning" role="alert">
+                No hay registros de asistencias disponibles.
+            </div>
+
+            <div th:unless="${listaAsistencias.isEmpty()}">
+                <a th:href="@{/}" class="btn btn-secondary">
+                    Volver al Inicio
+                </a>
+                <hr/>
+                <table class="table table-striped table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>ID Asistencia</th>
+                            <th>Estudiante</th>
+                            <th>Fecha</th>
+                            <th>Tipo Asistencia</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="asistencia : ${listaAsistencias}">
+                            <td th:text="${asistencia.id}">1</td>
+                            <td th:text="${asistencia.estudiante.nombre} + ' ' + ${asistencia.estudiante.apellido}">Nombre Estudiante</td>
+                            
+                            <td th:text="${#temporals.format(asistencia.fecha, 'EEEE dd ''de'' MMMM')}">martes 01 de diciembre de 2025</td>
+                            
+                            <td th:text="${asistencia.tipoAsistencia.leyenda}">Llegada tarde</td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
