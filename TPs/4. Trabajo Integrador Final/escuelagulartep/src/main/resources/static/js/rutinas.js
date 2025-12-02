@@ -1,6 +1,6 @@
 // Defino servidor, puerto y endpoints de trabajo
 const servidor = "localhost";
-const puerto = "8080";
+const puerto = "9090";
 const urlBase = `http://${servidor}:${puerto}`;
 
 // Defino rutas de endpoints
@@ -28,6 +28,53 @@ $(document).ready(async () => {
 });
 
 // Funciones de modificación y eliminación de datos
+function crearEstudiante() {
+    // Creo los botones de acciones a mostrar en el modal
+    // Botón GUARDAR
+    const btnGuardar = $("<button>");
+    btnGuardar.attr("type", "button");
+    btnGuardar.addClass("btn btn-success");
+    btnGuardar.text("Guardar cambios");
+    btnGuardar.on("click", param => guardarDatos($("#form-editar-datos")));
+    
+    // Botón CANCELAR
+    const btnCancelar = $("<button>");
+    btnCancelar.attr("type","reset");
+    btnCancelar.addClass("btn btn-secondary");
+    btnCancelar.text("Borrar todo");
+    btnCancelar.on("click", () => $("form")[0].reset());
+
+    // Genero el formulario de alta de estudiante que es el contenido del modal y lo paso por parámetro
+    const contFormulario = {
+        enlace: urlGradoNuevo,
+        metodo: 'put',
+        campos: [
+            {id: "nombre", leyenda: "Nombre"}, 
+            {id: "apellido", leyenda: "Apellido"}, 
+            {id: "edad", leyenda: "Edad"}, 
+            {id: "dni", leyenda: "DNI"}, 
+            {id: "direccion", leyenda: "Dirección"}, 
+            {id: "nombreMadre", leyenda: "Nombre de la madre"}, 
+            {id: "nombrePadre", leyenda: "Nombre del padre"}, 
+            {id: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela"}, 
+            {id: "regular", leyenda: ""}],
+    };
+
+    console.log("invoco generarModal() desde crearEstudiante()");
+    generarModal({
+        colorModal: "bg-success-subtle",
+        colorTituloModal: "bg-success",
+        colorBotoneraModal:"bg-dark-subtle",
+        tituloModal: "<b>Crear estudiante</b>",
+        contenidoModal: generarFormulario(contFormulario),
+        botoneraModal: [btnGuardar, btnCancelar]
+    });
+}
+
+function crearGrado() {
+    alert("Esta es la función de creación de grados");
+}
+
 function editarEstudiante(idEstudiante) {
     // Creo el contenido del formulario de edición de datos para pasar al Modal
 
@@ -103,35 +150,7 @@ function eliminarEstudiante(idEstudiante, turno, grado) {
     });
 }
 
-function asistenciasEstudiante(idEstudiante) {
-    // Creo el contenido de asistencias a mostar para el idEstudiante recibido
-    // Se recuperan los datos del servidor y se genera una tabla con las asistencias
-
-    // Invoco a la función que genera el Modal y lo muestra en pantalla
-    generarModal({
-        colorModal: "bg-info-subtle",
-        colorTituloModal: "bg-info",
-        colorBotoneraModal:"bg-dark-subtle",
-        tituloModal: "<b>Ver asistencias</b>",
-        contenidoModal: `<p>Formularo para mostrar las asistencias del estudiante ${idEstudiante}</p>`,
-    });
-}
-
-function boletinEstudiante(idEstudiante) {
-    // Creo el contenido de notas a mostar para el idEstudiante recibido
-    // Se recuperan los datos del servidor y se genera una tabla con las notas del boletín
-    
-    // Invoco a la función que genera el Modal y lo muestra en pantalla
-    generarModal({
-        colorModal: "bg-warning-subtle",
-        colorTituloModal: "bg-warning",
-        colorBotoneraModal:"bg-dark-subtle",
-        tituloModal: "<b>Ver notas</b>",
-        contenidoModal: `<p>Formularo para mostrar las notas del boletín del estudiante ${idEstudiante}</p>`,
-    });
-}
-
-function abrirModalDeDatos(tipoDato, id = null) {
+function crearGradoEstudiante(tipoDato, id = null) {
     // Creo los botones de acciones a mostrar en el modal
     // Botón GUARDAR
     const btnGuardar = $("<button>");
@@ -149,7 +168,7 @@ function abrirModalDeDatos(tipoDato, id = null) {
     const fondo = "bg-success-subtle";
     const titulo = "text-bg-success";
     const botonera = "bg-dark-subtle";
-    const tituloLeyenda = `<b>${tipoOperacion === 'crear' ? 'Crear' : 'Modificar'} ${tipoDato}</b>`;
+    const tituloLeyenda = `<b>${id === null ? 'Crear' : 'Modificar'} ${tipoDato}</b>`;
     const botones = [btnGuardar, btnCancelar];
 
     // Creo el contenido del modal en función de tipoDato (grado o estudiante).
@@ -169,6 +188,7 @@ function abrirModalDeDatos(tipoDato, id = null) {
     };
 
     }
+    console.log("invoco generarFormulario() desde crearGradoEstudiante()");
     const contenidoGrado = generarFormulario(contenidoFormulario);
     const contenidoEstudiante = `<p>Formularo para crear un nuevo ${tipoDato}</p>`
     // Se recuperan los datos del servidor y se genera una tabla con las notas del boletín
@@ -218,7 +238,6 @@ function cerrarModal() {
 }
 
 function mostrarMensajeServidor(mensaje, tipoMensaje) {
-    const panelError = $("#panel-mensaje-error");
     const panelExito = $("#panel-mensaje-ok > div.toast-body");
 
     if (tipoMensaje === "ok") {
@@ -230,14 +249,7 @@ function mostrarMensajeServidor(mensaje, tipoMensaje) {
             $("#panel-mensaje-ok").hide();
         }, 4500);
     } else {
-        panelError.text(mensaje);
-        const modal = new bootstrap.Modal(panelError);
-        const segundos = 5;
-        const tiempoEspera = 1000 * segundos; 
-        modal.show();
-        setInterval(() => {
-            modal.hide();
-        }, tiempoEspera);
+        alert(mensaje);
     }
 
 }
@@ -361,7 +373,7 @@ async function mostrarGrado(turno, grado) {
                 const filaCuerpo = $("<tr>");
 
                 // Botones de acciones
-                const btnEditar = `<button type="button" class="btn btn-info" title="Click para editar estudiante">Editar</button>`;
+                const btnEditar = `<button type="button" class="btn btn-info" onclick="editarEstudiante(${estudiante.id})" title="Click para editar estudiante">Editar</button>`;
                 const btnBorrar = `<button type="button" class="btn btn-danger ms-3" onclick="eliminarEstudiante(${estudiante.id}, '${turno}', '${grado}')" title="Click para borrar estudiante">Borrar</button>`;
                 const btnBoletin = `<a href="/boletines/estudiante/${estudiante.id}" class="btn btn-warning ms-3" title="Click para ver las notas">Boletín</a>`;
                 const btnAsistencia = `<a href="/asistencias/estudiante/${estudiante.id}" class="btn btn-secondary ms-3" title="Click para ver las asistencias">Asistencia</a>`;
@@ -399,6 +411,42 @@ async function mostrarGrado(turno, grado) {
         tituloPanelVisualizacion.text("No se encontraron datos para el grado indicado"); 
         contenedorTabla.hide();
     }
+}
+
+function generarFormulario(contenido) {
+    console.log("Se invoca generarFormulario()");
+    const formulario = $("#form-editar-datos");
+    const campos = [];
+
+    for(const campo of contenido.campos) {
+        if (campo.id === 'hnoEnEscuela') {
+            campos.push(
+                `<div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="${campo.id}">
+                    <label class="form-check-label" for="${campo.id}">Tiene hermano en la escuela</label>
+                </div>`
+            );
+        } else {
+            const tipoCampo = (campo.id === 'regular' || campo.id === 'id') ? 'hidden' : campo.id === 'edad' ? 'number' : 'text';
+            const requerido = !(campo.id === 'nombreMadre' || campo.id === 'nombrePadre') ? 'required' : '';
+
+            campos.push(
+                `<div class="mb-3">
+                        <label for="${campo.id}" class="form-label">${campo.leyenda}</label>
+                        <input type="${tipoCampo}" class="form-control" id="${campo.id}" ${requerido}>
+                    </div>`
+            );
+        }
+    }
+    formulario.html("");
+    formulario.append(campos);
+
+    return formulario;
+}
+
+function guardarDatos(datos) {
+
+    console.log($(datos).find("input"));
 }
 
 /**

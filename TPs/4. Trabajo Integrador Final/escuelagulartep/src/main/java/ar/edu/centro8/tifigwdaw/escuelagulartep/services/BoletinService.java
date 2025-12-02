@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Boletin;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.repositories.IBoletinRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class BoletinService {
@@ -20,5 +21,10 @@ public class BoletinService {
 
     public List<Boletin> obtenerBoletinPorEstudiante(Long idEstudiante) {
         return boletinRepo.findByEstudianteId(idEstudiante);
+    }
+
+    @Transactional
+    public void eliminarBoletinPorEstudiante(Long idEstudiante) {
+        boletinRepo.deleteByEstudianteId(idEstudiante);
     }
 }

@@ -8,12 +8,14 @@ import org.springframework.stereotype.Service;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.excepciones.RecursoDuplicadoExcepcion;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.models.Estudiante;
 import ar.edu.centro8.tifigwdaw.escuelagulartep.repositories.IEstudianteRepository;
+import jakarta.transaction.Transactional;
 
 @Service
 public class EstudianteService {
 
-    @Autowired
-    IEstudianteRepository estudianteRepo;
+    @Autowired IEstudianteRepository estudianteRepo;
+    @Autowired BoletinService boletinSvc;
+    @Autowired AsistenciaService asistenciaSvc;
 
     public List<Estudiante> obtenerTodosLosEstudiantes() {
         return estudianteRepo.findAll();
@@ -54,8 +56,11 @@ public class EstudianteService {
         return estudianteRepo.save(estudianteExistente);
     }
 
+    @Transactional
     public void eliminarEstudiante(Long id) {
         Estudiante estudianteExistente = obtenerEstudiantePorId(id);
+        boletinSvc.eliminarBoletinPorEstudiante(id);
+        asistenciaSvc.eliminarAsistenciaPorEstudiante(id);
         estudianteRepo.delete(estudianteExistente);
     }
     
