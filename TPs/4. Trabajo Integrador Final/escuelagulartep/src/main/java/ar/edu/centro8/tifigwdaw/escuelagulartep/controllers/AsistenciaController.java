@@ -13,7 +13,7 @@ import ar.edu.centro8.tifigwdaw.escuelagulartep.services.EstudianteService;
 @Controller
 public class AsistenciaController {
     private final String urlObtenerTodasLasAsistencias = "/asistencias";
-    private final String urlObtenerAsistenciasPorEstudiante = "/asistencias/{idEstudiante}";
+    private final String urlObtenerAsistenciasPorEstudiante = "/asistencias/estudiante/{idEstudiante}";
 
     @Autowired AsistenciaService asistenciaSvc;
     @Autowired EstudianteService estudianteSvc;
@@ -37,11 +37,14 @@ public class AsistenciaController {
         Estudiante estudiante = estudianteSvc.obtenerEstudiantePorId(idEstudiante);
 
         model.addAttribute("tituloPagina", "Asistencias de Estudiantes");
-        model.addAttribute("tituloVista", "Listado Completo de Asistencias de " + estudiante.getNombre() + " " + estudiante.getApellido());
+        model.addAttribute("tituloVista", "Listado Completo de Asistencias");
+        model.addAttribute("estudiante", estudiante.getNombre() + " " + estudiante.getApellido());
+        model.addAttribute("grado", estudiante.getGrado().getNombre().getLeyendaUI());
+        model.addAttribute("turno", estudiante.getGrado().getTurno().getLeyendaUI());
         model.addAttribute("listaAsistencias", asistenciaSvc.obtenerAsistenciasPorEstudiante(idEstudiante));
         
         // 3. Especificar el fragmento de contenido a usar
-        model.addAttribute("contenidoFragmento", "asistencia/lista");
+        model.addAttribute("contenidoFragmento", "asistencia/lista-estudiante");
         return "plantilla-listados";
     }
 }

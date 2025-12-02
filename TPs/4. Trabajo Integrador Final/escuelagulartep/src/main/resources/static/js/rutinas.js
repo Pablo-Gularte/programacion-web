@@ -55,7 +55,7 @@ function editarEstudiante(idEstudiante) {
     });
 }
 
-function eliminarEstudiante(idEstudiante) {
+function eliminarEstudiante(idEstudiante, turno, grado) {
     // Creo los botones de acciones a mostrar en el modal
     // Botón BORRAR
     const btnBorrarEstudiante = $("<button>");
@@ -73,7 +73,9 @@ function eliminarEstudiante(idEstudiante) {
             if (!response.ok) {
                 mostrarMensajeServidor("Error al intentar borrar el estudiante de ID: " + idEstudiante, "error");
             } else {
+                cerrarModal();
                 mostrarMensajeServidor("Se ha borrado con éxito el estudiante de ID: " + idEstudiante, "ok");
+                mostrarGrado(turno, grado);
             }
 
         } catch (error) {
@@ -87,7 +89,7 @@ function eliminarEstudiante(idEstudiante) {
     const btnCancelar = $("<button>");
     btnCancelar.attr("type", "button");
     btnCancelar.addClass("btn btn-secondary");
-    btnCancelar.on("click", "cerrarModal()");
+    btnCancelar.on("click", cerrarModal);
     btnCancelar.text("Cancelar");
 
     // Invoco a la función que genera el Modal y lo muestra en pantalla
@@ -96,7 +98,7 @@ function eliminarEstudiante(idEstudiante) {
         colorTituloModal: "bg-danger",
         colorBotoneraModal:"bg-dark-subtle",
         tituloModal: "<b>Borrar datos</b>",
-        contenidoModal: `<p>Formularo para borrar los datos del estudiante ${idEstudiante}</p>`,
+        contenidoModal: `<p>Se va a eliminar el estudiante de ${idEstudiante}. ¿Desea continuar?</p>`,
         botoneraModal: [btnBorrarEstudiante, btnCancelar]
     });
 }
@@ -222,7 +224,11 @@ function mostrarMensajeServidor(mensaje, tipoMensaje) {
     if (tipoMensaje === "ok") {
         panelExito.text(mensaje);
         const toast = new bootstrap.Toast(panelExito);
+        $("#panel-mensaje-ok").show();
         toast.show();
+        setTimeout(() => {
+            $("#panel-mensaje-ok").hide();
+        }, 4500);
     } else {
         panelError.text(mensaje);
         const modal = new bootstrap.Modal(panelError);
@@ -356,9 +362,9 @@ async function mostrarGrado(turno, grado) {
 
                 // Botones de acciones
                 const btnEditar = `<button type="button" class="btn btn-info" title="Click para editar estudiante">Editar</button>`;
-                const btnBorrar = `<button type="button" class="btn btn-danger ms-3" title="Click para borrar estudiante">Borrar</button>`;
-                const btnBoletin = `<button type="button" class="btn btn-warning ms-3" title="Click para ver las notas">Boletín</button>`;
-                const btnAsistencia = `<button type="button" class="btn btn-secondary ms-3" title="Click para ver las asistencias">Asistencia</button>`;
+                const btnBorrar = `<button type="button" class="btn btn-danger ms-3" onclick="eliminarEstudiante(${estudiante.id}, '${turno}', '${grado}')" title="Click para borrar estudiante">Borrar</button>`;
+                const btnBoletin = `<a href="/boletines/estudiante/${estudiante.id}" class="btn btn-warning ms-3" title="Click para ver las notas">Boletín</a>`;
+                const btnAsistencia = `<a href="/asistencias/estudiante/${estudiante.id}" class="btn btn-secondary ms-3" title="Click para ver las asistencias">Asistencia</a>`;
                 const botones = `${btnEditar} ${btnBorrar} ${btnBoletin} ${btnAsistencia}`;
                 
                 // Datos de estudiante
@@ -382,12 +388,10 @@ async function mostrarGrado(turno, grado) {
         tabla.append(cuerpoTabla);
 
         // Genero botón para volver al acordeón de turnos
-        const btnVolver = $("<button>");
-        btnVolver.attr("type", "button");
-        btnVolver.addClass("btn btn-outline-secondary col-2");
-        btnVolver.attr("onclick", "$(this).remove();mostrarAcordeon()");
+        const btnVolver = $("#btnVolver");
+        btnVolver.addClass("btn btn-outline-secondary col-2 mb-3");
+        btnVolver.attr("onclick", "mostrarAcordeon()");
         btnVolver.text("Volver");
-        $(tituloPanelVisualizacion).before(btnVolver);
 
         // Genero el título del panel
         tituloPanelVisualizacion.text(`Datos correspondientes a ${datosGrado.nombre.leyendaUI} de ${datosGrado.turno.leyendaUI}`); 

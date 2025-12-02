@@ -1,12 +1,22 @@
 [ Plantillas Thymeleaf ]
     -> Asistencias (solo listado)   : listado.html (fragmento: asistencias)
+        -> API: /asistencias/estudiante/{id}
     -> Boletines (solo listado)     : listado.html (fragmento: boletines)
+        -> API: /boletines/estudiante/{id}
     -> Estudiante
         -> Listar (modal para Borrar)   : listado.html (fragmento: estudiantes)
+            -> API: /estudiantes
+            -> API: /estudiantes/borrar/{id}
         -> Crear/Modificar              : formulario.html (fragmento: estudiante)
+            -> API: /estudiantes/{id}
+            -> API: /estudiantes/guardar/{id}
     -> Grado
         -> Listar (modal para Borrar)   : listado.html (fragmento: grados)
+            -> API: /grados
+            -> API: /grados/borrar/{id}
         -> Crear/Modificar              : formulario.html (fragmento: estudiante)
+            -> API: /grados/{id}
+            -> API: /grados/guardar/{id}
 
 [ Archivos HTML]
     -> Grado (desde acordeón de index.html) (usar fetch)
