@@ -1,6 +1,6 @@
 // Defino servidor, puerto y endpoints de trabajo
 const servidor = "localhost";
-const puerto = "9090";
+const puerto = "8080";
 const urlBase = `http://${servidor}:${puerto}`;
 
 // Defino rutas de endpoints
@@ -456,6 +456,9 @@ function generarFormulario(contenido) {
     const campos = [];
 
     for(const campo of contenido.campos) {
+        // Defino una constante para el caso que el elemento de formulario sea un select (menú desplegable)
+        const MENU_DESPLEGABLE = campo.config.tipo.toLowerCase() === "select";
+
         // Creo el div contenedor de campos
         const divContenedor = $("<div>");
         divContenedor.addClass("mb-3");
@@ -463,8 +466,36 @@ function generarFormulario(contenido) {
         // Creo etiqueta de campo
         const etiqueta = $("<label>");
         etiqueta.attr("for", campo.id);
+        etiqueta.addClass(`form-${campo.config.tipo === "checkbox" ? "check-" : ""}label`);
         etiqueta.text(campo.leyenda);
 
+        // Proceso campos de ingreso de datos
+        // Armo el control completo de formulario (etiqueta+input/select)
+        if (MENU_DESPLEGABLE) {
+            const select = $("<select>");
+            select.attr("id", campo.id);
+            select.addClass("form-select");
+            select[0].required = campo.config.requerido;
+            // Agrego las opciones
+            const op = `<option value="" selected disabled>Seleccione el grado</option>${campo.opciones}`;
+            select.append(op);
+            divContenedor.append(select);
+        } else {
+            const input = $("<input>");
+            input.attr("type", campo.config.tipo);
+            input.attr("id", campo.id);
+            input[0].required = campo.config.requerido;
+
+            if (campo.config.tipo === "checkbox") {
+                divContenedor.append(input);
+                divContenedor.append(etiqueta);
+            } else {
+                divContenedor.append(etiqueta);
+                divContenedor.append(input);
+            }
+        }
+        console.log("divContenedor");
+        console.log(divContenedor[0]);
 
         if (campo.id === 'hnoEnEscuela') {
             campos.push(
