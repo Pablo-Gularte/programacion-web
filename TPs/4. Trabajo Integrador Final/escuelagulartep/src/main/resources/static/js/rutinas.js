@@ -1,6 +1,6 @@
 // Defino servidor, puerto y endpoints de trabajo
 const servidor = "localhost";
-const puerto = "8080";
+const puerto = "9090";
 const urlBase = `http://${servidor}:${puerto}`;
 
 // Defino rutas de endpoints
@@ -10,7 +10,10 @@ const epInfoTurnos = "/grados/info-turnos";
 const epGradoPorTurnoYNombre = "/grados/";
 const epGradoNuevo = "/grados/nuevo";
 const epGradoEditado = "/grados/editar/";
+
+const epEstudiantePorId = "/estudiantes/"
 const epEstudianteNuevo = "/estudiantes/nuevo";
+const epEstudianteEditado = "/estudiantes/editar/";
 const epBorrarEdtudiante = "/estudiantes/borrar/";
 
 // Defino URLs de trabajo
@@ -20,8 +23,29 @@ const urlInfoTurnos = urlBase + epInfoTurnos;
 const urlGradoPorTurnoYNombre = urlBase + epGradoPorTurnoYNombre;
 const urlGradoNuevo = urlBase + epGradoNuevo;
 const urlGradoEditado = urlBase + epGradoEditado;
+const urlEstudiantePorId = urlBase + epEstudiantePorId
 const urlEstudianteNuevo = urlBase + epEstudianteNuevo;
+const urlEstudianteEditado = urlBase + epEstudianteEditado;
 const urlBorrarEstudiante = urlBase + epBorrarEdtudiante;
+
+// Defino objeto que contiene los campos de los formularios que se utilizarán para
+// crear/modificar datos
+const camposDeFormularios = {
+    estudiantes: [
+        {id: "id", leyenda: "Identificador:", config: {tipo: "number", requerido: true, oculto: true}}, 
+        {id: "nombre", leyenda: "Nombre:", config: {tipo: "text", requerido: true}}, 
+        {id: "apellido", leyenda: "Apellido:", config: {tipo: "text", requerido: true}}, 
+        {id: "edad", leyenda: "Edad:", config: {tipo: "number", requerido: true, min: 4, max: 14}}, 
+        {id: "dni", leyenda: "DNI:",config: {tipo: "text", requerido: true}}, 
+        {id: "direccion", leyenda: "Dirección:", config: {tipo: "text", requerido: true}}, 
+        {id: "nombreMadre", leyenda: "Nombre de la madre:", config: {tipo: "text"}}, 
+        {id: "nombrePadre", leyenda: "Nombre del padre:", config: {tipo: "text"}}, 
+        {id: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela:", config: {tipo: "checkbox"}}, 
+        {id: "regular", leyenda: "Estudiante regular:", config: {tipo: "checkbox"}},
+        {id: "grado", leyenda: "Grado al que se inscribe: ", config: {tipo: "select", opciones: []}}
+    ],
+    grados: []
+};
 
 // Al cargar la página recupero los grados para generar los vectores de turnos 
 // y grados con los que se completan los menús desplegables
@@ -37,7 +61,7 @@ async function crearEstudiante() {
     btnGuardar.attr("type", "button");
     btnGuardar.addClass("btn btn-success");
     btnGuardar.text("Guardar cambios");
-    btnGuardar.on("click", param => guardarDatos($("#form-editar-datos")));
+    btnGuardar.on("click", () => guardarDatos($("#form-editar-datos")));
     
     // Botón CANCELAR
     const btnCancelar = $("<button>");
@@ -46,34 +70,20 @@ async function crearEstudiante() {
     btnCancelar.text("Borrar todo");
     btnCancelar.on("click", () => $("form")[0].reset());
 
-    // Genero el formulario de alta de estudiante que es el contenido del modal y lo paso por parámetro
-    const datosGrados = await recuperarDatosAxios(urlGrados, "GET"); 
-    const colDatosGrados = datosGrados.map( g => ({ 
-            id: g.id, 
-            valor: g.nombre.leyendaUI + " - " + g.turno.leyendaUI 
-        })); 
+    // Recupero los valores de los campos y cargo opciones de menú desplegable
+    const valoresCampos = camposDeFormularios.estudiantes;
+    valoresCampos.find(reg => reg.id === "grado").opciones = await menuDesplegableGrados();
 
+    // Genero el modal que contiene al formulario de creación de datos
     const contFormulario = {
         enlace: urlGradoNuevo,
         metodo: 'put',
-        campos: [
-            {id: "nombre", leyenda: "Nombre:"}, 
-            {id: "apellido", leyenda: "Apellido:"}, 
-            {id: "edad", leyenda: "Edad:"}, 
-            {id: "dni", leyenda: "DNI:"}, 
-            {id: "direccion", leyenda: "Dirección:"}, 
-            {id: "nombreMadre", leyenda: "Nombre de la madre:"}, 
-            {id: "nombrePadre", leyenda: "Nombre del padre:"}, 
-            {id: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela:"}, 
-            {id: "regular", leyenda: "Estudiante regular:"},
-            {id: "grado", leyenda: "Grado al que se inscribe: ", opciones: colDatosGrados}
-        ]
+        campos: valoresCampos
     };
 
-    console.log("invoco generarModal() desde crearEstudiante()");
     generarModal({
         colorModal: "bg-success-subtle",
-        colorTituloModal: "bg-success",
+        colorTituloModal: "text-bg-success",
         colorBotoneraModal:"bg-dark-subtle",
         tituloModal: "<b>Crear estudiante</b>",
         contenidoModal: generarFormulario(contFormulario),
@@ -85,31 +95,47 @@ function crearGrado() {
     alert("Esta es la función de creación de grados");
 }
 
-function editarEstudiante(idEstudiante) {
-    // Creo el contenido del formulario de edición de datos para pasar al Modal
-
+async function editarEstudiante(idEstudiante) {
     // Creo los botones de acciones a mostrar en el modal
     // Botón GUARDAR
     const btnGuardar = $("<button>");
     btnGuardar.attr("type", "button");
     btnGuardar.addClass("btn btn-primary");
     btnGuardar.text("Guardar cambios");
+    btnGuardar.on("click", () => guardarDatos($("#form-editar-datos")));
     
     // Botón CANCELAR
     const btnCancelar = $("<button>");
     btnCancelar.attr("type","reset");
     btnCancelar.addClass("btn btn-secondary");
     btnCancelar.text("Borrar todo");
+    btnCancelar.on("click", () => $("form")[0].reset());
 
-    // Invoco a la función que genera el Modal y lo muestra en pantalla
-    generarModal({
-        colorModal: "bg-info-subtle",
-        colorTituloModal: "bg-info",
-        colorBotoneraModal:"bg-dark-subtle",
-        tituloModal: "<b>Modificar datos</b>",
-        contenidoModal: `<p>Formularo para editar los datos del estudiante ${idEstudiante}</p>`,
-        botoneraModal: [btnGuardar, btnCancelar]
-    });
+    // Recupero los datos a editar del servidor y los vuelco al formulario
+    const respServidor = await recuperarDatosAxios(urlEstudiantePorId + idEstudiante, "get");
+    if (!respServidor.error) {
+        // Vuelco los valores del servidor al objeto que usará el formulario
+        const valoresCampos = camposDeFormularios.estudiantes;
+        valoresCampos.find(reg => reg.id === "grado").opciones = await menuDesplegableGrados();
+        console.log(valoresCampos);
+        const contenidoFormulario = {
+            enlace: urlEstudianteEditado + idEstudiante,
+            metodo: 'patch',
+            campos: valoresCampos
+        };
+    
+        // Invoco a la función que genera el Modal y lo muestra en pantalla
+        generarModal({
+            colorModal: "bg-info-subtle",
+            colorTituloModal: "text-bg-info",
+            colorBotoneraModal:"bg-dark-subtle",
+            tituloModal: "<b>Modificar estudiante</b>",
+            contenidoModal: generarFormulario(contenidoFormulario),
+            botoneraModal: [btnGuardar, btnCancelar]
+        });
+    } else {
+        mostrarMensajeServidor(`Error ${respServidor.code} detectado: ${respServidor.details}`, "error");
+    }
 }
 
 function eliminarEstudiante(idEstudiante, turno, grado) {
@@ -425,10 +451,21 @@ async function mostrarGrado(turno, grado) {
 
 function generarFormulario(contenido) {
     console.log("Se invoca generarFormulario()");
+    console.log(contenido);
     const formulario = $("#form-editar-datos");
     const campos = [];
 
     for(const campo of contenido.campos) {
+        // Creo el div contenedor de campos
+        const divContenedor = $("<div>");
+        divContenedor.addClass("mb-3");
+
+        // Creo etiqueta de campo
+        const etiqueta = $("<label>");
+        etiqueta.attr("for", campo.id);
+        etiqueta.text(campo.leyenda);
+
+
         if (campo.id === 'hnoEnEscuela') {
             campos.push(
                 `<div class="mb-3 form-check">
@@ -473,21 +510,33 @@ function generarFormulario(contenido) {
 }
 
 async function guardarDatos(datos) {
+    // Construyo el objeto de datos a enviar al servidor
     const campos = [...$(datos).find("input"), ...$(datos).find("select")];  
-    const resp = {};  
+    const datosParaServidor = {};  
     for(const c of campos) {  
-        if (c.id === "grado") {  
-            resp[c.id] = { id: c.value };  
+        if (c.id === "grado" && c.value !== "") {  
+            datosParaServidor[c.id] = { id: c.value };  
         } else if (c.id === "regular") {  
-            resp[c.id] = true;  
+            datosParaServidor[c.id] = true;  
         } else {  
-            resp[c.id] = c.type === 'checkbox' ? c.checked : c.value;  
+            datosParaServidor[c.id] = c.type === 'checkbox' ? c.checked : c.value;  
         }  
-    }  
-    console.log(resp);
-    const respServidor = await recuperarDatosAxios(urlEstudianteNuevo, "post", resp);
-    console.log("respServidor");
-    console.log(respServidor);
+    }
+    // Envío los datos vía POST
+    const respServidor = await recuperarDatosAxios(urlEstudianteNuevo, "post", datosParaServidor);
+
+    // Manejo la salida
+    let mensaje;
+    let tipoMensaje;
+    if (!respServidor.error) {
+        cerrarModal();
+        mensaje = `Se creó exitosamente estudiante ${respServidor.nombre} ${respServidor.apellido}`;
+        tipoMensaje = "ok";
+    } else {
+        mensaje = `Error ${respServidor.status} detectado: ${respServidor.details}`;
+        tipoMensaje = "error";
+    }
+    mostrarMensajeServidor(mensaje, tipoMensaje);
 }
 
 /**
@@ -611,4 +660,16 @@ async function recuperarDatosAxios(url, method, data = null) {
         }
         return null; // Retorna null si la petición falló o si hubo un error de red/configuración.
     }
+}
+
+// Esta función recupera los datos de los grados y genera el par ID/VALOR
+// para generar el menú desplegable correspondiente para el formulario
+// de creación/edición de estudiantes.
+async function menuDesplegableGrados() {
+    const datosGrados = await recuperarDatosAxios(urlGrados, "GET");
+    const colDatosGrados = datosGrados.map( g => ({
+            id: g.id,
+            valor: g.nombre.leyendaUI + " - " + g.turno.leyendaUI
+        }));
+    return colDatosGrados;
 }

@@ -14,6 +14,7 @@ import jakarta.transaction.Transactional;
 public class EstudianteService {
 
     @Autowired IEstudianteRepository estudianteRepo;
+    @Autowired GradoService gradoSrv;
     @Autowired BoletinService boletinSvc;
     @Autowired AsistenciaService asistenciaSvc;
 
@@ -35,6 +36,13 @@ public class EstudianteService {
 
     public Estudiante crearEstudiante(Estudiante nuevoEstudiante) {
         validarEstudiante(nuevoEstudiante);
+
+        // Si el estudiante viene con un grado asignado lo relaciono
+        if (nuevoEstudiante.getGrado().getId() != null) {
+            Long idGrado = nuevoEstudiante.getGrado().getId();
+            // Completo los datos del grado en el nuevo estudiante
+            nuevoEstudiante.setGrado(gradoSrv.obtenerGradoPorId(idGrado));
+        }
         
         return estudianteRepo.save(nuevoEstudiante);
     }
