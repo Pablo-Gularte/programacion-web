@@ -1,6 +1,6 @@
 // Defino servidor, puerto y endpoints de trabajo
 const servidor = "localhost";
-const puerto = "9090";
+const puerto = "8080";
 const urlBase = `http://${servidor}:${puerto}`;
 
 // Defino rutas de endpoints
@@ -10,6 +10,7 @@ const epInfoTurnos = "/grados/info-turnos";
 const epGradoPorTurnoYNombre = "/grados/";
 const epGradoNuevo = "/grados/nuevo";
 const epGradoEditado = "/grados/editar/";
+const epEstudianteNuevo = "/estudiantes/nuevo";
 const epBorrarEdtudiante = "/estudiantes/borrar/";
 
 // Defino URLs de trabajo
@@ -19,6 +20,7 @@ const urlInfoTurnos = urlBase + epInfoTurnos;
 const urlGradoPorTurnoYNombre = urlBase + epGradoPorTurnoYNombre;
 const urlGradoNuevo = urlBase + epGradoNuevo;
 const urlGradoEditado = urlBase + epGradoEditado;
+const urlEstudianteNuevo = urlBase + epEstudianteNuevo;
 const urlBorrarEstudiante = urlBase + epBorrarEdtudiante;
 
 // Al cargar la página recupero los grados para generar los vectores de turnos 
@@ -28,7 +30,7 @@ $(document).ready(async () => {
 });
 
 // Funciones de modificación y eliminación de datos
-function crearEstudiante() {
+async function crearEstudiante() {
     // Creo los botones de acciones a mostrar en el modal
     // Botón GUARDAR
     const btnGuardar = $("<button>");
@@ -45,19 +47,27 @@ function crearEstudiante() {
     btnCancelar.on("click", () => $("form")[0].reset());
 
     // Genero el formulario de alta de estudiante que es el contenido del modal y lo paso por parámetro
+    const datosGrados = await recuperarDatosAxios(urlGrados, "GET"); 
+    const colDatosGrados = datosGrados.map( g => ({ 
+            id: g.id, 
+            valor: g.nombre.leyendaUI + " - " + g.turno.leyendaUI 
+        })); 
+
     const contFormulario = {
         enlace: urlGradoNuevo,
         metodo: 'put',
         campos: [
-            {id: "nombre", leyenda: "Nombre"}, 
-            {id: "apellido", leyenda: "Apellido"}, 
-            {id: "edad", leyenda: "Edad"}, 
-            {id: "dni", leyenda: "DNI"}, 
-            {id: "direccion", leyenda: "Dirección"}, 
-            {id: "nombreMadre", leyenda: "Nombre de la madre"}, 
-            {id: "nombrePadre", leyenda: "Nombre del padre"}, 
-            {id: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela"}, 
-            {id: "regular", leyenda: ""}],
+            {id: "nombre", leyenda: "Nombre:"}, 
+            {id: "apellido", leyenda: "Apellido:"}, 
+            {id: "edad", leyenda: "Edad:"}, 
+            {id: "dni", leyenda: "DNI:"}, 
+            {id: "direccion", leyenda: "Dirección:"}, 
+            {id: "nombreMadre", leyenda: "Nombre de la madre:"}, 
+            {id: "nombrePadre", leyenda: "Nombre del padre:"}, 
+            {id: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela:"}, 
+            {id: "regular", leyenda: "Estudiante regular:"},
+            {id: "grado", leyenda: "Grado al que se inscribe: ", opciones: colDatosGrados}
+        ]
     };
 
     console.log("invoco generarModal() desde crearEstudiante()");
@@ -423,8 +433,26 @@ function generarFormulario(contenido) {
             campos.push(
                 `<div class="mb-3 form-check">
                     <input type="checkbox" class="form-check-input" id="${campo.id}">
-                    <label class="form-check-label" for="${campo.id}">Tiene hermano en la escuela</label>
+                    <label class="form-check-label" for="${campo.id}">${campo.leyenda}</label>
                 </div>`
+            );
+        } else if (campo.id === "regular") {
+            campos.push(
+                `<div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="${campo.id}" checked disabled>
+                    <label class="form-check-label" for="${campo.id}">${campo.leyenda}</label>
+                </div>`
+            );
+        } else if (campo.id === "grado") {
+            const opciones = campo.opciones.map( g => `<option value="${g.id}">${g.valor}</option>`).join("");  
+            campos.push(  
+                `<div class="mb-3">  
+                    <label for="${campo.id}" class="form-label">${campo.leyenda}</label>  
+                    <select class="form-select" id="${campo.id}" required>  
+                        <option value="" selected disabled>Seleccione el grado</option>  
+                        ${opciones}  
+                    </select>  
+                </div>`  
             );
         } else {
             const tipoCampo = (campo.id === 'regular' || campo.id === 'id') ? 'hidden' : campo.id === 'edad' ? 'number' : 'text';
@@ -444,9 +472,22 @@ function generarFormulario(contenido) {
     return formulario;
 }
 
-function guardarDatos(datos) {
-
-    console.log($(datos).find("input"));
+async function guardarDatos(datos) {
+    const campos = [...$(datos).find("input"), ...$(datos).find("select")];  
+    const resp = {};  
+    for(const c of campos) {  
+        if (c.id === "grado") {  
+            resp[c.id] = { id: c.value };  
+        } else if (c.id === "regular") {  
+            resp[c.id] = true;  
+        } else {  
+            resp[c.id] = c.type === 'checkbox' ? c.checked : c.value;  
+        }  
+    }  
+    console.log(resp);
+    const respServidor = await recuperarDatosAxios(urlEstudianteNuevo, "post", resp);
+    console.log("respServidor");
+    console.log(respServidor);
 }
 
 /**
