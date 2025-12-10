@@ -1,0 +1,60 @@
+-- 10 – Gestor Mongo DB
+-- a) Activar la base de datos "local" y luego imprimir las colecciones existentes.
+use("local");
+db.getCollectionNames();
+
+-- b) Activar la base de datos "test" y luego imprimir las colecciones existentes.
+use("test");
+db.getCollectionNames();
+
+
+-- c) Activar la base de datos "baseEjemplo2".
+use("baseEjemplo2");
+
+-- d) Mostrar las colecciones existentes en la base de datos "baseEjemplo2".
+db.getCollectionNames();
+
+-- e) Crear otra colección llamada usuarios donde almacenar dos documentos con los campos nombre y clave.
+db.createCollection("usuarios");
+db.usuarios.insertMany([{
+  nombre: "nombre1",
+  clave: "clave1"
+},{
+  nombre: "nombre2",
+  clave: "clave2"
+}]);
+
+-- f) Mostrar nuevamente las colecciones existentes en la base de datos "baseEjemplo2".
+db.getCollectionNames();
+
+-- En la base pubs:
+use("pubs");
+-- g) Insertar 2 documentos en la colección clientes con '_id' no repetidos
+db.clientes.insertMany([{},{}]);
+
+-- h) Intentar insertar otro documento con clave repetida.
+db.clientes.insertOne({_id: ObjectId('6937683733a73c0046ab07c6')});
+
+-- i) Mostrar todos los documentos de la colección libros.
+db.libros.find();
+
+-- j) Crear una base de datos llamada "blog".
+use("blog");
+
+-- k) Agregar una colección llamada "posts" e insertar 1 documento con una estructura a su elección.
+db.posts.insertOne({
+  titulo: "titulo",
+  contenido: "contenido"
+});
+
+-- l) Mostrar todas las bases de datos actuales.
+show dbs;
+
+-- m) Eliminar la colección "posts"
+use("blogs");
+db.posts.drop();
+
+-- n) Eliminar la base de datos "blog" y mostrar las bases de datos existentes.
+use("blogs");
+db.dropDatabase();
+show databases;

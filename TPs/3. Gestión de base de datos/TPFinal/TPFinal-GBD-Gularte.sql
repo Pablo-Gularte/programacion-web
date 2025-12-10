@@ -39,10 +39,10 @@ Insert consigna1 (fecha, cantidad) values
 DELIMITER //
 
 CREATE FUNCTION calcular_total_ventas(mes INT, anio INT)
-RETURNS DECIMAL(10,2)
+RETURNS DECIMAL
 READS SQL DATA
 BEGIN
-    DECLARE total DECIMAL(10,2);
+    DECLARE total DECIMAL;
 
     SELECT SUM(cantidad)
     INTO total
@@ -122,7 +122,7 @@ DELIMITER //
 
 CREATE PROCEDURE obtener_promedio(
     IN nombre VARCHAR(100), -- Parámetro de ENTRADA: Nombre del curso
-    OUT promedio DECIMAL(4, 2)    -- Parámetro de SALIDA: Promedio calculado
+    OUT promedio DECIMAL    -- Parámetro de SALIDA: Promedio calculado
 )
 BEGIN
     SELECT AVG(nota)
@@ -269,6 +269,21 @@ CREATE TABLE jubilados (
   antiguedad INT NOT NULL
 );
 
+-- Se crea el trigger en la tabla "empleados" que se dispara luego de la inserción de datos para volcar aquellos registros que 
+-- cumpmplan las condiciones indicada (edad >= 65 y antiguedad >= 30)
+
+delimiter //
+create trigger trigger_consigna_7
+	after insert on empleados
+    for each row
+    begin
+		IF (NEW.edad >= 65 and  NEW.antiguedad >= 30)  THEN
+			insert into jubilados (nombre, edad, antiguedad) values (NEW.nombre, NEW.edad, NEW.antiguedad);
+        END IF;
+    end;
+// delimiter ;
+
+
 -- 8 - Crear un procedimiento almacenado llamado ActualizarEmpleados que tome dos  parámetros de entrada:
 -- codigo_empleado (VARCHAR, 10): El identificador del empleado a actualizar.
 -- salario_actualizado (DECIMAL): El nuevo salario del empleado.
@@ -280,53 +295,109 @@ CREATE TABLE jubilados (
 -- Llamar al procedimiento ActualizarEmpleados con diferentes valores de codigo_empleado y salario_actualizado, incluyendo casos donde el salario actualizado sea menor que el salario actual.
 -- Verificar que el procedimiento funcione correctamente y que se muestren mensajes de error y se realice un rollback cuando corresponda.
 
+-- Se crea la tabla "consigna8"
+CREATE TABLE consigna8 (
+    codigo int,
+    nombre varchar(10),
+    salario decimal
+);
+
+-- Se insertan valores a la tabla
+insert into consigna8 (codigo, nombre, salario) values
+(1, "Nombre1", 1),
+(2, "Nombre2", 2),
+(3, "Nombre3", 3);
+
+-- Se crea el procedimeinto "ActualizarEmpleados"
+DELIMITER //
+
+CREATE PROCEDURE ActualizarEmpleados(
+    codigo_empleado int,
+    salario_actualizado DECIMAL
+)
+BEGIN
+	DECLARE salario_actual DECIMAL;
+	
+    START TRANSACTION;
+
+    select salario
+    into salario_actual
+    from consigna8
+    where codigo = codigo_empleado;
+    
+    IF salario_actual IS NULL THEN
+		rollback;
+		select "No hay empleado para ese codigo" empleado_inexistente;
+    END IF;
+    
+    IF salario_actualizado < salario_actual THEN
+		rollback;
+		select "El salario actualizado no puede ser menor al actual" empleado_inexistente;
+    ELSE
+		update consigna8
+           set salario = salario_actualizado
+		 where codigo = codigo_empleado;
+         
+         commit;
+    END IF;
+END;
+//
+-- Restauramos el delimitador original
+DELIMITER ;
+
+call ActualizarEmpleados(1, 0); -- mensaje: "El salario actualizado no puede ser menor al actual"
+call ActualizarEmpleados(1, 1); -- se ejecuta y no cambia el salario.
+call ActualizarEmpleados(1, 2); -- cambia el salario a "2".
+
+call ActualizarEmpleados(2, 1); -- mensaje: "El salario actualizado no puede ser menor al actual"
+call ActualizarEmpleados(2, 2); -- se ejecuta y no cambia el salario.
+call ActualizarEmpleados(2, 3); -- cambia el salario a "3".
+
+call ActualizarEmpleados(3, 2); -- mensaje: "El salario actualizado no puede ser menor al actual"
+call ActualizarEmpleados(3, 3); -- se ejecuta y no cambia el salario.
+call ActualizarEmpleados(3, 4); -- cambia el salario a "4".
+
+call ActualizarEmpleados(4, 20); -- mensaje: "No hay empleado para ese codigo"
+
 
 -- 9 - Gestión de Usuarios
 
 -- a) Crear un usuario sin privilegios específicos
+CREATE USER IF NOT EXISTS 'consigna9';
+
 -- b) Crear un usuario con privilegios de lectura sobre la base pubs
+CREATE USER IF NOT EXISTS 'consigna9b';
+GRANT SELECT ON pubs.* TO 'consigna9b';
+
 -- c) Crear un usuario con privilegios de escritura sobre la base pubs
+CREATE USER IF NOT EXISTS 'consigna9c';
+GRANT INSERT, UPDATE, DELETE ON pubs.* TO 'consigna9c';
+
 -- d) Crear un usuario con todos los privilegios sobre la base pubs
+CREATE USER IF NOT EXISTS 'consigna9c';
+GRANT INSERT, UPDATE, DELETE ON pubs.* TO 'consigna9c';
+
 -- e) Crear un usuario con privilegios de lectura sobre la tabla titles
+CREATE USER IF NOT EXISTS 'consigna9d';
+GRANT SELECT ON pubs.titles TO 'consigna9d';
+
 -- f) Eliminar al usuario que tiene todos los privilegios sobre la base pubs
+DROP USER 'consigna9c';
+
 -- g) Eliminar a dos usuarios a la vez
+DROP USER 'consigna9b', 'consigna9d';
+
 -- h) Eliminar un usuario y sus privilegios asociados
+DROP USER 'consigna9';
+
 -- i) Revisar los privilegios de un usuario
+-- Mostrar los privilegios del usuario actual
+SHOW GRANTS;
+-- Para mostrar privilegios de otro usuario se debe especificar con el mismo comando y el modificador "FOR": SHOW GRANTS FOR '<USUARIO>'[@'<HOST>'];
 
 
 -- 10 – Gestor Mongo DB
-
--- a) Activar la base de datos "local" y luego imprimir las colecciones existentes.
--- b) Activar la base de datos "test" y luego imprimir las colecciones existentes.
--- c) Activar la base de datos "baseEjemplo2".
--- d) Mostrar las colecciones existentes en la base de datos "baseEjemplo2".
--- e) Crear otra colección llamada usuarios donde almacenar dos documentos con los 
--- campos nombre y clave.
--- f) Mostrar nuevamente las colecciones existentes en la base de datos "baseEjemplo2".
-
--- En la base pubs:
--- g) Insertar 2 documentos en la colección clientes con '_id' no repetidos
--- h) Intentar insertar otro documento con clave repetida.
--- i) Mostrar todos los documentos de la colección libros.
-
--- j) Crear una base de datos llamada "blog".
--- k) Agregar una colección llamada "posts" e insertar 1 documento con una estructura a 
--- su elección.
--- l) Mostrar todas las bases de datos actuales.
--- m) Eliminar la colección "posts"
--- n) Eliminar la base de datos "blog" y mostrar las bases de datos existentes.
+-- Ver archivo adjunto "ejercicio10.mongo"
 
 -- 11 - A partir de la siguiente especificación deberá recolectar datos para poder diseñar una Base de Datos.
-
--- a) Determinar las entidades relevantes al Sistema.
--- b) Determinar los atributos de cada entidad.
--- c) Confeccionar el Diagrama de Entidad Relación (DER), junto al Diccionario de Datos
--- d) Realizar el Diagrama de Tablas e implementar en código SQL (puede utilizar cualquier Gestor) la Base de Datos.
--- e) Crear al menos 2 consultas relacionadas para poder probar la Base de Datos.
-
-
--- Esta empresa se encuentra ubicada en Hong Kong y se dedica a la fabricación de Smart TV.
-
--- Las componentes de los TV pueden ser comprados a un importador, en tal caso la compra viene acompañada de una orden, otros componentes son fabricados en la empresa, para lo cual esos componentes tienen asignado un empleado que se dedica exclusivamente a un tipo de componente, aunque un componente puede ser fabricado por más de un empleado, el empleado completa una hoja de trabajo con la cantidad fabricada y la fecha.
-
--- Los diferentes modelos de Smart TV tienen de 275 a 430 componentes, aunque un componente puede estar incorporado en más de un TV, existe un mapa de armado para cada modelo de TV donde se indica la ubicación y el orden de los componentes.
+-- Ver archivo adjunto "ejercicio11.pdf"

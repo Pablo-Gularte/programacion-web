@@ -1,6 +1,6 @@
 // Defino servidor, puerto y endpoints de trabajo
 const servidor = "localhost";
-const puerto = "9090";
+const puerto = "8080";
 const urlBase = `http://${servidor}:${puerto}`;
 
 // Defino rutas de endpoints
@@ -40,25 +40,26 @@ const camposDeFormularios = {
         { nombreCampo: "direccion", leyenda: "Dirección: ", requerido: true },
         { nombreCampo: "nombreMadre", leyenda: "Nombre de la madre: " },
         { nombreCampo: "nombrePadre", leyenda: "Nombre del padre: " },
+        { nombreCampo: "grado", leyenda: "Grado al que se inscribe: ", tipo: "select", opciones: [] },
         { nombreCampo: "hnoEnEscuela", leyenda: "Tiene hermanos en la escuela: ", tipo: "checkbox" },
-        { nombreCampo: "regular", leyenda: "Estudiante regular: ", tipo: "checkbox" },
-        { nombreCampo: "grado", leyenda: "Grado al que se inscribe: ", tipo: "select", opciones: [] }
+        { nombreCampo: "regular", leyenda: "Estudiante regular: ", tipo: "checkbox" }
     ],
     grados: [
         { nombreCampo: "id_grado", tipo: "hidden" },
-        { nombreCampo: "activo", leyenda: "Grado en funcionamiento", tipo: "checkbox" },
         { nombreCampo: "docente", leyenda: "Docente del grado: " },
         { nombreCampo: "nombre", leyenda: "Grado: " },
-        { nombreCampo: "turno", leyenda: "Turno: " }
+        { nombreCampo: "turno", leyenda: "Turno: " },
+        { nombreCampo: "activo", leyenda: "Grado en funcionamiento", tipo: "checkbox" }
     ]
 };
 
-// Definimos un objeto cuya calve es el tipo de entrada posible de los campos del formulario
+// Definimos un objeto cuya clave es el tipo de entrada posible de los campos del formulario
 // y el valor correspondiente es una función que maneja la creación del campo.
 const manejadorTipoEntradaFormulario = {
     'default': function (campo, valorActual) {
         // Por defecto se define el tipo de campo <input> y se le asignan atributos comunes mínimos
         return $("<input>", {
+            id: campo.nombreCampo,
             type: campo.tipo || "text",
             name: campo.nombreCampo,
             class: "form-control"
@@ -66,12 +67,14 @@ const manejadorTipoEntradaFormulario = {
     },
     'textarea': function (campo, valorActual) {
         return $("<textarea>", {
+            id: campo.nombreCampo,
             name: campo.nombreCampo,
             class: "form-control"
         }).val(valorActual);
     },
     'checkbox': function (campo, valorActual) {
         return $("<input>", {
+            id: campo.nombreCampo,
             type: "checkbox",
             name: campo.nombreCampo,
             class: "form-check-input"
@@ -81,6 +84,7 @@ const manejadorTipoEntradaFormulario = {
     },
     'hidden': function (campo, valorActual) {
         return $("<input>", {
+            id: campo.nombreCampo,
             type: "hidden",
             name: campo.nombreCampo,
             value: valorActual
@@ -88,6 +92,7 @@ const manejadorTipoEntradaFormulario = {
     },
     'select': function (campo, valorActual) {
         const select = $("<select>", {
+            id: campo.nombreCampo,
             name: campo.nombreCampo,
             class: "form-control"
         });
@@ -159,22 +164,19 @@ async function crearEstudiante() {
     const estructuraCampos = camposDeFormularios.estudiantes.filter(reg => reg.nombreCampo !== "id");
     // Agrego los valores del menú desplegable
     estructuraCampos.find(reg => reg.nombreCampo === "grado").opciones = await menuDesplegableGrados();
-    // Marco el campo "regular" como activo y desabilitado
-    estructuraCampos.find(reg => reg.nombreCampo === "regular").activo = true;
-    estructuraCampos.find(reg => reg.nombreCampo === "regular").deshabilitado = true;
 
     // Genero el modal que contiene al formulario de creación de datos
     const estructuraFormulario = {
         id: "#form-editar-datos",
         enlace: urlGradoNuevo,
-        metodo: 'put',
+        metodo: 'post',
         campos: estructuraCampos
     };
 
     const formCrearEstudiante = generarFormulario(estructuraFormulario);
 
-    // Agrego los botones al formulario
 
+    // Genero el modal con el formulario
     generarModal({
         colorModal: "bg-success-subtle",
         colorTituloModal: "text-bg-success",
@@ -297,13 +299,19 @@ function generarModal(opciones) {
     $("div.modal-body").html(opciones.contenidoModal);
 
     // Agrego los botones al Modal
+    $("div.modal-footer").html("");
     if (opciones.botoneraModal) {
-        $("div.modal-footer").html("");
         for (const boton of opciones.botoneraModal) {
             $("div.modal-footer").append(boton);
         }
     } else {
-        $("div.modal-footer").html(`<button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>`);
+        $("div.modal-footer").append($("<button>", {
+            type: "button",
+            class: "btn btn-dark",
+            onclick: "cerrarModal()",
+            text: "Cerrar",
+            title: "Cerrar ventana"
+        }));
     }
     modal.show();
 }
@@ -493,30 +501,41 @@ function generarFormulario(estructuraFormulario, valoresCampos = {}) {
     const formulario = $(estructuraFormulario.id);
     formulario.empty();
 
-    generarCampos(formulario, estructuraFormulario.campos, valoresCampos);
+    const camposFormulario = generarCampos(formulario, estructuraFormulario.campos, valoresCampos);
 
     // Genero los botones y los agrego al formulario
     const btnEnviar = $("<button>", {
         type: "submit",
         class: "btn btn-primary",
-        text: valoresCampos ? "Guardar cambios" : "Crear"
+        text: valoresCampos != {} ? "Guardar cambios" : "Crear",
+        title: "Click para guardar los lados"
     });
 
     const btnLimpiar = $("<button>", {
         type: "reset",
-        class: "btn btn-secondary",
-        text: "Limpiar"
+        class: "btn btn-secondary ms-3",
+        text: "Limpiar",
+        title: "Click para borrar los campos cargados"
     });
 
-    // Agrego botones al formulario
-    formulario.append(btnEnviar, btnLimpiar);
+    const botonesFormulario = $("<div>").append(btnEnviar, btnLimpiar);
+
+    // Agrego campos y botones al formulario
+    formulario.append(camposFormulario, botonesFormulario);
 
     // Agrego comportamiento a btnEnviar
     formulario.on("submit", function (e) {
         e.preventDefault();
-        console.log(`Se envía formulario. Tipo de envío: ${valoresCampos ? "edición" : "creación"}`);
-        console.log("valoresCampos");
-        console.log(valoresCampos);
+        console.log("formulario[0]");
+        console.log(formulario[0]);
+        console.log("formulario[0].id");
+        console.log(formulario[0].id);
+
+        const valoresSerializados = $(formulario[0].id).serializeArray();
+
+        // console.log(`Se envía formulario. Tipo de envío: ${valoresCampos ? "edición" : "creación"}`);
+        console.log("valoresSerializados");
+        console.log(valoresSerializados);
     });
 
     // Devuelvo el formulario completo
@@ -524,12 +543,17 @@ function generarFormulario(estructuraFormulario, valoresCampos = {}) {
 }
 
 function generarCampos(formulario, campos, valores = null) {
+    // Cenero los contenedores de campo y de contenido de formulario
+    const divCampos = $("<div>");
+    
+    // Itero sobre los campos y los agrego al contenedor
     $.each(campos, function (i, campo) {
         console.log("campo");
         console.log(campo);
 
         const tipoCampo = campo.tipo || "text";
         const valorActual = valores[campo.nombreCampo] || "";
+        const divEtiquetaCampo = $("<div>", { class: "mb-3 col" });
 
         // A partir del tipo de campo buscola función manejadora correspondiente y la "cargo" en una variable
         const crearCampo = manejadorTipoEntradaFormulario[tipoCampo] || manejadorTipoEntradaFormulario["default"];
@@ -558,30 +582,48 @@ function generarCampos(formulario, campos, valores = null) {
 
         // Si el campo de entrada es oculo o de tipo "radio", lo agrego al formulario y salteo el envoltorio con etiqueta
         if (campo.tipo === "radio" || campo.tipo === "hidden") {
-            formulario.append(campoEntrada);
-            return;
-        }
-
-        // Para el resto de los casos, agrego etiqueta y envuelvo con un <div>
-        const etiqueta = $("<label>").text(campo.leyenda);
-        const divContenedor = $("<div>", { class: "mb-3" });
-
-        // Si el campo es requerido le agrego indicador visual a la etiqueta
-        if (campo.requerido) {
-            etiqueta.append($("<span>", { text: " *", style: "color: red;" }));
-        }
-
-        // Si el campo es de tiupo "checkbox" agrego la clase correspondiente al contenedor
-        divContenedor.toggleClass("form-check", tipoCampo === "checkbox");
-
-        // Ensamblo etiqueta y campo de entrada en el orden correspondiente según se trate de
-        // tipo de entrada "checkbox" o no
-        if (tipoCampo === "checkbox") {
-            formulario.append(divContenedor.append(campoEntrada, etiqueta));
+            divCampos.append(campoEntrada);
         } else {
-            formulario.append(divContenedor.append(etiqueta, campoEntrada));
+            // Para el resto de los casos, agrego etiqueta y envuelvo con un <div>
+            const etiqueta = $("<label>", {
+                for: campo.nombreCampo
+            }).html(`<strong>${campo.leyenda}</strong>`);
+    
+            // Si el campo es requerido le agrego indicador visual a la etiqueta
+            if (campo.requerido) {
+                etiqueta.append($("<span>", { text: " *", style: "color: red;" }));
+            }
+    
+            // Si el campo es de tipo "checkbox" agrego la clase correspondiente al contenedor
+            divEtiquetaCampo.toggleClass("form-check form-switch", tipoCampo === "checkbox");
+    
+            // Ensamblo etiqueta y campo de entrada en el orden correspondiente según se trate de
+            // tipo de entrada "checkbox" o no
+            if (tipoCampo === "checkbox") {
+                divEtiquetaCampo.append(etiqueta.append(campoEntrada));
+            } else {
+                divEtiquetaCampo.append(etiqueta, campoEntrada);
+            }
+
+            // Agrego contenedor de etiqueta y campo al contenedor de campos
+            divCampos.append(divEtiquetaCampo);
         }
     });
+
+    // Si el formulario tiene más de 5 campos los distribuyo en 2 columnas
+    if (campos.length > 5) {
+        divCampos.addClass("row row-cols-2");
+    }
+    // Si el formulario tiene <span> de campo requerido, agrego leyenda aclaratoria al final
+    if (divCampos.find("span").length > 0) {
+        divCampos.append(
+            $("<p>", {
+                class: "text-start text-danger h6",
+                text: "* requerido"
+            })
+        );
+    }
+    return divCampos;
 }
 
 async function guardarDatos(datos) {
